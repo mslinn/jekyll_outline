@@ -161,6 +161,7 @@ pre {
 .posts > *:nth-child(odd) {
   width: 120px;
   font-family: Monaco,"Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-size: 10pt;
   font-stretch: semi-condensed;
 }
 
