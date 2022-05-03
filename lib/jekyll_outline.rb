@@ -74,8 +74,9 @@ module Outline
           entry.to_s
         else
           date = entry.data['last_modified_at'] # "%Y-%m-%d"
+          draft = Jekyll::Draft.draft_html(entry)
           <<~END_ENTRY
-            <li>#{date} &nbsp; <a href="#{entry.url}">#{entry.data['title']}</a>#{Draft.draft_html(entry)}</li>
+            <li>#{date} &nbsp; <a href="#{entry.url}">#{entry.data['title']}</a>#{draft}</li>
           END_ENTRY
         end
       end
