@@ -54,13 +54,17 @@ module Outline
       @site = liquid_context.registers[:site]
       collection = headers + obtain_docs(@collection_name)
       <<~HEREDOC
-        <ol class="outline">
+        <div class="posts">
           #{make_entries(collection).join("\n")}
-        </ol>
+        </div>
       HEREDOC
     end
 
     private
+
+    def header?(variable)
+      variable.instance_of?(Header)
+    end
 
     def make_headers(content)
       yaml = YAML.safe_load content
@@ -69,14 +73,17 @@ module Outline
 
     def make_entries(collection) # rubocop:disable Metrics/MethodLength
       sorted = collection.sort_by(&obtain_order)
-      sorted.map do |entry|
+      pruned = remove_empty_headers(sorted)
+      pruned.map do |entry|
         if entry.instance_of? Header
-          entry.to_s
+          <<~END_ENTRY
+            <span></span> <span>#{entry}</span>
+          END_ENTRY
         else
           date = entry.data['last_modified_at'] # "%Y-%m-%d"
           draft = Jekyll::Draft.draft_html(entry)
           <<~END_ENTRY
-            <li>#{date} &nbsp; <a href="#{entry.url}">#{entry.data['title']}</a>#{draft}</li>
+            <span>#{date}</span> <span><a href="#{entry.url}">#{entry.data['title']}</a>#{draft}</span>
           END_ENTRY
         end
       end
@@ -100,6 +107,21 @@ module Outline
           entry.order
         end
       end
+    end
+
+    def remove_empty_headers(array)
+      i = 0
+      while i < array.length - 1
+        if header?(array[i]) && header?(array[i + 1])
+          array.delete_at(i)
+        else
+          i += 1
+        end
+      end
+      if header?(array.last)
+        array.delete_at(array.length - 1)
+      end
+      array
     end
   end
 end

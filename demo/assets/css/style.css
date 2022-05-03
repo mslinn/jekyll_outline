@@ -94,10 +94,17 @@ pre {
   width: 690px;
 }
 
-.bg_yellow {
-  background-color: yellow;
+.bg_yellow, .bg_light_yellow {
   padding-left: 0.5em;
   padding-right: 0.5em;
+}
+
+.bg_light_yellow {
+  background-color: lightyellow;
+}
+
+.bg_yellow {
+  background-color: yellow;
 }
 
 .codeLabel {
@@ -142,6 +149,23 @@ pre {
 .unselectable.numbered_line,
 .numbered_line.unselectable {
   color: #5fb25f;
+}
+
+.posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  line-height: 170%;
+}
+
+.posts > *:nth-child(odd) {
+  width: 120px;
+  font-family: Monaco,"Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  font-stretch: semi-condensed;
+}
+
+.posts > *:nth-child(even) {
+  width: calc(100% - 120px);
 }
 
 .unselectable {
