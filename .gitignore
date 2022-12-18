@@ -24,7 +24,7 @@ __MACOSX
 _site/
 _yardoc/
 coverage/
-demo/jekyll-cache/
+demo/.jekyll-cache/
 doc/
 exe/
 jekyll/doc/
