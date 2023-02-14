@@ -107,6 +107,5 @@ module Outline
   end
 end
 
-# PluginMetaLogger.instance.info { "Loaded #{JekyllPluginTagTemplate::PLUGIN_NAME} v#{JekyllPluginTemplateVersion::VERSION} plugin." }
-PluginMetaLogger.instance.info { 'Loaded Outline plugin.' }
+PluginMetaLogger.instance.info { "Loaded #{Outline::PLUGIN_NAME} v#{JekyllOutlineVersion::VERSION} plugin." }
 Liquid::Template.register_tag(Outline::PLUGIN_NAME, Outline::OutlineTag)
