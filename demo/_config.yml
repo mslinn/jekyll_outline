@@ -56,5 +56,5 @@ plugins: # Use file name of the plugin entry point, not the gem name
   - jekyll
 sass:
   style: compressed
-title: Jekyll Draft Plugin Demo
+title: Jekyll Outline Plugin Demo
 url: https://bogus.jekylldemo.com
