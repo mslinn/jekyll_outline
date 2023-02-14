@@ -17,19 +17,16 @@ And then execute:
 
     $ bundle install
 
-Or install it yourself as:
-
-    $ gem install jekyll_outline
-
 
 ## Additional Information
 More information is available on
-[Mike Slinn&rsquo;s website](https://www.mslinn.com/blog/2020/10/03/jekyll-plugins.html).
+[Mike Slinn&rsquo;s website](https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline).
 
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 Install development dependencies like this:
 ```
@@ -39,14 +36,14 @@ $ BUNDLE_WITH="development" bundle install
 To build and install this gem onto your local machine, run:
 ```shell
 $ bundle exec rake install
-jekyll_outline 1.0.0 built to pkg/jekyll_outline-0.1.0.gem.
-jekyll_outline (1.0.0) installed.
+jekyll_outline 0.1.0 built to pkg/jekyll_outline-0.1.0.gem.
+jekyll_outline (0.1.0) installed.
 
 $ gem info jekyll_outline
 
 *** LOCAL GEMS ***
 
-jekyll_outline (1.0.0)
+jekyll_outline (0.1.0)
     Author: Mike Slinn
     Homepage:
     https://github.com/mslinn/jekyll_outline
@@ -56,10 +53,27 @@ jekyll_outline (1.0.0)
     Generates Jekyll logger with colored output.
 ```
 
+
+## Test
+A test website is provided in the `demo` directory.
+ 1. Set breakpoints.
+
+ 2. Initiate a debug session from the command line:
+    ```shell
+    $ bin/attach demo
+    ```
+
+  3. Once the `Fast Debugger` signon appears, launch the Visual Studio Code launch configuration called `Attach rdebug-ide`.
+
+  4. View the generated website at [`http://localhost:4444`](http://localhost:4444)
+
+
+## Release
 To release a new version,
   1. Update the version number in `version.rb`.
-  2. Commit all changes to git; if you don't the next step might fail with an unexplainable error message.
-  3. Run the following:
+  2. Describe the changes in `CHANGELOG.md`.
+  3. Commit all changes to git; if you don't the next step might fail with an unexplainable error message.
+  4. Run the following:
      ```shell
      $ bundle exec rake release
      ```

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
 
 gem 'confidential_info_redactor'
@@ -15,16 +13,13 @@ group :jekyll_plugins do
   gem 'jekyll-assets'
   gem 'jekyll_draft'
   gem 'jekyll-environment-variables'
-  gem 'jekyll_outline', path: "../"
-  gem "jekyll_plugin_logger"
+  gem 'jekyll_outline', path: '../'
+  gem 'jekyll_plugin_logger'
   gem 'jekyll-sort'
   gem 'jekyll-tagging'
   gem 'kramdown'
 end
 
-# Debugging:
-gem 'debase', require: false
-gem "rake", "~> 13.0", require: false
-gem 'rspec', require: false
-gem 'rubocop', '= 1.18.0', require: false
+gem 'debase', '0.2.5.beta2', require: false
+gem 'rake', require: false
 gem 'ruby-debug-ide', require: false
