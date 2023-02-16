@@ -25,8 +25,9 @@ module Outline
     end
   end
 
-  # Makes outlines for Jekyll pages
   class OutlineTag < JekyllSupport::JekyllBlock
+    include JekyllOutlineVersion
+
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
 
     def render_impl(text)
@@ -104,8 +105,7 @@ module Outline
       array.delete_at(array.length - 1) if header?(array.last)
       array
     end
+
+    JekyllPluginHelper.register(self, PLUGIN_NAME)
   end
 end
-
-PluginMetaLogger.instance.info { "Loaded #{Outline::PLUGIN_NAME} v#{JekyllOutlineVersion::VERSION} plugin." }
-Liquid::Template.register_tag(Outline::PLUGIN_NAME, Outline::OutlineTag)

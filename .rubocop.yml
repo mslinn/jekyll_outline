@@ -34,6 +34,9 @@ Naming/FileName:
   Exclude:
     - Rakefile
 
+Style/Documentation:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
