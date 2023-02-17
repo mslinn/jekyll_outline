@@ -4,6 +4,7 @@ require 'jekyll_draft'
 require 'jekyll_plugin_logger'
 require 'jekyll_plugin_support'
 require 'yaml'
+require_relative 'jekyll_outline/version'
 
 module Outline
   PLUGIN_NAME = 'outline'.freeze

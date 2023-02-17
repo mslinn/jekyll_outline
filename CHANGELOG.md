@@ -1,5 +1,5 @@
 ## 1.0.2 / 2023-02-16
-  * Updated to `jekyll_plugin_support` v0.5.0
+  * Updated to `jekyll_plugin_support` v0.5.1
 
 ## 1.0.1 / 2023-02-14
   * Now dependent upon `jekyll_plugin_support`
