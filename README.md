@@ -28,6 +28,83 @@ See the section of `demo/assets/css/styles.css` as shown:
 /* End of jekyll_outline css */
 ```
 
+### JavaScript
+This project's `outline_js` tag returns the Javascript necessary to position images relating to the outline. If used without parameters it just returns the JavaScript:
+
+```html
+<script>
+  {%= outline_js %}
+</script>
+```
+
+If passed the `wrap_in_script_tag` parameter, it wraps the JavaScript in `<script></script>`:
+
+```html
+{% outline_js wrap_in_script_tag %}
+```
+
+
+## Explanation
+
+Given an outline that looks like this:
+```html
+{% outline stuff %}
+000: Topic 0..19
+020: Topic 20..39
+040: Topic 40..
+{% endoutline %}
+```
+
+...and given pages in the `stuff` collection with the following names:
+
+ - 010-published.html has title **Published Stuff Post 010**
+ - 020-unpublished.html has title **Unpublished Post 020**
+ - 030-unpublished.html has title **Unpublished Post 030**
+
+Then links to the pages in the `stuff` collection's pages are interleaved into the generated outline like this:
+```html
+<div class="outer_posts">
+  <h3 class='post_title' id="title_0">Topic 0..19</h3>
+  <div id='posts_wrapper_0' class='clearfix'>
+    <div id='posts_0' class='posts'>
+      <span>2022-04-01</span> <span><a href='/stuff/010-published.html'>Published Stuff Post 010</a></span>
+      <span>2022-04-17</span> <span><a href='/stuff/020-unpublished.html'>Unpublished Post 020</a> <i class='jekyll_draft'>Draft</i></span>
+    </div>
+  </div>
+  <h3 class='post_title' id="title_20">Topic 20..39</h3>
+  <div id='posts_wrapper_20' class='clearfix'>
+    <div id='posts_20' class='posts'>
+      <span>2022-04-17</span> <span><a href='/stuff/030-unpublished.html'>Unpublished Post 030</a> <i class='jekyll_draft'>Draft</i></span>
+    </div>
+  </div>
+</div>
+```
+
+The JavaScript searches for images in the current page that were created by the [`img`]() tag plugin,
+and have `id`s that correspond to outline sections.
+
+Each of following image's `id`s have a `img_` prefix, followed by a number, which corresponds to one of the sections.
+Note that leading zeros in the first column above are not present in the `id`s below.
+```html
+{% img align="right" id="img_0"
+  src="/assets/images/porcelain_washbasin.webp"
+  size="quartersize"
+%}
+{% img align="right" id="img_20"
+  src="/assets/images/pipes.webp"
+  size="quartersize"
+%}
+{% img align="right" id="img_40"
+  src="/assets/images/libgit2.webp"
+  size="quartersize"
+%}
+```
+The JavaScript identifies the images and repositions them in the DOM such that they follow the appropriate heading.
+If no image corresponds to a heading, no error or warning is generated.
+The images can be located anywhere on the page; they will be relocated appropriately.
+If an image does not correspond to a heading, it is deleted.
+
+
 ## Additional Information
 More information is available on
 [Mike Slinn&rsquo;s website](https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline).

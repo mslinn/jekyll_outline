@@ -1,18 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'confidential_info_redactor'
-gem 'ffi'
-gem 'jekyll', '~> 4.2.2'
+gem 'jekyll', '~> 4.3.2'
 gem 'nokogumbo', '=2.0.3'
 gem 'ptools'
-gem 'sprockets'
-gem 'webrick'
 
 group :jekyll_plugins do
   gem 'html-proofer'
   gem 'jekyll-assets'
   gem 'jekyll_draft'
   gem 'jekyll-environment-variables'
+  gem 'jekyll_img'
   gem 'jekyll_outline', path: '../'
   gem 'jekyll_plugin_logger'
   gem 'jekyll-sort'

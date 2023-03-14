@@ -1,6 +1,7 @@
 ## 1.1.0 / 2023-03-14
-  * Now generates a series of divs, instead of one big div
-  * Now interprets numbers as decimal instead of octal
+  * `outline_js` tag added, for including Javascript necessary to position images relating to the outline.
+  * Now generates a series of divs, instead of one big div.
+  * Now interprets numbers as decimal instead of octal.
   * CSS documented and new `post_title` class defined.
 
 ## 1.0.2 / 2023-02-16
@@ -10,4 +11,4 @@
   * Now dependent upon `jekyll_plugin_support`
 
 ## 1.0.0 / 2022-04-02
-  * Initial version
+  * Initial version, this Jekyll plugin defines a block tag called `outline`.
