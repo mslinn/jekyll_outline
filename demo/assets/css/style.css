@@ -141,15 +141,15 @@ pre {
   width: 940px;
 }
 
-.maxOneScreenHigh {
-  max-height: 500px;
+/* Start of jekyll_outline css */
+
+.jekyll_draft {
+  background-color: lightyellow;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
-.numbered_line,
-.unselectable.numbered_line,
-.numbered_line.unselectable {
-  color: #5fb25f;
-}
+.outer_posts { }
 
 .posts {
   display: flex;
@@ -169,27 +169,11 @@ pre {
   width: calc(100% - 120px);
 }
 
-.unselectable {
-  color: #7922f9;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  user-select: none;
+.post_title {
+  margin-bottom: 0;
 }
 
-.watermarked {
-  background-image: url("
-    data:image/svg+xml;
-    utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='300px' width='300px'>
-      <text transform='translate(20, 300) rotate(-45)'
-        fill='gray'
-        font-size='50'
-        font-family='Arial, Helvetica, sans-serif'
-        opacity='0.2'>
-          Draft
-      </text>
-    </svg>
-  ");
-}
+/* End of jekyll_outline css */
 
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {

@@ -18,6 +18,16 @@ And then execute:
     $ bundle install
 
 
+### CSS
+The CSS used for the demo website should be copied to your project.
+See the section of `demo/assets/css/styles.css` as shown:
+
+```css
+/* Start of jekyll_outline css */
+  ... copy this portion ...
+/* End of jekyll_outline css */
+```
+
 ## Additional Information
 More information is available on
 [Mike Slinn&rsquo;s website](https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline).

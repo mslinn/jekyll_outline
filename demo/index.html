@@ -3,6 +3,13 @@ description: Jekyll draft plugin demo
 layout: default
 title: Welcome
 ---
+<style>
+  #stuff {
+    background-color: green;
+    color: white;
+    padding-left: 1em;
+  }
+</style>
 <pre>
   is_draft = {{page | is_draft}}
   draft_html = {{page | draft_html}}
@@ -14,7 +21,7 @@ title: Welcome
 </pre>
 <img src="/assets/images/jekyll.png">
 
-<h2 id="stuff" style="background-color: green; color: white; padding-left: 1em;">Collection Stuff Outline</h2>
+<h2 id="stuff">Collection Stuff Outline</h2>
 {% outline stuff %}
 000: Topic 0..19
 020: Topic 20..39

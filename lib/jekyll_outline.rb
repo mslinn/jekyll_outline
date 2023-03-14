@@ -20,9 +20,7 @@ module Outline
     end
 
     def to_s
-      <<~END_STR
-        <h3 id="title_#{order}">#{title}</h3>
-      END_STR
+      "  <h3 class='post_title' id=\"title_#{order}\">#{title}</h3>"
     end
   end
 
@@ -38,8 +36,8 @@ module Outline
       headers = make_headers(super) # Process the block content.
       collection = headers + obtain_docs(@collection_name)
       <<~HEREDOC
-        <div class="posts">
-          #{make_entries(collection).join("\n")}
+        <div class="outer_posts">
+        #{make_entries(collection).join("\n")}
         </div>
       HEREDOC
     end
@@ -51,26 +49,37 @@ module Outline
     end
 
     def make_headers(content)
-      yaml = YAML.safe_load content
+      yaml = YAML.safe_load(remove_leading_zeros(content))
       yaml.map { |entry| Header.new entry }
     end
 
-    def make_entries(collection)
+    # @section_state can have values: :head, :in_body
+    # @param collection Array of Jekyll::Document and Outline::Header
+    # @return Array of String
+    def make_entries(collection) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       sorted = collection.sort_by(&obtain_order)
       pruned = remove_empty_headers(sorted)
-      pruned.map do |entry|
+      @section_state = :head
+      @section_id = 0
+      result = pruned.map do |entry|
         if entry.instance_of? Header
-          <<~END_ENTRY
-            <span></span> <span>#{entry}</span>
-          END_ENTRY
+          @header_order = entry.order
+          section_end = "  </div>\n" if @section_state == :in_body
+          @section_state = :head
+          entry = section_end + entry.to_s if section_end
+          entry
         else
+          section_start = "  <div id='posts_#{@header_order}' class='posts'>\n" if @section_state == :head
+          @section_state = :in_body
           date = entry.data['last_modified_at'] # "%Y-%m-%d"
           draft = Jekyll::Draft.draft_html(entry)
-          <<~END_ENTRY
-            <span>#{date}</span> <span><a href="#{entry.url}">#{entry.data['title']}</a>#{draft}</span>
-          END_ENTRY
+          result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{entry.data['title']}</a>#{draft}</span>"
+          result = section_start + result if section_start
+          result
         end
       end
+      result << '  </div>' if @section_state == :in_body
+      result
     end
 
     # Ignores files called index.html
@@ -105,6 +114,14 @@ module Outline
 
       array.delete_at(array.length - 1) if header?(array.last)
       array
+    end
+
+    def remove_leading_zeros(multiline)
+      multiline
+        .strip
+        .split("\n")
+        .map { |x| x.gsub(/(?<= |\A)0+(?=\d)/, '') }
+        .join("\n")
     end
 
     JekyllPluginHelper.register(self, PLUGIN_NAME)
