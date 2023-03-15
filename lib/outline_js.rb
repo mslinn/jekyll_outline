@@ -9,7 +9,11 @@ module OutlineJsTag
 
     def render_impl
       wrap_in_script_tag = @helper.parameter_specified?('wrap_in_script_tag')
-      js = File.read('assets/js/jekyll_outline.js')
+
+      gem_path = Gem::Specification.find_by_name('jekyll_outline').full_gem_path
+      js_path = File.join(gem_path, 'demo/assets/js/jekyll_outline.js')
+      js = File.read(js_path)
+
       if wrap_in_script_tag
         <<~END_JS
           <script>

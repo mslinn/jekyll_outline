@@ -80,23 +80,32 @@ Then links to the pages in the `stuff` collection's pages are interleaved into t
 </div>
 ```
 
-The JavaScript searches for images in the current page that were created by the [`img`]() tag plugin,
+The JavaScript searches for images in the current page that were created by the [`img`](https://github.com/mslinn/jekyll_img) tag plugin,
 and have `id`s that correspond to outline sections.
 
-Each of following image's `id`s have a `img_` prefix, followed by a number, which corresponds to one of the sections.
+Each of following image's `id`s have a `outline_` prefix, followed by a number, which corresponds to one of the sections.
 Note that leading zeros in the first column above are not present in the `id`s below.
 ```html
-{% img align="right" id="img_0"
+{% img align="right"
+  id="outline_0"
+  size="quartersize"
   src="/assets/images/porcelain_washbasin.webp"
-  size="quartersize"
+  style="margin-top: 0"
+  wrapper_class="clear"
 %}
-{% img align="right" id="img_20"
+{% img align="right"
+  id="outline_20"
+  size="quartersize"
   src="/assets/images/pipes.webp"
-  size="quartersize"
+  style="margin-top: 0"
+  wrapper_class="clear"
 %}
-{% img align="right" id="img_40"
-  src="/assets/images/libgit2.webp"
+{% img align="right"
+  id="outline_40"
   size="quartersize"
+  src="/assets/images/libgit2.webp"
+  style="margin-top: 0"
+  wrapper_class="clear"
 %}
 ```
 The JavaScript identifies the images and repositions them in the DOM such that they follow the appropriate heading.
