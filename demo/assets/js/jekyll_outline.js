@@ -3,10 +3,10 @@
 // If an image does not correspond to a heading, delete it
 function position_outline_image(picture, before_id) {
   var img = picture.parentElement;
-  var title = document.getElementById(before_id);
-  if (title) {
-    var parent = title.parentElement;
-    parent.insertBefore(img, title);
+  var before_element = document.getElementById(before_id);
+  if (before_element) {
+    var parent = before_element.parentElement;
+    parent.insertBefore(img, before_element);
   } else {
     img.remove();
   }
@@ -26,6 +26,6 @@ function getElementsByIdPrefix(selectorTag, prefix) {
 window.onload = (event) => {
   getElementsByIdPrefix("picture", "outline_").forEach(picture => {
     num = picture.id.substring("outline_".length)
-    position_outline_image(picture, `title_${num}`)
+    position_outline_image(picture, `posts_wrapper_${num}`)
   });
 }

@@ -20,7 +20,7 @@ module OutlineTag
     end
 
     def to_s
-      "  <h3 class='post_title' id=\"title_#{order}\">#{title}</h3>"
+      "  <h3 class='post_title clear' id=\"title_#{order}\">#{title}</h3>"
     end
   end
 
@@ -56,7 +56,7 @@ module OutlineTag
     # @section_state can have values: :head, :in_body
     # @param collection Array of Jekyll::Document and Outline::Header
     # @return Array of String
-    def make_entries(collection) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def make_entries(collection) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Layout/LineEndStringConcatenationIndentation
       sorted = collection.sort_by(&obtain_order)
       pruned = remove_empty_headers(sorted)
       @section_state = :head
@@ -69,7 +69,10 @@ module OutlineTag
           entry = section_end + entry.to_s if section_end
           entry
         else
-          section_start = "  <div id='posts_#{@header_order}' class='posts'>\n" if @section_state == :head
+          if @section_state == :head
+            section_start = "<div id='posts_wrapper_#{@header_order}' class='clearfix'>\n    " \
+                            "<div id='posts_#{@header_order}' class='posts'>\n"
+          end
           @section_state = :in_body
           date = entry.data['last_modified_at'] # "%Y-%m-%d"
           draft = Jekyll::Draft.draft_html(entry)
@@ -78,7 +81,7 @@ module OutlineTag
           result
         end
       end
-      result << '  </div>' if @section_state == :in_body
+      result << "    </div>\n  </div>" if @section_state == :in_body
       result
     end
 

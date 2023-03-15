@@ -64,14 +64,14 @@ Given an outline that looks like this:
 Then links to the pages in the `stuff` collection's pages are interleaved into the generated outline like this:
 ```html
 <div class="outer_posts">
-  <h3 class='post_title' id="title_0">Topic 0..19</h3>
+  <h3 class='post_title clear' id="title_0">Topic 0..19</h3>
   <div id='posts_wrapper_0' class='clearfix'>
     <div id='posts_0' class='posts'>
       <span>2022-04-01</span> <span><a href='/stuff/010-published.html'>Published Stuff Post 010</a></span>
       <span>2022-04-17</span> <span><a href='/stuff/020-unpublished.html'>Unpublished Post 020</a> <i class='jekyll_draft'>Draft</i></span>
     </div>
   </div>
-  <h3 class='post_title' id="title_20">Topic 20..39</h3>
+  <h3 class='post_title clear' id="title_20">Topic 20..39</h3>
   <div id='posts_wrapper_20' class='clearfix'>
     <div id='posts_20' class='posts'>
       <span>2022-04-17</span> <span><a href='/stuff/030-unpublished.html'>Unpublished Post 030</a> <i class='jekyll_draft'>Draft</i></span>
