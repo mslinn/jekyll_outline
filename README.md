@@ -114,6 +114,10 @@ The images can be located anywhere on the page; they will be relocated appropria
 If an image does not correspond to a heading, it is deleted.
 
 
+## Attribution
+See [`jekyll_plugin_support` for `attribution`](https://github.com/mslinn/jekyll_plugin_support#subclass-attribution)
+
+
 ## Additional Information
 More information is available on
 [Mike Slinn&rsquo;s website](https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline).

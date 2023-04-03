@@ -1,3 +1,6 @@
+## 1.1.1 / 2023-04-02
+  * Added [`attribution` support](https://github.com/mslinn/jekyll_plugin_support#subclass-attribution).
+
 ## 1.1.0 / 2023-03-14
   * `outline_js` tag added, for including Javascript necessary to position images relating to the outline.
   * Now generates a series of divs, instead of one big div.

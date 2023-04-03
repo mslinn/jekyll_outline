@@ -249,6 +249,21 @@ pre {
 /* End of jekyll_img css */
 
 
+/* Start of jekyll_plugin_support css */
+
+.jps_attribute {
+  display: flex;
+}
+
+.jps_attribute div {
+  flex-grow: 1;
+  text-align: center;
+  width: 0;
+}
+
+/* End of jekyll_plugin_support css */
+
+
 /* Start of jekyll_outline css */
 
 .clear {

@@ -20,7 +20,7 @@ module OutlineTag
     end
 
     def to_s
-      "  <h3 class='post_title clear' id=\"title_#{order}\">#{title}</h3>"
+      "  <h3 class='post_title clear' id=\"title_#{@order}\">#{@title}</h3>"
     end
   end
 
@@ -30,7 +30,7 @@ module OutlineTag
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
 
     def render_impl(text)
-      @collection_name = argument_string.strip
+      @collection_name = @helper.remaining_markup
       abort 'OutlineTag: collection_name was not specified' unless @collection_name
 
       headers = make_headers(super) # Process the block content.
@@ -38,6 +38,7 @@ module OutlineTag
       <<~HEREDOC
         <div class="outer_posts">
         #{make_entries(collection).join("\n")}
+        #{@helper.attribute if @helper.attribution}
         </div>
       HEREDOC
     end
