@@ -30,11 +30,12 @@ module OutlineTag
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
 
     def render_impl(text)
+      headers = make_headers(super) # Process the block content.
+
       @helper.gem_file __FILE__
       @collection_name = @helper.remaining_markup
       abort 'OutlineTag: collection_name was not specified' unless @collection_name
 
-      headers = make_headers(super) # Process the block content.
       collection = headers + obtain_docs(@collection_name)
       <<~HEREDOC
         <div class="outer_posts">
