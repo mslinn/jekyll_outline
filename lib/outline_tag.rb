@@ -30,6 +30,7 @@ module OutlineTag
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
 
     def render_impl(text)
+      @helper.gem_file __FILE__
       @collection_name = @helper.remaining_markup
       abort 'OutlineTag: collection_name was not specified' unless @collection_name
 
@@ -37,7 +38,7 @@ module OutlineTag
       collection = headers + obtain_docs(@collection_name)
       <<~HEREDOC
         <div class="outer_posts">
-        #{make_entries(collection).join("\n")}
+        #{make_entries(collection)&.join("\n")}
         #{@helper.attribute if @helper.attribution}
         </div>
       HEREDOC
@@ -57,7 +58,7 @@ module OutlineTag
     # @section_state can have values: :head, :in_body
     # @param collection Array of Jekyll::Document and Outline::Header
     # @return Array of String
-    def make_entries(collection) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Layout/LineEndStringConcatenationIndentation
+    def make_entries(collection) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       sorted = collection.sort_by(&obtain_order)
       pruned = remove_empty_headers(sorted)
       @section_state = :head
