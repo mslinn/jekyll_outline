@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     '.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md',
     'demo/assets/js/jekyll_outline.js'
   ]
-  spec.homepage = 'https://www.mslinn.com/blog/2020/10/03/jekyll-plugins.html#outline'
+  spec.homepage = 'https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline'
   spec.license = 'MIT'
   spec.metadata = {
     'allowed_push_host' => 'https://rubygems.org',
