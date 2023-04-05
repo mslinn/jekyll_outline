@@ -285,7 +285,10 @@ pre {
   padding-right: 3px;
 }
 
-.outer_posts { }
+.outer_posts .jps_attribute {
+  display: flex;
+  margin-top: 1.5em;
+}
 
 .posts {
   display: flex;

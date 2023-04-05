@@ -40,8 +40,8 @@ module OutlineTag
       <<~HEREDOC
         <div class="outer_posts">
         #{make_entries(collection)&.join("\n")}
-        #{@helper.attribute if @helper.attribution}
         </div>
+        #{@helper.attribute if @helper.attribution}
       HEREDOC
     end
 
