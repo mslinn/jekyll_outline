@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "ruby.rubocop.configFilePath": "${env:jekyll_outline}/.rubocop.yml",
+  "ruby.rubocop.configFilePath": ".rubocop.yml",
   "ruby.rubocop.useBundler": true,
-  "ruby.rubocop.executePath": "${env:jekyll_outline}/exe/"
+  "ruby.rubocop.executePath": "exe/"
 }

@@ -6,11 +6,12 @@
 
 
 ## Installation
-
-Add this line to your application's Gemfile:
+Add the following line to your Jekyll project's Gemfile, within the `jekyll_plugins` group:
 
 ```ruby
-gem 'jekyll_outline'
+group :jekyll_plugins do
+  gem 'jekyll_outline'
+end
 ```
 
 And then execute:
@@ -45,7 +46,6 @@ If passed the `wrap_in_script_tag` parameter, it wraps the JavaScript in `<scrip
 
 
 ## Explanation
-
 Given an outline that looks like this:
 ```html
 {% outline stuff %}
@@ -85,7 +85,10 @@ and have `id`s that correspond to outline sections.
 
 Each of following image's `id`s have a `outline_` prefix, followed by a number, which corresponds to one of the sections.
 Note that leading zeros in the first column above are not present in the `id`s below.
+
+The images are wrapped within an invisible `div` so the web page does not jump around as the images are loaded.
 ```html
+<div style="display: none;">
 {% img align="right"
   id="outline_0"
   size="quartersize"
@@ -107,6 +110,7 @@ Note that leading zeros in the first column above are not present in the `id`s b
   style="margin-top: 0"
   wrapper_class="clear"
 %}
+</div>
 ```
 The JavaScript identifies the images and repositions them in the DOM such that they follow the appropriate heading.
 If no image corresponds to a heading, no error or warning is generated.
@@ -124,14 +128,8 @@ More information is available on
 
 
 ## Development
-
-After checking out the repo, run `bin/setup` to install dependencies.
-You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-Install development dependencies like this:
-```
-$ BUNDLE_WITH="development" bundle install
-```
+After checking out the repo, run `bin/setup` to install development dependencies.
+Then you can run `bin/console` for an interactive prompt that will allow you to experiment with `irb`.
 
 To build and install this gem onto your local machine, run:
 ```shell
@@ -154,16 +152,28 @@ jekyll_outline (0.1.0)
 ```
 
 
-## Test
-A test website is provided in the `demo` directory.
- 1. Set breakpoints.
+## Demo
+A demo / test website is provided in the `demo` directory.
+It can be used to debug the plugin or to run freely.
+
+### Run Freely
+ 1. Run from the command line:
+    ```shell
+    $ demo/_bin/debug -r
+    ```
+
+  2. View the generated website at [`http://localhost:4444`](http://localhost:4444)
+
+### Plugin Debugging
+ 1. Set breakpoints in Visual Studio Code.
 
  2. Initiate a debug session from the command line:
     ```shell
-    $ bin/attach demo
+    $ demo/_bin/debug
     ```
 
-  3. Once the `Fast Debugger` signon appears, launch the Visual Studio Code launch configuration called `Attach rdebug-ide`.
+  3. Once the `Fast Debugger` signon appears, launch the Visual Studio Code launch
+     configuration called `Attach rdebug-ide`.
 
   4. View the generated website at [`http://localhost:4444`](http://localhost:4444)
 
@@ -182,10 +192,8 @@ To release a new version,
 
 
 ## Contributing
-
 Bug reports and pull requests are welcome on GitHub at https://github.com/mslinn/jekyll_outline.
 
 
 ## License
-
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
