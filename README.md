@@ -128,6 +128,7 @@ If an image does not correspond to a heading, it is deleted.
 
 
 
+
 ## Attribution
 See [`jekyll_plugin_support` for `attribution`](https://github.com/mslinn/jekyll_plugin_support#subclass-attribution)
 
@@ -139,8 +140,10 @@ More information is available on
 
 ## Development
 After checking out the repo, run `bin/setup` to install development dependencies.
-Then you can run `bin/console` for an interactive prompt that will allow you to experiment with `irb`.
 
+Then you can run `bin/console` for an interactive prompt that will allow you to experiment using `irb`.
+
+### Build and Install Locally
 To build and install this gem onto your local machine, run:
 ```shell
 $ bundle exec rake install
@@ -203,6 +206,11 @@ To release a new version,
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at https://github.com/mslinn/jekyll_outline.
+
+1. Fork the project
+2. Create a descriptively named feature branch
+3. Add your feature
+4. Submit a pull request
 
 
 ## License
