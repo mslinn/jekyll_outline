@@ -16,21 +16,27 @@ end
 
 And then execute:
 
-    $ bundle install
+    $ bundle
 
 
 ### CSS
 The CSS used for the demo website should be copied to your project.
-See the section of `demo/assets/css/styles.css` as shown:
+See the sections of [`demo/assets/css/styles.css`](/mslinn/jekyll_outline/blob/master/demo/assets/css/style.css#L252-L315) as shown:
 
 ```css
+/* Start of jekyll_plugin_support css */
+... copy this portion ...
+/* End of jekyll_plugin_support css */
+
 /* Start of jekyll_outline css */
   ... copy this portion ...
 /* End of jekyll_outline css */
 ```
 
 ### JavaScript
-This project's `outline_js` tag returns the Javascript necessary to position images relating to the outline. If used without parameters it just returns the JavaScript:
+This project's `outline_js` tag returns the Javascript necessary to position images relating to the outline.
+If used without parameters it just returns the JavaScript.
+Use the tag this way:
 
 ```html
 <script>
@@ -38,7 +44,8 @@ This project's `outline_js` tag returns the Javascript necessary to position ima
 </script>
 ```
 
-If passed the `wrap_in_script_tag` parameter, it wraps the JavaScript in `<script></script>`:
+If passed the `wrap_in_script_tag` parameter, it wraps the JavaScript in `<script></script>`.
+Use the tag this way:
 
 ```html
 {% outline_js wrap_in_script_tag %}
@@ -57,9 +64,9 @@ Given an outline that looks like this:
 
 ...and given pages in the `stuff` collection with the following names:
 
- - 010-published.html has title **Published Stuff Post 010**
- - 020-unpublished.html has title **Unpublished Post 020**
- - 030-unpublished.html has title **Unpublished Post 030**
+ - `010-published.html` has title **Published Stuff Post 010**
+ - `020-unpublished.html` has title **Unpublished Post 020**
+ - `030-unpublished.html` has title **Unpublished Post 030**
 
 Then links to the pages in the `stuff` collection's pages are interleaved into the generated outline like this:
 ```html
@@ -80,13 +87,15 @@ Then links to the pages in the `stuff` collection's pages are interleaved into t
 </div>
 ```
 
-The JavaScript searches for images in the current page that were created by the [`img`](https://github.com/mslinn/jekyll_img) tag plugin,
+The JavaScript searches for images in the current page that were created by the
+[`img`](https://github.com/mslinn/jekyll_img) tag plugin,
 and have `id`s that correspond to outline sections.
 
-Each of following image's `id`s have a `outline_` prefix, followed by a number, which corresponds to one of the sections.
+Each of following image's `id`s have an `outline_` prefix, followed by a number, which corresponds to one of the sections.
 Note that leading zeros in the first column above are not present in the `id`s below.
 
-The images are wrapped within an invisible `div` so the web page does not jump around as the images are loaded.
+If you want to provide images to embed at appropriate locations within the outline,
+wrap them within an invisible `div` so the web page does not jump around as the images are loaded.
 ```html
 <div style="display: none;">
 {% img align="right"
@@ -116,6 +125,7 @@ The JavaScript identifies the images and repositions them in the DOM such that t
 If no image corresponds to a heading, no error or warning is generated.
 The images can be located anywhere on the page; they will be relocated appropriately.
 If an image does not correspond to a heading, it is deleted.
+
 
 
 ## Attribution
