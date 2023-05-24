@@ -305,6 +305,7 @@ pre {
 }
 
 .posts > *:nth-child(even) {
+  margin-bottom: 1em;
   width: calc(100% - 120px);
 }
 
