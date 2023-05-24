@@ -25,13 +25,22 @@ Layout/HashAlignment:
 Layout/LineLength:
   Max: 150
 
+Metrics/AbcSize:
+  Max: 30
+
 Metrics/BlockLength:
   Exclude:
     - jekyll_outline.gemspec
   Max: 40
 
+Metrics/CyclomaticComplexity:
+  Max: 20
+
 Metrics/MethodLength:
   Max: 30
+
+Metrics/PerceivedComplexity:
+  Max: 20
 
 Naming/FileName:
   Exclude:
