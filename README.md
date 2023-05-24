@@ -30,7 +30,7 @@ Entry can also include following fields:
 Specify the fields like this:
 
 ```
-{% outline fields="title &ndash; description" %}
+{% outline fields="title &ndash; <i> description </i>" %}
 000: Topic 0..19
 020: Topic 20..39
 040: Topic 40..
@@ -38,6 +38,11 @@ Specify the fields like this:
 ```
 
 Words that are not a known field are transcribed into the output.
+
+In the above example, notice that the HTML is space delimited from the field names.
+The parser is simple and stupid: each token is matched against the known keywords.
+Tokens are separated by white space.
+
 
 ### CSS
 The CSS used for the demo website should be copied to your project.

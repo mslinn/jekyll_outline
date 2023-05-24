@@ -1,3 +1,6 @@
+## 1.2.1 / 2023-04-23
+  - Added optional `field` parameter.
+
 ## 1.1.1 / 2023-04-02
   * Added [`attribution` support](https://github.com/mslinn/jekyll_plugin_support#subclass-attribution).
 
