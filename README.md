@@ -19,8 +19,8 @@ And then execute:
     $ bundle
 
 
-## Entries
-By default, each entry consists of the document title,
+## Fields
+By default, each displayed entry consists of a document title,
 wrapped within an &lt;a href&gt; HTML tag that links to the page for that entry,
 followed by an indication of whether the document is visible (a draft) or not.
 
