@@ -34,6 +34,7 @@ module OutlineTag
 
       @helper.gem_file __FILE__
       @fields = @helper.parameter_specified?('fields')&.split(' ') || ['title']
+      @logger.info { "@fields are: #{@fields}" }
       @collection_name = @helper.remaining_markup
       abort 'OutlineTag: collection_name was not specified' unless @collection_name
 
