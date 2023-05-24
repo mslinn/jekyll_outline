@@ -40,10 +40,6 @@ module OutlineTag
       @docs = obtain_docs(@collection_name)
       collection = headers + @docs
 
-      # TODO: parse entry and build it
-
-      return "<p style='background-color: red'><code>#{PLUGIN_NAME.capitalize}</code> error: #{name.html} not found.</p>\n" if page.empty?
-
       <<~HEREDOC
         <div class="outer_posts">
         #{make_entries collection}
@@ -79,6 +75,7 @@ module OutlineTag
     end
 
     KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
+
     def handle(entry)
       if entry.instance_of? Header
         @header_order = entry.order
@@ -111,7 +108,7 @@ module OutlineTag
             @logger.warn { "#{field} is a known field, but it was not present in entry #{entry}" }
           end
         else
-          result += field
+          result += "#{field} "
         end
       end
       result
