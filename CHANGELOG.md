@@ -1,3 +1,6 @@
+## 1.2.1 / 2023-05-30
+  - Updated dependencies.
+
 ## 1.2.0 / 2023-04-23
   - Added optional `field` parameter.
 
