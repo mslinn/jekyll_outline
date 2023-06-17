@@ -136,9 +136,9 @@ module OutlineTag
     def obtain_order
       proc do |entry|
         if entry.respond_to? :data
-          entry.data.key?('order') ? entry.data['order'] : FIXNUM_MAX
+          entry.data.key?('order') ? entry.data['order'] || FIXNUM_MAX : FIXNUM_MAX
         else
-          entry.order
+          entry.order || FIXNUM_MAX
         end
       end
     end

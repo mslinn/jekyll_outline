@@ -1,5 +1,6 @@
-## 1.2.1 / 2023-05-30
+## 1.2.1 / 2023-06-17
   - Updated dependencies.
+  - No longer explodes when a value for `order` is not provided in front matter.
 
 ## 1.2.0 / 2023-04-23
   - Added optional `field` parameter.
