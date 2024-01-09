@@ -3,6 +3,31 @@
 `jekyll_outline` Jekyll tag plugin that creates a clickable table of contents.
 
 
+## Usage
+
+These examples are taken from [`demo/index.html`](demo/index.html).
+
+Sort by `order` field:
+
+```html
+{% outline attribution fields="<b> title </b> &ndash; <i> description </i>" stuff %}
+000: A Topic 0..19
+020: A Topic 20..39
+040: A Topic 40..
+{% endoutline %}
+```
+
+Sort by `title` field:
+
+```html
+{% outline attribution sort_by_title fields="<b> title </b> &ndash; <i> description </i>" stuff %}
+000: B Topic 0..19
+020: B Topic 20..39
+040: B Topic 40..
+{% endoutline %}
+```
+
+
 ## Installation
 
 Add the following line to your Jekyll project's Gemfile, within the `jekyll_plugins` group:

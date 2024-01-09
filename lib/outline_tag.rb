@@ -33,7 +33,8 @@ module OutlineTag
       headers = make_headers(super) # Process the block content.
 
       @helper.gem_file __FILE__
-      @fields = @helper.parameter_specified?('fields')&.split(' ') || ['title']
+      @fields  = @helper.parameter_specified?('fields')&.split || ['title']
+      @sort_by = @helper.parameter_specified?('sort_by_title') ? 'title' : 'order'
       @collection_name = @helper.remaining_markup
       abort 'OutlineTag: collection_name was not specified' unless @collection_name
 
@@ -63,7 +64,11 @@ module OutlineTag
     # @param collection Array of Jekyll::Document and Outline::Header
     # @return Array of String
     def make_entries(collection)
-      sorted = collection.sort_by(&obtain_order)
+      sorted = if @sort_by == 'order'
+                 collection.sort_by(&obtain_order)
+               else
+                 collection.sort_by(&obtain_field)
+               end
       pruned = remove_empty_headers sorted
       @section_state = :head
       @section_id = 0
@@ -132,12 +137,24 @@ module OutlineTag
         .reject { |doc| doc.path.end_with? 'index.html' }
     end
 
-    # Sort entries without an order property at the end
+    # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
+    def obtain_field
+      sort_by = @sort_by.to_s
+      proc do |entry|
+        if entry.respond_to? :data # page
+          entry.data.key?(sort_by) ? entry.data[sort_by] || 'zzz' : 'zzz'
+        else # heading
+          entry.respond_to?(sort_by) ? entry.send(sort_by) || 'zzz' : 'zzz'
+        end
+      end
+    end
+
+    # Sort entries within the outline tag which do not have an order property at the end
     def obtain_order
       proc do |entry|
-        if entry.respond_to? :data
+        if entry.respond_to? :data # page
           entry.data.key?('order') ? entry.data['order'] || FIXNUM_MAX : FIXNUM_MAX
-        else
+        else # heading
           entry.order || FIXNUM_MAX
         end
       end
