@@ -75,7 +75,7 @@ module OutlineTag
       result = pruned.map do |entry|
         handle entry
       end
-      result << "    </div>\n  </div>" if @section_state == :in_body
+      result << "    </div>\n  </div>" if @section_state == :in_body # Modify this for TOC
       result&.join("\n")
     end
 
@@ -90,14 +90,16 @@ module OutlineTag
         entry
       else
         if @section_state == :head
-          section_start = "<div id='posts_wrapper_#{@header_order}' class='clearfix'>\n    " \
-                          "<div id='posts_#{@header_order}' class='posts'>\n"
+          section_start = <<~ENDTEXT # Modify this for TOC
+            <div id="posts_wrapper_#{@header_order}" class='clearfix'>
+              <div id="posts_#{@header_order}" class='posts'>
+          ENDTEXT
         end
         @section_state = :in_body
         date = entry.data['last_modified_at'] # "%Y-%m-%d"
         draft = Jekyll::Draft.draft_html(entry)
         visible_line = handle_entry entry
-        result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>"
+        result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>" # Modify this for TOC
         result = section_start + result if section_start
         result
       end
