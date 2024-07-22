@@ -10,6 +10,7 @@ module OutlineTag
   PLUGIN_NAME = 'outline'.freeze
 
   # Interleaves with docs
+  # Duck type compatible with Jekyll doc
   class Header
     attr_accessor :order, :title
 
@@ -40,7 +41,11 @@ module OutlineTag
 
       @docs = obtain_docs(@collection_name)
       collection = headers + @docs
+      render_outline collection
+    end
 
+    # Overload this for a subclass
+    def render_outline(collection)
       <<~HEREDOC
         <div class="outer_posts">
         #{make_entries collection}
