@@ -57,6 +57,6 @@ Style/FrozenStringLiteralComment:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 
-RSpec/FilePath:
-  IgnoreMethods: true
-  SpecSuffixOnly: true
+# RSpec/FilePath:
+#   IgnoreMethods: true
+#   SpecSuffixOnly: true

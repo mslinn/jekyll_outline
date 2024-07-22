@@ -1,5 +1,5 @@
-require_relative './outline_js'
-require_relative './outline_tag'
+require_relative 'outline_js'
+require_relative 'outline_tag'
 
 module Outline
   include OutlineTag
