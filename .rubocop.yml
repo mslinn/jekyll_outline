@@ -47,6 +47,7 @@ Metrics/PerceivedComplexity:
 Naming/FileName:
   Exclude:
     - Rakefile
+    - "*.md"
 
 Style/Documentation:
   Enabled: false
