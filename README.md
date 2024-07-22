@@ -52,7 +52,8 @@ wrapped within an &lt;a href&gt; HTML tag that links to the page for that entry,
 followed by an indication of whether the document is visible (a draft) or not.
 
 Entry can also include following fields:
-`draft`, `categories`, `description`, `date`, `last_modified` or `last_modified_at`, `layout`, `order`, `title`, `slug`, `ext`, `tags`, and `excerpt`.
+`draft`, `categories`, `description`, `date`, `last_modified` or `last_modified_at`, `layout`, `order`, `title`, `slug`,
+`ext`, `tags`, and `excerpt`.
 
 Specify the fields like this:
 
@@ -74,7 +75,8 @@ Tokens are separated by white space.
 ### CSS
 
 The CSS used for the demo website should be copied to your project.
-See the sections of [`demo/assets/css/styles.css`](/mslinn/jekyll_outline/blob/master/demo/assets/css/style.css#L252-L315) as shown:
+See the sections of
+[`demo/assets/css/styles.css`](/mslinn/jekyll_outline/blob/master/demo/assets/css/style.css#L252-L315) as shown:
 
 ```css
 /* Start of jekyll_plugin_support css */
