@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.2.3 / 2024-07-23
+
+* Made compatible with jekyll_plugin_support v0.8.7
+
+
 ## 1.2.2 / 2024-01-08
 
 * Added `sort_by_title` keyword option.

@@ -35,6 +35,6 @@ module OutlineJsTag
         .join("\n")
     end
 
-    JekyllPluginHelper.register(self, PLUGIN_JS_NAME)
+    ::JekyllSupport::JekyllPluginHelper.register(self, PLUGIN_JS_NAME)
   end
 end

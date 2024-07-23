@@ -218,6 +218,6 @@ module OutlineTag
         .join("\n")
     end
 
-    JekyllPluginHelper.register(self, PLUGIN_NAME)
+    ::JekyllSupport::JekyllPluginHelper.register(self, PLUGIN_NAME)
   end
 end

@@ -1,3 +1,3 @@
 module JekyllOutlineVersion
-  VERSION = '1.2.1'.freeze
+  VERSION = '1.2.3'.freeze
 end
