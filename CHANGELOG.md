@@ -3,6 +3,8 @@
 ## 1.2.4 / 2024-07-23
 
 * Updated dependencies to rely on current `jekyll_draft`.
+* Removes any leading whitespace in plugin content so the YAML is more likely to be well-formed.
+* Handles poorly formed whitespace gracefully.
 
 
 ## 1.2.3 / 2024-07-23

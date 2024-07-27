@@ -91,8 +91,15 @@ module JekyllSupport
     end
 
     def make_headers(content)
-      yaml = YAML.safe_load(remove_leading_zeros(content))
+      content = remove_leading_zeros remove_leading_spaces content
+      yaml = YAML.safe_load content
       yaml.map { |entry| Header.new entry }
+    rescue NoMethodError => e
+      raise OutlineError, "Invalid YAML within {% outline %} tag;<br>\nNoMethodError #{e.message}"
+    rescue Psych::SyntaxError => e
+      raise OutlineError, "Invalid YAML within {% outline %} tag;<br>\nPsych::SyntaxError #{e.message}"
+    rescue StandardError => e
+      raise OutlineError, e.message
     end
 
     # @section_state can have values: :head, :in_body
@@ -209,6 +216,14 @@ module JekyllSupport
 
       array.delete_at(array.length - 1) if header?(array.last)
       array
+    end
+
+    def remove_leading_spaces(multiline)
+      multiline
+        .strip
+        .split("\n")
+        .map { |x| x.gsub(/\A\s+/, '') }
+        .join("\n")
     end
 
     def remove_leading_zeros(multiline)
