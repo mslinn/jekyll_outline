@@ -33,8 +33,9 @@ require_relative 'jekyll_outline/version'
 #
 # Subclasses, such as jekyll_toc.rb, might generate other output.
 
-module OutlineTag
+module JekyllSupport
   PLUGIN_NAME = 'outline'.freeze
+  OutlineError = JekyllSupport.define_error
 
   # Interleaves with docs
   # Duck type compatible with Jekyll doc
@@ -52,7 +53,7 @@ module OutlineTag
     end
   end
 
-  class OutlineTag < JekyllSupport::JekyllBlock # rubocop:disable Metrics/ClassLength
+  class OutlineTag < JekyllBlock # rubocop:disable Metrics/ClassLength
     include JekyllOutlineVersion
 
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
@@ -64,7 +65,7 @@ module OutlineTag
       @fields  = @helper.parameter_specified?('fields')&.split || ['title']
       @sort_by = @helper.parameter_specified?('sort_by_title') ? 'title' : 'order'
       @collection_name = @helper.remaining_markup
-      abort 'OutlineTag: collection_name was not specified' unless @collection_name
+      raise OutlineError, 'collection_name was not specified' unless @collection_name
 
       @docs = obtain_docs(@collection_name)
       collection = headers + @docs
@@ -95,7 +96,7 @@ module OutlineTag
     end
 
     # @section_state can have values: :head, :in_body
-    # @param collection Array of Jekyll::Document and Outline::Header
+    # @param collection Array of Jekyll::Document and JekyllSupport::Header
     # @return Array of String
     def make_entries(collection)
       sorted = if @sort_by == 'order'
@@ -218,6 +219,6 @@ module OutlineTag
         .join("\n")
     end
 
-    ::JekyllSupport::JekyllPluginHelper.register(self, PLUGIN_NAME)
+    JekyllPluginHelper.register(self, PLUGIN_NAME)
   end
 end

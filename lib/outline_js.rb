@@ -1,10 +1,10 @@
 require 'jekyll_plugin_support'
 require_relative 'jekyll_outline/version'
 
-module OutlineJsTag
+module JekyllSupport
   PLUGIN_JS_NAME = 'outline_js'.freeze
 
-  class OutlineJsTag < JekyllSupport::JekyllTag
+  class OutlineJsTag < JekyllTag
     include JekyllOutlineVersion
 
     def render_impl
@@ -35,6 +35,6 @@ module OutlineJsTag
         .join("\n")
     end
 
-    ::JekyllSupport::JekyllPluginHelper.register(self, PLUGIN_JS_NAME)
+    JekyllPluginHelper.register(self, PLUGIN_JS_NAME)
   end
 end
