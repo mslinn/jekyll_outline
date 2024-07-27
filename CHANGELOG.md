@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.2.4 / 2024-07-23
+
+* Updated dependencies to rely on current `jekyll_draft`.
+
+
 ## 1.2.3 / 2024-07-23
 
 * Made compatible with jekyll_plugin_support v1.0.0
