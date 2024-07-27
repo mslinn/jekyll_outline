@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
   spec.version = JekyllOutlineVersion::VERSION
 
   spec.add_dependency 'jekyll', '>= 3.5.0'
-  spec.add_dependency 'jekyll_draft', '>= 1.1.2'
+  spec.add_dependency 'jekyll_draft', '>= 2.0.2'
   spec.add_dependency 'jekyll_plugin_support', '>= 1.0.0'
 end
