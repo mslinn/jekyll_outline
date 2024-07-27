@@ -19,9 +19,7 @@ title-override: Blog Posts, Listed Newest to Oldest
     <li>
       <code>{{ post.date | date: "%Y-%m-%d" }}</code> &nbsp;
       <a href="{{ post.url }}">{{ post.title }}</a>
-      {% if isDraft %}
-        <span class="bg_yellow" style="font-style: italic;">&mdash; Draft &mdash;</span>
-      {% endif %}
+      {{post | draft_html}}
     </li>
   {% endfor %}
 </ul>
