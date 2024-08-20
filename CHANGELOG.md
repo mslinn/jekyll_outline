@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.2.5 / 2024-08-20
+
+* Added configurable error handling
+* Updated to jekyll_plugin_support v1.0.2
+* Defined `outline_error` CSS class in `demo/assets/css/jekyll_outline.css`.
+
+
 ## 1.2.4 / 2024-07-23
 
 * Updated dependencies to rely on current `jekyll_draft`.

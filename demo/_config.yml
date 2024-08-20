@@ -37,6 +37,9 @@ liquid:
   error_mode: strict
   # strict_filters: true
   # strict_variables: true
+outline:
+  die_on_outline_error: false
+  pry_on_outline_error: false
 plugin_loggers:
   PluginMetaLogger: info
   CleanHook: warn

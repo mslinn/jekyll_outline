@@ -62,6 +62,10 @@ module JekyllSupport
       headers = make_headers(super) # Process the block content.
 
       @helper.gem_file __FILE__
+
+      @die_on_outline_error = @tag_config['die_on_outline_error'] == true if @tag_config
+      @pry_on_outline_error = @tag_config['pry_on_outline_error'] == true if @tag_config
+
       @fields  = @helper.parameter_specified?('fields')&.split || ['title']
       @sort_by = @helper.parameter_specified?('sort_by_title') ? 'title' : 'order'
       @collection_name = @helper.remaining_markup
@@ -70,6 +74,12 @@ module JekyllSupport
       @docs = obtain_docs(@collection_name)
       collection = headers + @docs
       render_outline collection
+    rescue OutlineError => e # jekyll_plugin_support handles StandardError
+      @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }
+      binding.pry if @pry_on_outline_error # rubocop:disable Lint/Debugger
+      exit! 1 if @die_on_outline_error
+
+      e.html_message
     end
 
     # Overload this for a subclass
@@ -95,11 +105,18 @@ module JekyllSupport
       yaml = YAML.safe_load content
       yaml.map { |entry| Header.new entry }
     rescue NoMethodError => e
-      raise OutlineError, "Invalid YAML within {% outline %} tag;<br>\nNoMethodError #{e.message}"
+      raise OutlineError, <<~END_MSG
+        Invalid YAML within {% outline %} tag. The offending content was:
+
+        <pre>#{content}</pre>
+      END_MSG
     rescue Psych::SyntaxError => e
-      raise OutlineError, "Invalid YAML within {% outline %} tag;<br>\nPsych::SyntaxError #{e.message}"
-    rescue StandardError => e
-      raise OutlineError, e.message
+      msg = <<~END_MSG
+        Invalid YAML found within {% outline %} tag:<br>
+        <pre>#{e.message}</pre>
+      END_MSG
+      @logger.error { e.message }
+      raise OutlineError, msg
     end
 
     # @section_state can have values: :head, :in_body
