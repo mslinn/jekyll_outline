@@ -13,6 +13,9 @@ and those with the following in their front matter:
 exclude_from_outline: true
 ```
 
+Note that Jekyll requires all documents in a collection to have a value for `order` in their front matter.
+This value is ignored by `outline_tag` if `exclude_from_outline` has a truthy value.
+
 The following examples are taken from [`demo/index.html`](demo/index.html).
 
 Sort by `order` field:

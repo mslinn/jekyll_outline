@@ -187,7 +187,7 @@ module JekyllSupport
         .collections[@collection_name]
         .docs
         .reject { |doc| doc.data['exclude_from_outline'] }
-        .find { |doc| doc.path.match(/#{doc_name}(.\w*)?$/) }
+        .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
     end
 
     # Ignores files whose name starts with `index`, and those with the following in their front matter:
@@ -197,7 +197,7 @@ module JekyllSupport
       @site
         .collections[collection_name]
         .docs
-        .reject { |doc| doc.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
+        .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
     end
 
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
