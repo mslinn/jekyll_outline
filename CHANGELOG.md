@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.2.6 / 2025-01-03
+
+* Added `exclude_from_outline` optional front matter YAML element.
+* Ignores all files named `index`, regardless of file type.
+
+
 ## 1.2.5 / 2024-08-20
 
 * Added configurable error handling

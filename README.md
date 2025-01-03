@@ -5,7 +5,15 @@
 
 ## Usage
 
-These examples are taken from [`demo/index.html`](demo/index.html).
+All files in a collection are included in the outline,
+except for those whose name starts with `index`,
+and those with the following in their front matter:
+
+```yaml
+exclude_from_outline: true
+```
+
+The following examples are taken from [`demo/index.html`](demo/index.html).
 
 Sort by `order` field:
 

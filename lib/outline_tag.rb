@@ -186,16 +186,18 @@ module JekyllSupport
       @site
         .collections[@collection_name]
         .docs
-        .find { |doc| doc.path.end_with? "#{doc_name}.html" }
+        .reject { |doc| doc.data['exclude_from_outline'] }
+        .find { |doc| doc.path.match(/#{doc_name}(.\w*)?$/) }
     end
 
-    # Ignores files called index.html
+    # Ignores files whose name starts with `index`, and those with the following in their front matter:
+    # exclude_from_outline: true
     def obtain_docs(collection_name)
       abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @collection_name
       @site
         .collections[collection_name]
         .docs
-        .reject { |doc| doc.path.end_with? 'index.html' }
+        .reject { |doc| doc.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
     end
 
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
