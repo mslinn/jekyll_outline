@@ -2,6 +2,149 @@
 
 `jekyll_outline` Jekyll tag plugin that creates a clickable table of contents.
 
+You can see it in action in most of the index pages of [`mslinn.com`](https://mslinn.com).
+Following is the source for two of them:
+
+## [Django / Oscar](https://mslinn.com/django/index.html)
+
+This is the simplest possible outline, without images.
+
+```text
+{% outline attribution django %}
+0: Django / Oscar Evaluation
+400: Notes
+800: Digging Deeper
+1900: Debugging
+2700: Production
+```
+
+## [A/V Studio Technology](https://mslinn.com/av_studio/index.html)
+
+This outline features images associated with specific entries.
+
+```html
+{% outline attribution av_studio %}
+0: Production Infrastructure
+150: Audio
+200: Video
+300: RME TotalMix
+400: OBS Studio
+500: Pro Tools
+550: Ableton Live &amp; Push
+600: Other Music Software
+700: MIDI Hardware &amp; Software
+800: Davinci Resolve
+1000: Computer Analysis
+2000: Music Theory
+3000: Business
+4000: General
+{% endoutline %}
+
+<div style="display: none">
+  {% img
+    align="right"
+    class=""
+    id="outline_150"
+    src="/av_studio/images/everse8/everse8d.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_200"
+    src="./images/equipment/sony_a7iii/sony_a7iii.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_300"
+    src="./images/rme/rme_logo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_400"
+    src="./images/obsStudio/obs_logo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_500"
+    src="./images/proTools/proToolsLogo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_550"
+    src="./images/ableton/ableton_live_logo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class="rounded"
+    id="outline_600"
+    src="./images/music21.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_700"
+    src="./images/midi/MIDI_logo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_800"
+    src="./images/davinci_resolve/daVinci_resolve_logo.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class="rounded"
+    id="outline_2000"
+    src="./images/music_theory.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=""
+    id="outline_4000"
+    src="./images/handsfree/pageflip_firefly.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+</div>
+
+{% outline_js wrap_in_script_tag %}
+```
+
 
 ## Usage
 
@@ -18,7 +161,7 @@ This value is ignored by `outline_tag` if `exclude_from_outline` has a truthy va
 
 The following examples are taken from [`demo/index.html`](demo/index.html).
 
-Sort by `order` field:
+Sort by the `order` field:
 
 ```html
 {% outline attribution fields="<b> title </b> &ndash; <i> description </i>" stuff %}
@@ -64,7 +207,7 @@ followed by an indication of whether the document is visible (a draft) or not.
 
 Entry can also include following fields:
 `draft`, `categories`, `description`, `date`, `last_modified` or `last_modified_at`, `layout`, `order`, `title`, `slug`,
-`ext`, `tags`, and `excerpt`.
+`ext`, and `tags`.
 
 Specify the fields like this:
 
@@ -76,7 +219,7 @@ Specify the fields like this:
 {% endoutline %}
 ```
 
-Words that are not a known field are transcribed into the output.
+Words in the `fields` argument that are not recognized as a field are transcribed into the output.
 
 In the above example, notice that the HTML is space delimited from the field names.
 The parser is simple and stupid: each token is matched against the known keywords.
@@ -86,20 +229,13 @@ Tokens are separated by white space.
 ### CSS
 
 The CSS used for the demo website should be copied to your project.
-See the sections of
-[`demo/assets/css/styles.css`](/mslinn/jekyll_outline/blob/master/demo/assets/css/style.css#L252-L315) as shown:
+See [`demo/assets/css/jekyll_outline.css`](https://github.com/mslinn/jekyll_outline/blob/master/demo/assets/css/jekyll_outline.css).
 
-```css
-/* Start of jekyll_plugin_support css */
-... copy this portion ...
-/* End of jekyll_plugin_support css */
-
-/* Start of jekyll_outline css */
-  ... copy this portion ...
-/* End of jekyll_outline css */
-```
 
 ### JavaScript
+
+Copy [`jekyll_outline.js`](https://github.com/mslinn/jekyll_outline/blob/master/demo/assets/js/jekyll_outline.js)
+to your Jekyll website's JavaScript directory.
 
 This project's `outline_js` tag returns the Javascript necessary to position images relating to the outline.
 If used without parameters it just returns the JavaScript.
@@ -163,6 +299,8 @@ and have `id`s that correspond to outline sections.
 
 Each of following image's `id`s have an `outline_` prefix, followed by a number, which corresponds to one of the sections.
 Note that leading zeros in the first column above are not present in the `id`s below.
+
+Headings that do not have corresponding pages are not displayed.
 
 If you want to provide images to embed at appropriate locations within the outline,
 wrap them within an invisible `div` so the web page does not jump around as the images are loaded.
