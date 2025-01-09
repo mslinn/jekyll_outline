@@ -2,10 +2,35 @@
 
 `jekyll_outline` Jekyll tag plugin that creates a clickable table of contents.
 
-You can see it in action in most of the index pages of [`mslinn.com`](https://mslinn.com).
+
+## Order
+
+This plugin requires every page in a collection to have an entry for
+<code>order</code> in its front matter.
+The value of <code>order</code> must be an integer.
+This entry is normally used for sorting the pages.
+
+The front matter for [this page](https://mslinn.com/jekyll_plugins/jekyll_outline.html) is:
+
+```yaml
+---
+categories: [Jekyll]
+date: 2020-10-03
+description: "Organizes the index of a collection into chapters."
+last_modified_at: 2025-01-09
+layout: jekyll
+order: 100
+title: <span class="code">jekyll_outline</span>
+---
+```
+
+
+## Examples
+
+You can see this plugin in action in most of the index pages of [`mslinn.com`](https://mslinn.com).
 Following is the source for two of them:
 
-## [Django / Oscar](https://mslinn.com/django/index.html)
+### [Django / Oscar](https://mslinn.com/django/index.html)
 
 This is the simplest possible outline, without images.
 
@@ -18,7 +43,7 @@ This is the simplest possible outline, without images.
 2700: Production
 ```
 
-## [A/V Studio Technology](https://mslinn.com/av_studio/index.html)
+### [A/V Studio Technology](https://mslinn.com/av_studio/index.html)
 
 This outline features images associated with specific entries.
 
