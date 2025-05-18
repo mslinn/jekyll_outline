@@ -35,6 +35,7 @@ require_relative 'jekyll_outline/version'
 
 module JekyllSupport
   PLUGIN_NAME = 'outline'.freeze
+
   OutlineError = JekyllSupport.define_error
 
   # Interleaves with docs
@@ -57,6 +58,7 @@ module JekyllSupport
     include JekyllOutlineVersion
 
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
+    KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
     def render_impl(text)
       headers = make_headers(super) # Process the block content.
@@ -85,9 +87,11 @@ module JekyllSupport
     # Overload this for a subclass
     def render_outline(collection)
       <<~HEREDOC
+        <!-- start outer posts -->
         <div class="outer_posts">
         #{make_entries collection}
         </div>
+        <!-- end outer posts -->
         #{@helper.attribute if @helper.attribution}
       HEREDOC
     end
@@ -134,23 +138,23 @@ module JekyllSupport
       result = pruned.map do |entry|
         handle entry
       end
-      result << "    </div>\n  </div>" if @section_state == :in_body # Modify this for TOC
+      result << "    </div>\n  </div>\n<!-- end 2 body section 1 -->" if @section_state == :in_body # Modify this for TOC
       result&.join("\n")
     end
-
-    KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
     def handle(entry)
       if entry.instance_of? Header
         @header_order = entry.order
-        section_end = "  </div>\n" if @section_state == :in_body
+        section_end = "  </div>\n<!-- end body section 2 -->\n" if @section_state == :in_body
         @section_state = :head
         entry = section_end + entry.to_s if section_end
         entry
       else
         if @section_state == :head
           section_start = <<~ENDTEXT # Modify this for TOC
+            <!-- start head section -->
             <div id="posts_wrapper_#{@header_order}" class='clearfix'>
+              <!-- start posts -->
               <div id="posts_#{@header_order}" class='posts'>
           ENDTEXT
         end
