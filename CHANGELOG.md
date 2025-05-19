@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.0.0 / 2025-06-16
+
+* Reimpleted to build a directed graph, and then call to_s instead of crazy nesting tracking.
+* Fixed missing </div>.
+
+
 ## 1.2.6 / 2025-01-03
 
 * Added `exclude_from_outline` optional front matter YAML element.
