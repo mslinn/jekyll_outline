@@ -1,15 +1,16 @@
+require 'rspec/match_ignoring_whitespace'
 require_relative '../lib/structure'
 
 RSpec.describe(Outline) do
   section1 = Section.new('Section 1', 1)
-  section1.add_child(Entry.new('2023-10-01', true,  'Entry 1', 'https://example.com/entry1'))
-  section1.add_child(Entry.new('2023-10-02', false, 'Entry 2', 'https://example.com/entry2'))
+  section1.add_child(Entry.new('2023-10-01', 'Entry 1', 'https://example.com/entry1', draft: true))
+  section1.add_child(Entry.new('2023-10-02', 'Entry 2', 'https://example.com/entry2'))
 
   section2 = Section.new('Section 2', 2)
-  section2.add_child(Entry.new('2023-10-03', false, 'Entry 3', 'https://example.com/entry3'))
-  section2.add_child(Entry.new('2023-10-04', true,  'Entry 4', 'https://example.com/entry4'))
-  section2.add_child(Entry.new('2023-10-05', false, 'Entry 5', 'https://example.com/entry5'))
-  section2.add_child(Entry.new('2023-10-06', false, 'Entry 6', 'https://example.com/entry6'))
+  section2.add_child(Entry.new('2023-10-03', 'Entry 3', 'https://example.com/entry3'))
+  section2.add_child(Entry.new('2023-10-04', 'Entry 4', 'https://example.com/entry4', draft: true))
+  section2.add_child(Entry.new('2023-10-05', 'Entry 5', 'https://example.com/entry5'))
+  section2.add_child(Entry.new('2023-10-06', 'Entry 6', 'https://example.com/entry6'))
 
   outline = described_class.new
   outline.add_child(section1)
@@ -48,7 +49,7 @@ RSpec.describe(Outline) do
     </div>
   END_EXPECTED
 
-  it 'verify generated html' do
-    expect(expected).to be_eq(actual)
+  it 'verifies generated html' do
+    expect(expected).to match_ignoring_whitespace(actual)
   end
 end

@@ -3,8 +3,10 @@ class OutlineError < StandardError; end
 class Outline
   attr_accessor :children
 
-  def initialize
+  def initialize(attribute: '', attribution: false)
     @children = []
+    @attribute = attribute
+    @attribution = attribution
   end
 
   def add_child(child)
@@ -13,10 +15,10 @@ class Outline
 
   def to_s
     result = []
-    result += "<div class='outer_posts'>"
-    result += '  ' + @children.map(&:to_s)
-    result += '</div>'
-    result += @helper.attribute.to_s if @helper.attribution
+    result << "<div class='outer_posts'>"
+    result << (@children.map { |x| '  ' + x.to_s })
+    result << '</div>'
+    result << @attribute if @attribution
     result.join "\n"
   end
 end
@@ -36,12 +38,12 @@ class Section
 
   def to_s
     <<~END_SECTION
-      <h3 class='post_title clear' id="title_#{@order}">@title</h3>
-      <div id='posts_wrapper_#{@order}' class='clearfix'>
-        <div id="posts_#{@order}" class='posts'>
-          #{@children.map(&:to_s).join("\n")}
+      <h3 class='post_title clear' id="title_#{@order}">#{@title}</h3>
+        <div id='posts_wrapper_#{@order}' class='clearfix'>
+          <div id="posts_#{@order}" class='posts'>
+            #{@children.map(&:to_s).join("\n      ")}
+          </div>
         </div>
-      </div>
     END_SECTION
   end
 end
@@ -49,9 +51,9 @@ end
 class Entry
   attr_accessor :date, :draft, :title, :url
 
-  def initialize(date, draft, title, url)
+  def initialize(date, title, url, draft: nil)
     @date = date
-    @draft = draft
+    @draft = "<i class='jekyll_draft'>Draft</i>" if draft
     @title = title
     @url = url
   end
@@ -59,9 +61,7 @@ class Entry
   def to_s
     <<~END_ENTRY
       <span>#{@date}</span>
-      <span>
-      	<a href='#{@url}'>#{@title}</a>#{@draft}
-      </span>
+            <span><a href='#{@url}'>#{@title}</a>#{@draft}</span>
     END_ENTRY
   end
 end
