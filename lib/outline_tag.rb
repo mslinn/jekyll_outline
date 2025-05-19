@@ -74,8 +74,7 @@ module JekyllSupport
       raise OutlineError, 'collection_name was not specified' unless @collection_name
 
       @docs = obtain_docs(@collection_name)
-      collection = headers + @docs
-      render_outline collection
+      render_outline headers, @docs
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }
       binding.pry if @pry_on_outline_error # rubocop:disable Lint/Debugger
@@ -84,16 +83,11 @@ module JekyllSupport
       e.html_message
     end
 
-    def render_outline(collection)
-      <<~HEREDOC
-          <div class="outer_posts">
-          #{make_entries collection}
-          </div>
-        #{@helper.attribute if @helper.attribution}
-      HEREDOC
+    def render_outline(collection, headers, docs)
+      outline = Outline.new
+      make_outline collection, outline
+      outline.to_s
     end
-
-    def open_head; end
 
     private
 
@@ -123,46 +117,30 @@ module JekyllSupport
     # @section_state can have values: :head, :in_body
     # @param collection Array of Jekyll::Document and JekyllSupport::Header
     # @return muliline String
-    def make_entries(collection)
+    def make_outline(collection, outline)
       sorted = if @sort_by == 'order'
                  collection.sort_by(&obtain_order)
                else
                  collection.sort_by(&obtain_field)
                end
       pruned = remove_empty_headers sorted
-      @section_state = :head
-      @section_id = 0
-      result = pruned.map do |entry|
-        handle entry
+      pruned.map do |entry|
+        if entry.instance_of? Header
+          @section = Section.new entry.order, entry.title
+          outline.add_child @section
+        else
+          date = entry.data['last_modified_at'] # "%Y-%m-%d"
+          draft = Jekyll::Draft.draft_html entry
+          @section.add_child Entry.new(date, entry.title, entry.url, draft)
+        end
       end
-      result << "    </div>\n  </div>\n<!-- end 2 body section 1 -->" if @section_state == :in_body # Modify this for TOC
-      result&.join("\n")
     end
 
     def handle(entry)
-      if entry.instance_of? Header
-        @header_order = entry.order
-        section_end = "  </div>\n<!-- end body section 2 -->\n" if @section_state == :in_body
-        @section_state = :head
-        entry = section_end + entry.to_s if section_end
-        entry
-      else
-        if @section_state == :head
-          section_start = <<~ENDTEXT # Modify this for TOC
-            <!-- start head section -->
-            <div id="posts_wrapper_#{@header_order}" class='clearfix'>
-              <!-- start posts -->
-              <div id="posts_#{@header_order}" class='posts'>
-          ENDTEXT
-        end
-        @section_state = :in_body
-        date = entry.data['last_modified_at'] # "%Y-%m-%d"
-        draft = Jekyll::Draft.draft_html(entry)
-        visible_line = handle_entry entry
-        result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>"
-        result = section_start + result if section_start
-        result
-      end
+      visible_line = handle_entry entry
+      result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>"
+      result = section_start + result if section_start
+      result
     end
 
     def handle_entry(entry)
