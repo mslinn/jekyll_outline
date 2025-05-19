@@ -1,7 +1,7 @@
 class OutlineError < StandardError; end
 
 class Outline
-  attr_accessor :name, :children
+  attr_accessor :children
 
   def initialize
     @children = []
@@ -12,26 +12,22 @@ class Outline
   end
 
   def to_s
-    result = "<div class='outer_posts'>\n"
-    @children.each do |child|
-      result += child.to_s
-    end
-    result += <<~END_END
-      </div>
-      #{@helper.attribute if @helper.attribution}
-    END_END
+    result = []
+    result += "<div class='outer_posts'>"
+    result += '  ' + @children.map(&:to_s)
+    result += '</div>'
+    result += @helper.attribute.to_s if @helper.attribution
     result.join "\n"
   end
 end
 
 class Section
-  attr_accessor :children, :title, :order, :url
+  attr_accessor :children, :title, :order
 
-  def initialize(title, order, url)
+  def initialize(title, order)
     @children = []
     @title = title
     @order = order
-    @url = url
   end
 
   def add_child(child)
@@ -39,35 +35,33 @@ class Section
   end
 
   def to_s
-    <<~END_END
-      <div id='posts_wrapper_#{@header_order}' class='clearfix'>
-      <div id="posts_#{@header_order}" class='posts'>
-        #{@children}
+    <<~END_SECTION
+      <h3 class='post_title clear' id="title_#{@order}">@title</h3>
+      <div id='posts_wrapper_#{@order}' class='clearfix'>
+        <div id="posts_#{@order}" class='posts'>
+          #{@children.map(&:to_s).join("\n")}
+        </div>
       </div>
-    END_END
+    END_SECTION
   end
 end
 
 class Entry
-  attr_accessor :date, :draft, :last_modified_at, :order, :title, :url
+  attr_accessor :date, :draft, :title, :url
 
-  def initialize(title, order, url)
+  def initialize(date, draft, title, url)
+    @date = date
+    @draft = draft
     @title = title
-    @order = order
     @url = url
   end
 
   def to_s
-    <<~END_END
-      <div class='entry'>
-        <h2><a href='#{@url}'>#{@title}</a></h2>
-      </div>
-    END_END
+    <<~END_ENTRY
+      <span>#{@date}</span>
+      <span>
+      	<a href='#{@url}'>#{@title}</a>#{@draft}
+      </span>
+    END_ENTRY
   end
 end
-
-# Example usage:
-outline = Outline.new
-outline.add_child(Header.new('Title 1', 1, 'url1'))
-outline.add_child(Header.new('Title 2', 2, 'url2'))
-puts outline

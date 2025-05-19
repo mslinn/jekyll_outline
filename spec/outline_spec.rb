@@ -1,10 +1,54 @@
-require 'jekyll'
-require_relative '../lib/jekyll_outline'
+require_relative '../lib/structure'
 
-RSpec.describe(OutlineTag) do
-  include Jekyll
+RSpec.describe(Outline) do
+  section1 = Section.new('Section 1', 1)
+  section1.add_child(Entry.new('2023-10-01', true,  'Entry 1', 'https://example.com/entry1'))
+  section1.add_child(Entry.new('2023-10-02', false, 'Entry 2', 'https://example.com/entry2'))
 
-  it 'never works first time', skip: 'Just a placeholder' do
-    expect(true).to be_truthy
+  section2 = Section.new('Section 2', 2)
+  section2.add_child(Entry.new('2023-10-03', false, 'Entry 3', 'https://example.com/entry3'))
+  section2.add_child(Entry.new('2023-10-04', true,  'Entry 4', 'https://example.com/entry4'))
+  section2.add_child(Entry.new('2023-10-05', false, 'Entry 5', 'https://example.com/entry5'))
+  section2.add_child(Entry.new('2023-10-06', false, 'Entry 6', 'https://example.com/entry6'))
+
+  outline = described_class.new
+  outline.add_child(section1)
+  outline.add_child(section2)
+
+  actual = outline.to_s
+
+  expected = <<~END_EXPECTED
+    <div class='outer_posts'>
+      <h3 class='post_title clear' id="title_1">Section 1</h3>
+      <div id='posts_wrapper_1' class='clearfix'>
+        <div id="posts_1" class='posts'>
+          <span>2023-10-01</span>
+          <span><a href='https://example.com/entry1'>Entry 1</a><i class='jekyll_draft'>Draft</i></span>
+
+          <span>2023-10-02</span>
+          <span><a href='https://example.com/entry2'>Entry 2</a></span>
+        </div>
+      </div>
+      <h3 class='post_title clear' id="title_2">Section 2</h3>
+      <div id='posts_wrapper_2' class='clearfix'>
+        <div id="posts_2" class='posts'>
+          <span>2023-10-03</span>
+          <span><a href='https://example.com/entry3'>Entry 3</a></span>
+
+          <span>2023-10-04</span>
+          <span><a href='https://example.com/entry4'>Entry 4</a></span>
+
+          <span>2023-10-05</span>
+          <span><a href='https://example.com/entry5'>Entry 5</a><i class='jekyll_draft'>Draft</i></span>
+
+          <span>2023-10-06</span>
+          <span><a href='https://example.com/entry6'>Entry 6</a></span>
+        </div>
+      </div>
+    </div>
+  END_EXPECTED
+
+  it 'verify generated html' do
+    expect(expected).to be_eq(actual)
   end
 end

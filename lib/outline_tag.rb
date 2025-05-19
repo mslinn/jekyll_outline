@@ -84,14 +84,11 @@ module JekyllSupport
       e.html_message
     end
 
-    # Overload this for a subclass
     def render_outline(collection)
       <<~HEREDOC
-        <!-- start outer posts -->
-        <div class="outer_posts">
-        #{make_entries collection}
-        </div>
-        <!-- end outer posts -->
+          <div class="outer_posts">
+          #{make_entries collection}
+          </div>
         #{@helper.attribute if @helper.attribution}
       HEREDOC
     end
@@ -125,7 +122,7 @@ module JekyllSupport
 
     # @section_state can have values: :head, :in_body
     # @param collection Array of Jekyll::Document and JekyllSupport::Header
-    # @return Array of String
+    # @return muliline String
     def make_entries(collection)
       sorted = if @sort_by == 'order'
                  collection.sort_by(&obtain_order)
@@ -162,7 +159,7 @@ module JekyllSupport
         date = entry.data['last_modified_at'] # "%Y-%m-%d"
         draft = Jekyll::Draft.draft_html(entry)
         visible_line = handle_entry entry
-        result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>" # Modify this for TOC
+        result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>"
         result = section_start + result if section_start
         result
       end
