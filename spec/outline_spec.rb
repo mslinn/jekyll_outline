@@ -37,10 +37,10 @@ RSpec.describe(Outline) do
           <span><a href='https://example.com/entry3'>Entry 3</a></span>
 
           <span>2023-10-04</span>
-          <span><a href='https://example.com/entry4'>Entry 4</a></span>
+          <span><a href='https://example.com/entry4'>Entry 4</a><i class='jekyll_draft'>Draft</i></span>
 
           <span>2023-10-05</span>
-          <span><a href='https://example.com/entry5'>Entry 5</a><i class='jekyll_draft'>Draft</i></span>
+          <span><a href='https://example.com/entry5'>Entry 5</a></span>
 
           <span>2023-10-06</span>
           <span><a href='https://example.com/entry6'>Entry 6</a></span>
