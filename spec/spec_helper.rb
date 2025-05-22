@@ -1,5 +1,5 @@
 require 'jekyll'
-require_relative '../lib/jekyll_outline'
+# require_relative '../lib/jekyll_outline'
 
 RSpec.configure do |config|
   config.filter_run_when_matching focus: true
