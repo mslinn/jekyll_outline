@@ -1,7 +1,7 @@
 require 'rspec/match_ignoring_whitespace'
 require_relative '../lib/yaml_parser'
 
-RSpec.describe(YamlParser) do
+RSpec.describe(JekyllSupport::YamlParser) do
   yaml_parser = described_class.new <<~END_DATA
     0: Production Infrastructure
     15000: Audio
@@ -23,10 +23,10 @@ RSpec.describe(YamlParser) do
     expect(yaml_parser.headers.count).to equal(14)
   end
 
-  it 'The first section heading looks ok' do
-    first_heading = yaml_parser.headers.first
-    # expect(first_heading.).to equal(14)
-  end
+  # it 'The first section heading looks ok' do
+  #   first_heading = yaml_parser.headers.first
+  #   # expect(first_heading.).to equal(14)
+  # end
 
   it 'parses yaml' do
     expected = ''
