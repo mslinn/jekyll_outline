@@ -2,7 +2,8 @@ class OutlineError < StandardError; end
 
 module JekyllSupport
   class Outline
-    attr_accessor :children, :order, :title
+    attr_accessor :children, :fields
+    attr_reader :order, :title
 
     def initialize(yaml, attribution: '', enable_attribution: false)
       @attribution = attribution
