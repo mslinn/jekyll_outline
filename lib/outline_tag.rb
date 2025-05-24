@@ -27,19 +27,21 @@ module JekyllSupport
       @collection_name = @helper.remaining_markup
       raise OutlineError, 'collection_name was not specified' unless @collection_name
 
-      @docs = obtain_docs(@collection_name)
-      render_outline @headers, @docs
+      outline = Outline.new(
+        attribution = @attribution,
+        collection_name = @collection_name,
+        enable_attribution = @attribution,
+        fields = @fields,
+        sort_by = @sort_by
+      )
+      outline.add_sections @yaml_parser.sections
+      outline.to_s
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }
       binding.pry if @pry_on_outline_error # rubocop:disable Lint/Debugger
       exit! 1 if @die_on_outline_error
 
       e.html_message
-    end
-
-    def render_outline(collection)
-      make_outline collection
-      outline.to_s
     end
 
     JekyllPluginHelper.register(self, PLUGIN_NAME)

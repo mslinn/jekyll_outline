@@ -1,11 +1,9 @@
-require:
+plugins:
   # - rubocop-jekyll
+  - rubocop-md
   - rubocop-performance
   - rubocop-rake
   - rubocop-rspec
-
-plugins:
-  - rubocop-md
 
 AllCops:
   Exclude:

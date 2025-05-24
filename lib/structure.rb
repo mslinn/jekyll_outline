@@ -5,6 +5,7 @@ module JekyllSupport
     attr_reader :fields, :sections
 
     def initialize(
+      collection_name,
       attribution: '',
       enable_attribution: false,
       fields: '<b> title </b> &ndash; <i> description </i>',
@@ -12,6 +13,7 @@ module JekyllSupport
     )
       @attribution = attribution
       @enable_attribution = enable_attribution
+      @collection_name = collection_name
       @fields = fields
       @sections = []
       @sort_by = sort_by
@@ -21,8 +23,15 @@ module JekyllSupport
       @sections << section
     end
 
+    def add_sections(sections)
+      @sections = sections
+    end
+
     def to_s
-      return unless @sections&.count&.positive?
+      return '' unless @sections&.count&.positive?
+
+      docs = obtain_docs @collection_name
+      make_outline docs
 
       result = []
       result << "<div class='outer_posts'>"
@@ -47,7 +56,7 @@ module JekyllSupport
     end
 
     def to_s
-      return if @children.count.zero?
+      return '' if @children.count.zero?
 
       <<~END_SECTION
         <h3 class='post_title clear' id="title_#{@order}">#{@title}</h3>
