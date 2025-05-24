@@ -2,26 +2,31 @@ class OutlineError < StandardError; end
 
 module JekyllSupport
   class Outline
-    attr_accessor :children, :fields
-    attr_reader :order, :title
+    attr_reader :fields, :sections
 
-    def initialize(yaml, attribution: '', enable_attribution: false)
+    def initialize(
+      attribution: '',
+      enable_attribution: false,
+      fields: '<b> title </b> &ndash; <i> description </i>',
+      sort_by: :order
+    )
       @attribution = attribution
-      @children = []
       @enable_attribution = enable_attribution
-      @order = yaml[0]
-      # @published = true
-      @title = yaml[1]
+      @fields = fields
+      @sections = []
+      @sort_by = sort_by
     end
 
-    def add_child(child)
-      @children << child
+    def add_section(section)
+      @sections << section
     end
 
     def to_s
+      return unless @sections&.count&.positive?
+
       result = []
       result << "<div class='outer_posts'>"
-      result << (@children.map { |x| '  ' + x.to_s })
+      result << (@sections.map { |section| "  #{section}" })
       result << '</div>'
       result << @attribution if @enable_attribution
       result.join "\n"
@@ -42,6 +47,8 @@ module JekyllSupport
     end
 
     def to_s
+      return if @children.count.zero?
+
       <<~END_SECTION
         <h3 class='post_title clear' id="title_#{@order}">#{@title}</h3>
           <div id='posts_wrapper_#{@order}' class='clearfix'>
