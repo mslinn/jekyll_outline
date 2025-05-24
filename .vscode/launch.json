@@ -41,7 +41,7 @@
         "-I",
         "${workspaceRoot}"
       ],
-      "cwd": "${workspaceRoot}/demo",
+      "cwd": "${workspaceRoot}",
       "debugPort": "0",
       "name": "RSpec - all",
       "request": "launch",
@@ -55,7 +55,7 @@
         "${workspaceRoot}",
         "${file}"
       ],
-      "cwd": "${workspaceRoot}/demo",
+      "cwd": "${workspaceRoot}",
       "debugPort": "0",
       "name": "RSpec - active spec file only",
       "request": "launch",
