@@ -3,13 +3,14 @@ module JekyllSupport
     # @section_state can have values: :head, :in_body
     # @param collection Array of Jekyll::Document and JekyllSupport::Header
     # @return muliline String
-    def make_outline(collection, outline)
+    def make_outline(collection)
       sorted = if @sort_by == 'order'
                  collection.sort_by(&obtain_order)
                else
                  collection.sort_by(&obtain_field)
                end
       pruned = remove_empty_headers sorted
+      outline = Outline.new
       pruned.map do |entry|
         if entry.instance_of? Header
           @section = Section.new entry.order, entry.title
@@ -20,6 +21,7 @@ module JekyllSupport
           @section.add_child Entry.new(date, entry.title, entry.url, draft)
         end
       end
+      outline
     end
 
     # Find the given document

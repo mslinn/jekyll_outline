@@ -6,10 +6,14 @@ module JekyllSupport
     FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
     KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
-    attr_accessor :headers
+    attr_accessor :sections
 
-    def initialize(content)
-      @headers = parse_headers content
+    def initialize(content = '')
+      @sections = if content && !content.strip.empty?
+                    parse_sections content
+                  else
+                    []
+                  end
     end
 
     def handle(entry)
@@ -58,10 +62,10 @@ module JekyllSupport
       end
     end
 
-    def parse_headers(content)
+    def parse_sections(content)
       content = remove_leading_zeros remove_leading_spaces content
       yaml = YAML.safe_load content
-      yaml.map { |entry| Outline.new entry }
+      yaml.map { |entry| Section.new entry }
     rescue NoMethodError => e
       raise OutlineError, <<~END_MSG
         Invalid YAML within {% outline %} tag. The offending content was:
@@ -77,7 +81,7 @@ module JekyllSupport
       raise OutlineError, msg
     end
 
-    def remove_empty_headers(array)
+    def remove_empty_sections(array)
       i = 0
       while i < array.length - 1
         if header?(array[i]) && header?(array[i + 1])

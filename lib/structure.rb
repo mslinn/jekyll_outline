@@ -9,7 +9,7 @@ module JekyllSupport
       @children = []
       @enable_attribution = enable_attribution
       @order = yaml[0]
-      @published = true
+      # @published = true
       @title = yaml[1]
     end
 
@@ -30,10 +30,9 @@ module JekyllSupport
   class Section
     attr_accessor :children, :title, :order
 
-    def initialize(title, order)
+    def initialize(entry)
+      @order, @title = entry
       @children = []
-      @title = title
-      @order = order
     end
 
     def add_child(child)

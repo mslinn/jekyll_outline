@@ -38,8 +38,7 @@ module JekyllSupport
     end
 
     def render_outline(collection)
-      outline = Outline.new
-      make_outline collection, outline
+      make_outline collection
       outline.to_s
     end
 
