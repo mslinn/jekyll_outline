@@ -1,4 +1,4 @@
-require_relative 'entry'
+require_relative 'apage'
 require_relative 'section'
 
 module JekyllSupport
@@ -45,22 +45,22 @@ module JekyllSupport
     end
 
     # TODO: figure out how to use this
-    def handle(entry)
-      visible_line = handle_entry entry
-      result = "    <span>#{date}</span> <span><a href='#{entry.url}'>#{visible_line.strip}</a>#{draft}</span>"
+    def handle(apage)
+      visible_line = handle_entry apage
+      result = "    <span>#{date}</span> <span><a href='#{apage.url}'>#{visible_line.strip}</a>#{draft}</span>"
       result = section_start + result if section_start
       result
     end
 
     # TODO: figure out how to use this
-    def handle_entry(entry)
+    def handle_entry(apage)
       result = ''
       @fields.each do |field|
         if KNOWN_FIELDS.include? field
-          if entry.data.key? field
-            result += "#{entry.data[field]} "
+          if apage.data.key? field
+            result += "#{apage.data[field]} "
           else
-            @logger.warn { "#{field} is a known field, but it was not present in entry #{entry}" }
+            @logger.warn { "#{field} is a known field, but it was not present in apage #{apage}" }
           end
         else
           result += "#{field} "
@@ -70,10 +70,10 @@ module JekyllSupport
     end
 
     def make_entries(docs)
-      docs.map do |entry|
-        date = entry.data['last_modified_at'] # "%Y-%m-%d"
-        draft = Jekyll::Draft.draft_html entry
-        Entry.new(date, entry.title, entry.url, draft)
+      docs.map do |apage|
+        date = apage.data['last_modified_at'] # "%Y-%m-%d"
+        draft = Jekyll::Draft.draft_html apage
+        Entry.new(date, apage.title, apage.url, draft)
       end
     end
 
@@ -104,11 +104,11 @@ module JekyllSupport
 
     private
 
-    def add_entry(entry)
+    def add_entry(apage)
       raise ::OutlineError, 'add_entry called without first calling add_sections' unless @add_sections_called
 
-      section = find_section_for entry
-      section.add_child entry
+      section = find_section_for apage
+      section.add_child apage
     end
 
     def add_section(section)
@@ -117,17 +117,19 @@ module JekyllSupport
       @sections << section
     end
 
-    def find_section_for(entry)
+    # Only called when entries are organized into multiple sections
+    # @param apage must have a property called `order`
+    def find_section_for(apage)
       return @sections.first if @sections.count == 1
 
       last = @sections.length - 1
       each 0..last do |i|
         return @sections.last if i == last
 
-        entry_order = entry.order
+        entry_order = apage.order
         return @sections[i] if @sections[i].order >= entry_order && @sections[i + 1].order < entry_order
       end
-      raise OutlineError, "No Section found for Entry #{entry}"
+      raise OutlineError, "No Section found for Entry #{apage}"
     end
 
     # Find the given document
@@ -140,8 +142,9 @@ module JekyllSupport
     #     .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
     # end
 
-    # Ignores files whose name starts with `index`, and those with the following in their front matter:
-    # exclude_from_outline: true
+    # Ignores files whose name starts with `index`,
+    # and those with the following in their front matter:
+    #   exclude_from_outline: true
     def obtain_docs
       abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
       @site
@@ -153,13 +156,8 @@ module JekyllSupport
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
     def obtain_field
       sort_by = @options.sort_by.to_s
-      proc do |entry|
-        if entry.respond_to? :data # page
-          entry.data.key?(sort_by) ? entry.data[sort_by] || 'zzz' : 'zzz'
-        else # heading
-          entry.respond_to?(sort_by) ? entry.send(sort_by) || 'zzz' : 'zzz'
-        end
-      end
+      default_value = 'zzz'
+      apage.data.key?(sort_by) ? apage.data[sort_by] || default_value : default_value
     end
   end
 end
