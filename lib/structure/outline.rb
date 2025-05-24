@@ -2,26 +2,36 @@ require_relative 'entry'
 require_relative 'section'
 
 module JekyllSupport
-  class Outline
-    attr_reader :fields, :sections
+  class Options
+    attr_accessor :attribution, :enable_attribution, :collection_name, :fields, :sort_by
 
-    # if @sort_by == 'order' then group entries
-    # else group all entries into one group
-    # then sort within group(s)
     def initialize(
-      collection_name,
+      collection_name: '_posts',
       attribution: '',
       enable_attribution: false,
       fields: '<b> title </b> &ndash; <i> description </i>',
       sort_by: :order
     )
-      @add_sections_called = false
       @attribution = attribution
       @enable_attribution = enable_attribution
       @collection_name = collection_name
       @fields = fields
-      @sections = @sort_by == :order ? [] : [Section.new([0, ''])]
       @sort_by = sort_by
+    end
+  end
+
+  class Outline
+    attr_reader :fields, :sections
+
+    # Sort all entries first so they are iteratable according to the desired order.
+    # This presorts the entries for each section.
+    #
+    # If @sort_by == 'order' then place them into the appropriate section.
+    # Otherwise place all entries into one section.
+    def initialize(options: Options.new)
+      @add_sections_called = false
+      @options = options
+      @sections = @options.sort_by == :order ? [] : [Section.new([0, ''])]
     end
 
     def add_entries
@@ -30,7 +40,7 @@ module JekyllSupport
     end
 
     def add_sections(sections)
-      sections.each { |x| add_section x }
+      sections.each(&:add_section)
       @add_sections_called = true
     end
 
@@ -71,7 +81,7 @@ module JekyllSupport
     # @param collection Array of Jekyll::Document and JekyllSupport::Header
     # @return muliline String
     def sort(docs)
-      if @sort_by == :order
+      if @options.sort_by == :order
         docs.sort_by(&obtain_order)
       else
         docs.sort_by(&obtain_field)
@@ -81,14 +91,14 @@ module JekyllSupport
     def to_s
       return '' unless @sections&.count&.positive?
 
-      docs = obtain_docs @collection_name
+      docs = obtain_docs @options.collection_name
       make_outline docs
 
       result = []
       result << "<div class='outer_posts'>"
       result << (@sections.map { |section| "  #{section}" })
       result << '</div>'
-      result << @attribution if @enable_attribution
+      result << @options.attribution if @options.enable_attribution
       result.join "\n"
     end
 
@@ -102,7 +112,7 @@ module JekyllSupport
     end
 
     def add_section(section)
-      return unless @sort_by == :order
+      return unless @options.sort_by == :order
 
       @sections << section
     end
@@ -122,9 +132,9 @@ module JekyllSupport
 
     # Find the given document
     # def obtain_doc(doc_name)
-    #   abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @collection_name
+    #   abort "#{@options.collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
     #   @site
-    #     .collections[@collection_name]
+    #     .collections[@options.collection_name]
     #     .docs
     #     .reject { |doc| doc.data['exclude_from_outline'] }
     #     .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
@@ -133,7 +143,7 @@ module JekyllSupport
     # Ignores files whose name starts with `index`, and those with the following in their front matter:
     # exclude_from_outline: true
     def obtain_docs
-      abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @collection_name
+      abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
       @site
         .collections[@collection_name]
         .docs
@@ -142,7 +152,7 @@ module JekyllSupport
 
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
     def obtain_field
-      sort_by = @sort_by.to_s
+      sort_by = @options.sort_by.to_s
       proc do |entry|
         if entry.respond_to? :data # page
           entry.data.key?(sort_by) ? entry.data[sort_by] || 'zzz' : 'zzz'

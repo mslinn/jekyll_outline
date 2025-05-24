@@ -14,10 +14,11 @@ module JekyllSupport
                   end
     end
 
+    # @return Array of Sections that do not contain children
     def parse_sections(content)
       content = remove_leading_zeros remove_leading_spaces content
       yaml = YAML.safe_load content
-      yaml.map { |entry| Section.new entry }
+      yaml.map(&:Section.new)
     rescue NoMethodError => e
       raise OutlineError, <<~END_MSG
         Invalid YAML within {% outline %} tag. The offending content was:
@@ -32,6 +33,8 @@ module JekyllSupport
       @logger.error { e.message }
       raise OutlineError, msg
     end
+
+    private
 
     def remove_leading_spaces(multiline)
       multiline
