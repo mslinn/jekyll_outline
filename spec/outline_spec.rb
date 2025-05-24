@@ -3,11 +3,11 @@ require_relative '../lib/jekyll_outline'
 require_relative '../lib/structure'
 
 RSpec.describe(Outline) do
-  section1 = Section.new('Section 1', 1)
+  section1 = Section.new([1, 'Section 1'])
   section1.add_child(Entry.new('2023-10-01', 'Entry 1', 'https://example.com/entry1', draft: true))
   section1.add_child(Entry.new('2023-10-02', 'Entry 2', 'https://example.com/entry2'))
 
-  section2 = Section.new('Section 2', 2)
+  section2 = Section.new([2, 'Section 2'])
   section2.add_child(Entry.new('2023-10-03', 'Entry 3', 'https://example.com/entry3'))
   section2.add_child(Entry.new('2023-10-04', 'Entry 4', 'https://example.com/entry4', draft: true))
   section2.add_child(Entry.new('2023-10-05', 'Entry 5', 'https://example.com/entry5'))

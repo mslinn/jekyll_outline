@@ -31,7 +31,8 @@ module JekyllSupport
     attr_accessor :children, :title, :order
 
     def initialize(entry)
-      @order, @title = entry
+      @order = entry.first.to_i
+      @title = entry[1]
       @children = []
     end
 

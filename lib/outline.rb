@@ -13,7 +13,7 @@ module JekyllSupport
       outline = Outline.new
       pruned.map do |entry|
         if entry.instance_of? Header
-          @section = Section.new entry.order, entry.title
+          @section = Section.new [entry.order, entry.title]
           outline.add_child @section
         else
           date = entry.data['last_modified_at'] # "%Y-%m-%d"
