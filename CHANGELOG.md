@@ -1,8 +1,9 @@
 # Change Log
 
-## 2.0.0 / 2025-06-16
+## 1.3.0 / 2025-04-24
 
-* Reimpleted to build a directed graph, and then call to_s instead of crazy nesting tracking.
+* Reimplemented to build a directed graph using classes, concluding with a call `to_s`
+  instead of implementing crazy nesting tracking.
 * Fixed missing </div>.
 
 
