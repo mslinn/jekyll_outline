@@ -37,8 +37,8 @@ module JekyllSupport
     end
 
     def add_entries
-      entries = make_entries sort obtain_docs
-      entries.each(&:add_entry)
+      entries = make_entries sort collection_apages
+      entries.each(&:add_apage)
     end
 
     def add_sections(sections)
@@ -93,7 +93,7 @@ module JekyllSupport
     def to_s
       return '' unless @sections&.count&.positive?
 
-      docs = obtain_docs @options.collection_name
+      docs = collection_apages @options.collection_name
       make_outline docs
 
       result = []
@@ -106,10 +106,10 @@ module JekyllSupport
 
     private
 
-    def add_entry(apage)
-      raise ::OutlineError, 'add_entry called without first calling add_sections' unless @add_sections_called
+    def add_apage(apage)
+      raise ::OutlineError, 'add_apage called without first calling add_sections' unless @add_sections_called
 
-      section = find_section_for apage
+      section = section_for apage
       section.add_child apage
     end
 
@@ -119,19 +119,17 @@ module JekyllSupport
       @sections << section
     end
 
-    # Only called when entries are organized into multiple sections
-    # @param apage must have a property called `order`
-    def find_section_for(apage)
-      return @sections.first if @sections.count == 1
-
-      last = @sections.length - 1
-      each 0..last do |i|
-        return @sections.last if i == last
-
-        entry_order = apage.order
-        return @sections[i] if @sections[i].order >= entry_order && @sections[i + 1].order < entry_order
-      end
-      raise OutlineError, "No Section found for Entry #{apage}"
+    # Returns an APage for each document in the collection with the given named.
+    # Ignores files whose name starts with `index`,
+    # and those with the following in their front matter:
+    #   exclude_from_outline: true
+    def collection_apages
+      abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
+      @site
+        .collections[@collection_name]
+        .docs
+        .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
+        .map(&:AllCollectionsHooks.APage.new)
     end
 
     # Find the given document
@@ -144,22 +142,26 @@ module JekyllSupport
     #     .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
     # end
 
-    # Ignores files whose name starts with `index`,
-    # and those with the following in their front matter:
-    #   exclude_from_outline: true
-    def obtain_docs
-      abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
-      @site
-        .collections[@collection_name]
-        .docs
-        .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
-    end
-
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
     def obtain_field
       sort_by = @options.sort_by.to_s
       default_value = 'zzz'
       apage.data.key?(sort_by) ? apage.data[sort_by] || default_value : default_value
+    end
+
+    # Only called when entries are organized into multiple sections
+    # @param apage must have a property called `order`
+    def section_for(apage)
+      return @sections.first if @sections.count == 1
+
+      last = @sections.length - 1
+      each 0..last do |i|
+        return @sections.last if i == last
+
+        order = apage.order
+        return @sections[i] if @sections[i].order >= order && @sections[i + 1].order < order
+      end
+      raise OutlineError, "No Section found for APage #{apage}"
     end
   end
 end
