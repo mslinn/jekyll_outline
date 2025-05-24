@@ -2,6 +2,8 @@ require_relative 'apage'
 require_relative 'section'
 
 module JekyllSupport
+  KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
+
   class Options
     attr_accessor :attribution, :enable_attribution, :collection_name, :fields, :sort_by
 

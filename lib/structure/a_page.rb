@@ -1,8 +1,7 @@
-module JekyllSupport
+# Enriches AllCollectionsHooks.APage
+module AllCollectionsHooks
   FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
-  KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
-  # Enriches JekyllSupport.APage
   class APage
     def field(name)
       data.key?(name) ? data[name] || 'zzz' : 'zzz'
