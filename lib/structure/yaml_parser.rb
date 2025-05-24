@@ -1,5 +1,5 @@
 require 'yaml'
-require_relative 'structure'
+require_relative 'section'
 
 module JekyllSupport
   class YamlParser
