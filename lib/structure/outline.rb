@@ -1,4 +1,4 @@
-require_relative 'apage'
+require 'jekyll_plugin_support'
 require_relative 'section'
 
 module JekyllSupport

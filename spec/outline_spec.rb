@@ -1,18 +1,51 @@
 require 'rspec/match_ignoring_whitespace'
 # require_relative '../lib/jekyll_outline'
+require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 module JekyllSupport
   RSpec.describe(Outline) do
     section1 = Section.new([1, 'Section 1'])
-    section1.add_child(Entry.new(date: '2023-10-01', tile: 'Entry 1', url: 'https://example.com/entry1', order: 1, draft: true))
-    section1.add_child(Entry.new(date: '2023-10-02', tile: 'Entry 2', url: 'https://example.com/entry2', order: 2))
+    section1.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-01',
+                         draft: true,
+                         order: 1,
+                         title: 'Entry 1',
+                         url:   'https://example.com/entry1'
+                       ))
+    section1.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-02',
+                         order: 2,
+                         title: 'Entry 2',
+                         url:   'https://example.com/entry2'
+                       ))
 
     section2 = Section.new([2, 'Section 2'])
-    section2.add_child(Entry.new(date: '2023-10-03', tile: 'Entry 3', url: 'https://example.com/entry3', order: 3))
-    section2.add_child(Entry.new(date: '2023-10-04', tile: 'Entry 4', url: 'https://example.com/entry4', order: 4, draft: true))
-    section2.add_child(Entry.new(date: '2023-10-05', tile: 'Entry 5', url: 'https://example.com/entry5', order: 5))
-    section2.add_child(Entry.new(date: '2023-10-06', tile: 'Entry 6', url: 'https://example.com/entry6', order: 6))
+    section2.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-03',
+                         order: 3,
+                         title: 'Entry 3',
+                         url:   'https://example.com/entry3'
+                       ))
+    section2.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-04',
+                         draft: true,
+                         order: 4,
+                         title: 'Entry 4',
+                         url:   'https://example.com/entry4'
+                       ))
+    section2.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-05',
+                         order: 5,
+                         title: 'Entry 5',
+                         url:   'https://example.com/entry5'
+                       ))
+    section2.add_child(JekyllSupport.apage_from_fields(
+                         date:  '2023-10-06',
+                         order: 6,
+                         title: 'Entry 6',
+                         url:   'https://example.com/entry6'
+                       ))
 
     outline = described_class.new
     outline.add_section(section1)

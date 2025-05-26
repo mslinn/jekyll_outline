@@ -39,9 +39,9 @@
     {
       "args": [
         "-I",
-        "${workspaceRoot}"
+        "${workspaceRoot}/demo"
       ],
-      "cwd": "${workspaceRoot}",
+      "cwd": "${workspaceRoot}/demo",
       "debugPort": "0",
       "name": "RSpec - all",
       "request": "launch",
@@ -52,10 +52,10 @@
     {
       "args": [
         "-I",
-        "${workspaceRoot}",
+        "${workspaceRoot}/demo",
         "${file}"
       ],
-      "cwd": "${workspaceRoot}",
+      "cwd": "${workspaceRoot}/demo",
       "debugPort": "0",
       "name": "RSpec - active spec file only",
       "request": "launch",
