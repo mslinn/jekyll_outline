@@ -7,10 +7,7 @@ module AllCollectionsHooks
       data.key?(name) ? data[name] || 'zzz' : 'zzz'
     end
 
-    def order
-      data.key?('order') ? data['order'] || FIXNUM_MAX : FIXNUM_MAX
-    end
-
+    # Overrides `to_s` defined in `jekyll_plugin_support`
     def to_s
       <<~END_ENTRY
         <span>#{@date}</span>
