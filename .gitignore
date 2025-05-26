@@ -26,6 +26,7 @@ _site/
 _yardoc/
 coverage/
 demo/.jekyll-cache/
+demo/spec/status_persistence.txt
 doc/
 binstub/
 jekyll/doc/

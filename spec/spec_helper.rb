@@ -1,4 +1,5 @@
 require 'jekyll'
+require 'jekyll_plugin_logger'
 require 'jekyll_plugin_support'
 # require_relative '../lib/jekyll_outline'
 
@@ -23,8 +24,16 @@ module JekyllSupport
       },
       url:  url,
     }
-    obj.class.module_eval { attr_accessor :ext }
-    obj.ext = 'html'
+
+    obj.class.module_eval { attr_accessor :extname }
+    obj.extname = '.html'
+
+    obj.class.module_eval { attr_accessor :logger }
+    obj.logger = PluginMetaLogger.instance.new_logger(self, PluginMetaLogger.instance.config)
+
+    obj.class.module_eval { attr_accessor :url }
+    obj.url = url
+
     ::AllCollectionsHooks::APage.new obj, nil
   end
 end
