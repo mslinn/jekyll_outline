@@ -6,14 +6,14 @@ require_relative '../lib/structure/outline'
 module JekyllSupport
   RSpec.describe(Outline) do
     section1 = Section.new([1, 'Section 1'])
-    section1.add_child(JekyllSupport.apage_from_fields(
+    section1.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-01',
                          draft: true,
                          order: 1,
                          title: 'Entry 1',
                          url:   'https://example.com/entry1'
                        ))
-    section1.add_child(JekyllSupport.apage_from_fields(
+    section1.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-02',
                          order: 2,
                          title: 'Entry 2',
@@ -21,26 +21,26 @@ module JekyllSupport
                        ))
 
     section2 = Section.new([2, 'Section 2'])
-    section2.add_child(JekyllSupport.apage_from_fields(
+    section2.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-03',
                          order: 3,
                          title: 'Entry 3',
                          url:   'https://example.com/entry3'
                        ))
-    section2.add_child(JekyllSupport.apage_from_fields(
+    section2.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-04',
                          draft: true,
                          order: 4,
                          title: 'Entry 4',
                          url:   'https://example.com/entry4'
                        ))
-    section2.add_child(JekyllSupport.apage_from_fields(
+    section2.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-05',
                          order: 5,
                          title: 'Entry 5',
                          url:   'https://example.com/entry5'
                        ))
-    section2.add_child(JekyllSupport.apage_from_fields(
+    section2.add_child(JekyllSupport.apage_from(
                          date:  '2023-10-06',
                          order: 6,
                          title: 'Entry 6',

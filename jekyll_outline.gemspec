@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'jekyll', '>= 4.4.0'
   spec.add_dependency 'jekyll_draft', '>= 3.0.0'
-  spec.add_dependency 'jekyll_plugin_support', '>= 3.0.0'
+  spec.add_dependency 'jekyll_plugin_support', '>= 3.1.0'
 end
