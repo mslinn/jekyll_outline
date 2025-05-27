@@ -46,10 +46,6 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Max: 50
 
-Metrics/ParameterLists:
-  Exclude:
-    - "spec/spec_helper.rb"
-
 Metrics/PerceivedComplexity:
   Max: 25
 

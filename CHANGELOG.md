@@ -5,6 +5,7 @@
 * Reimplemented to build a directed graph using classes, concluding with a call `to_s`
   instead of implementing crazy nesting tracking.
 * Fixed missing </div>.
+* Now relies on `jekyll_plugin_support` v3.1.0.
 
 
 ## 1.2.6 / 2025-01-03
