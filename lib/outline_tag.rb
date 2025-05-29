@@ -32,6 +32,7 @@ module JekyllSupport
       raise OutlineError, 'collection_name was not specified' unless collection_name
 
       outline = Outline.new(
+        collections = @site.collections,
         attribution:        @attribution,
         collection_name:    collection_name,
         enable_attribution: @attribution,

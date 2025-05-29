@@ -41,6 +41,12 @@ module JekyllSupport
       entries.each(&:add_apage)
     end
 
+    def add_section(section)
+      return unless @options.sort_by == :order
+
+      @sections << section
+    end
+
     def add_sections(sections)
       sections.each(&:add_section)
       @add_sections_called = true
@@ -93,7 +99,7 @@ module JekyllSupport
     def to_s
       return '' unless @sections&.count&.positive?
 
-      docs = collection_apages @options.collection_name
+      docs = collection_apages
       make_outline docs
 
       result = []
@@ -113,20 +119,13 @@ module JekyllSupport
       section.add_child apage
     end
 
-    def add_section(section)
-      return unless @options.sort_by == :order
-
-      @sections << section
-    end
-
     # Returns an APage for each document in the collection with the given named.
     # Ignores files whose name starts with `index`,
     # and those with the following in their front matter:
     #   exclude_from_outline: true
-    def collection_apages
-      abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
-      @site
-        .collections[@collection_name]
+    def collection_apages # TODO: provide @site.collections for live usage, otherwise use APage collections
+      abort "#{@collection_name} is not a valid collection." unless @collections.key? @collection_name
+      @collections[@collection_name]
         .docs
         .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
         .map(&:AllCollectionsHooks.APage.new)
@@ -134,9 +133,9 @@ module JekyllSupport
 
     # Find the given document
     # def obtain_doc(doc_name)
-    #   abort "#{@options.collection_name} is not a valid collection." unless @site.collections.key? @options.collection_name
+    #   abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @collection_name
     #   @site
-    #     .collections[@options.collection_name]
+    #     .collections[@collection_name]
     #     .docs
     #     .reject { |doc| doc.data['exclude_from_outline'] }
     #     .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
