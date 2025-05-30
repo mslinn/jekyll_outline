@@ -4,52 +4,56 @@ require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 module JekyllSupport
+  extend AllCollectionsHooks::APage
+
   RSpec.describe(Outline) do
     section1 = Section.new([1, 'Section 1'])
-    section1.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-01',
-                         draft: true,
-                         order: 1,
-                         title: 'Entry 1',
-                         url:   'https://example.com/entry1'
-                       ))
-    section1.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-02',
-                         order: 2,
-                         title: 'Entry 2',
-                         url:   'https://example.com/entry2'
-                       ))
-
     section2 = Section.new([2, 'Section 2'])
-    section2.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-03',
-                         order: 3,
-                         title: 'Entry 3',
-                         url:   'https://example.com/entry3'
-                       ))
-    section2.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-04',
-                         draft: true,
-                         order: 4,
-                         title: 'Entry 4',
-                         url:   'https://example.com/entry4'
-                       ))
-    section2.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-05',
-                         order: 5,
-                         title: 'Entry 5',
-                         url:   'https://example.com/entry5'
-                       ))
-    section2.add_child(AllCollectionsHooks::APage.apage_from(
-                         date:  '2023-10-06',
-                         order: 6,
-                         title: 'Entry 6',
-                         url:   'https://example.com/entry6'
-                       ))
+
+    apages = [
+      APage.apage_from(
+        date:  '2023-10-01',
+        draft: true,
+        order: 1,
+        title: 'Entry 1',
+        url:   'https://example.com/entry1'
+      ),
+      JekyllSupport.apage_from(
+        date:  '2023-10-02',
+        order: 2,
+        title: 'Entry 2',
+        url:   'https://example.com/entry2'
+      ),
+      JekyllSupport.apage_from(
+        date:  '2023-10-03',
+        order: 3,
+        title: 'Entry 3',
+        url:   'https://example.com/entry3'
+      ),
+      JekyllSupport.apage_from(
+        date:  '2023-10-04',
+        draft: true,
+        order: 4,
+        title: 'Entry 4',
+        url:   'https://example.com/entry4'
+      ),
+      JekyllSupport.apage_from(
+        date:  '2023-10-05',
+        order: 5,
+        title: 'Entry 5',
+        url:   'https://example.com/entry5'
+      ),
+      JekyllSupport.apage_from(
+        date:  '2023-10-06',
+        order: 6,
+        title: 'Entry 6',
+        url:   'https://example.com/entry6'
+      )
+    ]
 
     outline = described_class.new
-    outline.add_section(section1)
-    outline.add_section(section2)
+    outline.add_sections [section1, section2]
+    outline.add_entries apages
 
     _attribution = <<~END_ATT
       <div id="jps_attribute_570007" class="jps_attribute">
