@@ -40,7 +40,7 @@ module JekyllSupport
         sort_by:            sort_by
       )
       outline.add_sections yaml_parser.sections
-      outline.add_entries
+      outline.add_entries collection_apages
       outline.to_s
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }

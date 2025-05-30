@@ -36,8 +36,8 @@ module JekyllSupport
       @sections = @options.sort_by == :order ? [] : [Section.new([0, ''])]
     end
 
-    def add_entries
-      entries = make_entries sort collection_apages
+    def add_entries(apages)
+      entries = make_entries sort apages
       entries.each(&:add_apage)
     end
 
@@ -124,8 +124,9 @@ module JekyllSupport
     # and those with the following in their front matter:
     #   exclude_from_outline: true
     def collection_apages # TODO: provide @site.collections for live usage, otherwise use APage collections
-      abort "#{@collection_name} is not a valid collection." unless @collections.key? @collection_name
-      @collections[@collection_name]
+      abort "#{@collection_name} is not a valid collection." unless @site.collections&.key?(@collection_name)
+      @site
+        .collections[@collection_name]
         .docs
         .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
         .map(&:AllCollectionsHooks.APage.new)
