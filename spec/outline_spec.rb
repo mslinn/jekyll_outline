@@ -1,6 +1,6 @@
 require 'rspec/match_ignoring_whitespace'
-# require_relative '../lib/jekyll_outline'
 require_relative 'spec_helper'
+# require_relative '../lib/jekyll_outline'
 require_relative '../lib/structure/outline'
 
 module JekyllSupport

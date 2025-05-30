@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rspec/match_ignoring_whitespace'
 require_relative '../lib/structure/yaml_parser'
 
