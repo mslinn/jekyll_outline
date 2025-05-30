@@ -1,5 +1,5 @@
 require 'rspec/match_ignoring_whitespace'
-require_relative '../lib/yaml_parser'
+require_relative '../lib/structure/yaml_parser'
 
 RSpec.describe(JekyllSupport::YamlParser) do
   it 'handles no section headings' do
