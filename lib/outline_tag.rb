@@ -38,7 +38,13 @@ module JekyllSupport
         sort_by:            sort_by
       )
       outline.add_sections yaml_parser.sections
-      outline.add_entries collection_apages
+
+      abort "#{@collection_name} is not a valid collection." unless @site.collections&.key?(@collection_name)
+      docs = @site
+             .collections[@collection_name]
+             .docs
+      apages = collection_apages docs
+      outline.add_entries collection_apages apages
       outline.to_s
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }

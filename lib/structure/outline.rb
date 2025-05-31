@@ -105,9 +105,6 @@ module JekyllSupport
     def to_s
       return '' unless @sections&.count&.positive?
 
-      docs = collection_apages
-      make_outline docs
-
       result = []
       result << "<div class='outer_posts'>"
       result << (@sections.map { |section| "  #{section}" })
@@ -129,11 +126,8 @@ module JekyllSupport
     # Ignores files whose name starts with `index`,
     # and those with the following in their front matter:
     #   exclude_from_outline: true
-    def collection_apages # TODO: provide @site.collections for live usage, otherwise use APage collections
-      abort "#{@collection_name} is not a valid collection." unless @site.collections&.key?(@collection_name)
-      @site
-        .collections[@collection_name]
-        .docs
+    def collection_apages(pages)
+      pages
         .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
         .map(&:AllCollectionsHooks.APage.new)
     end
