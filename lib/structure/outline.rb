@@ -37,8 +37,8 @@ module JekyllSupport
     end
 
     def add_entries(apages)
-      entries = make_entries sort apages
-      entries.each(&:add_apage)
+      apages = make_entries sort apages
+      apages.each { |x| add_apage x }
     end
 
     def add_section(section)
@@ -48,7 +48,7 @@ module JekyllSupport
     end
 
     def add_sections(sections)
-      sections.each(&:add_section)
+      sections.each { |x| add_section x }
       @add_sections_called = true
     end
 
@@ -78,10 +78,16 @@ module JekyllSupport
     end
 
     def make_entries(docs)
-      docs.map do |apage|
-        date = apage.data['last_modified_at'] # "%Y-%m-%d"
-        draft = Jekyll::Draft.draft_html apage
-        Entry.new(date, apage.title, apage.url, draft)
+      docs.map do |doc|
+        draft = Jekyll::Draft.draft_html doc
+        JekyllSupport.apage_from(
+          date:          doc.date.to_s,
+          draft:         draft,
+          last_modified: doc.last_modified.to_s,
+          order:         doc.order,
+          title:         doc.title,
+          url:           doc.url
+        )
       end
     end
 
@@ -90,9 +96,9 @@ module JekyllSupport
     # @return muliline String
     def sort(docs)
       if @options.sort_by == :order
-        docs.sort_by(&obtain_order)
+        docs.sort_by(&:order)
       else
-        docs.sort_by(&obtain_field)
+        docs.sort_by(&:obtain_field)
       end
     end
 
@@ -155,7 +161,7 @@ module JekyllSupport
       return @sections.first if @sections.count == 1
 
       last = @sections.length - 1
-      each 0..last do |i|
+      (0..last).each do |i|
         return @sections.last if i == last
 
         order = apage.order

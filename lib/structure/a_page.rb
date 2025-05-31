@@ -1,7 +1,5 @@
 # Enriches AllCollectionsHooks.APage
-module AllCollectionsHooks
-  FIXNUM_MAX = (2**((0.size * 8) - 2)) - 1
-
+module JekyllSupport
   class APage
     def field(name)
       data.key?(name) ? data[name] || 'zzz' : 'zzz'
