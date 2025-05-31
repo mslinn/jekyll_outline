@@ -1,6 +1,8 @@
 require 'yaml'
 require_relative 'section'
 
+class OutlineError < StandardError; end
+
 module JekyllSupport
   class YamlParser
     attr_reader :sections

@@ -7,8 +7,6 @@ require_relative 'jekyll_outline/version'
 require_relative 'outline'
 require_relative 'yaml_parser'
 
-class OutlineError < StandardError; end
-
 # See spec/outline_spec for an example of HTML output.
 module JekyllSupport
   PLUGIN_NAME = 'outline'.freeze
