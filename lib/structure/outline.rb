@@ -158,8 +158,10 @@ module JekyllSupport
       (0..last).each do |i|
         return @sections.last if i == last
 
-        order = apage.order
-        return @sections[i] if @sections[i].order >= order && @sections[i + 1].order < order
+        page_order = apage.order
+        this_section = @sections[i]
+        next_section = @sections[i + 1]
+        return this_section if (page_order >= this_section.order) && (page_order < next_section.order)
       end
       raise OutlineError, "No Section found for APage #{apage}"
     end

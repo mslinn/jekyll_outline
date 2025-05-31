@@ -4,8 +4,8 @@ require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 RSpec.describe(JekyllSupport) do
-  section1 = described_class::Section.new([1, 'Section 1'])
-  section2 = described_class::Section.new([2, 'Section 2'])
+  section1 = described_class::Section.new([0, 'Section 1'])
+  section2 = described_class::Section.new([3, 'Section 2'])
 
   apages = [
     described_class.apage_from(
@@ -68,29 +68,69 @@ RSpec.describe(JekyllSupport) do
     expect(outline.sections[1].children.count).to eq(4)
   end
 
+  it 'verifies html for first section' do
+    actual = outline.sections.first.to_s
+    expected = <<~END_EXPECTED
+      <h3 class='post_title clear' id="title_0">Section 1</h3>
+      <div id='posts_wrapper_0' class='clearfix'>
+        <div id="posts_0" class='posts'>
+          <span>2023-10-01</span>
+          <span><a href='https://example.com/entry1'>Entry 1</a> <i class='jekyll_draft'>Draft</i></span>
+
+          <span>2023-10-02</span>
+          <span><a href='https://example.com/entry2'>Entry 2</a></span>
+        </div>
+      </div>
+    END_EXPECTED
+    expect(expected).to match_ignoring_whitespace(actual)
+  end
+
+  it 'verifies html for second section' do
+    actual = outline.sections[1].to_s
+    expected = <<~END_EXPECTED
+      <h3 class='post_title clear' id="title_3">Section 2</h3>
+      <div id='posts_wrapper_3' class='clearfix'>
+        <div id="posts_3" class='posts'>
+          <span>2023-10-03</span>
+          <span><a href='https://example.com/entry3'>Entry 3</a></span>
+
+          <span>2023-10-04</span>
+          <span><a href='https://example.com/entry4'>Entry 4</a> <i class='jekyll_draft'>Draft</i></span>
+
+          <span>2023-10-05</span>
+          <span><a href='https://example.com/entry5'>Entry 5</a></span>
+
+          <span>2023-10-06</span>
+          <span><a href='https://example.com/entry6'>Entry 6</a></span>
+        </div>
+      </div>
+    END_EXPECTED
+    expect(expected).to match_ignoring_whitespace(actual)
+  end
+
   it 'verifies generated html' do
     actual = outline.to_s
 
     expected = <<~END_EXPECTED
       <div class='outer_posts'>
-        <h3 class='post_title clear' id="title_1">Section 1</h3>
-        <div id='posts_wrapper_1' class='clearfix'>
-          <div id="posts_1" class='posts'>
+        <h3 class='post_title clear' id="title_0">Section 1</h3>
+        <div id='posts_wrapper_0' class='clearfix'>
+          <div id="posts_0" class='posts'>
             <span>2023-10-01</span>
-            <span><a href='https://example.com/entry1'>Entry 1</a><i class='jekyll_draft'>Draft</i></span>
+            <span><a href='https://example.com/entry1'>Entry 1</a> <i class='jekyll_draft'>Draft</i></span>
 
             <span>2023-10-02</span>
             <span><a href='https://example.com/entry2'>Entry 2</a></span>
           </div>
         </div>
-        <h3 class='post_title clear' id="title_2">Section 2</h3>
-        <div id='posts_wrapper_2' class='clearfix'>
-          <div id="posts_2" class='posts'>
+        <h3 class='post_title clear' id="title_3">Section 2</h3>
+        <div id='posts_wrapper_3' class='clearfix'>
+          <div id="posts_3" class='posts'>
             <span>2023-10-03</span>
             <span><a href='https://example.com/entry3'>Entry 3</a></span>
 
             <span>2023-10-04</span>
-            <span><a href='https://example.com/entry4'>Entry 4</a><i class='jekyll_draft'>Draft</i></span>
+            <span><a href='https://example.com/entry4'>Entry 4</a> <i class='jekyll_draft'>Draft</i></span>
 
             <span>2023-10-05</span>
             <span><a href='https://example.com/entry5'>Entry 5</a></span>

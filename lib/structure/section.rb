@@ -1,3 +1,5 @@
+require_relative 'a_page'
+
 module JekyllSupport
   class Section
     attr_accessor :children, :title, :order
@@ -15,11 +17,17 @@ module JekyllSupport
     def to_s
       return '' if @children.count.zero?
 
+      raise 'Section children must be APage instances' unless @children.first.instance_of?(AllCollectionsHooks::APage)
+
+      apages = @children
+               .map(&:outline_entry)
+               .join("\n      ")
+
       <<~END_SECTION
         <h3 class='post_title clear' id="title_#{@order}">#{@title}</h3>
           <div id='posts_wrapper_#{@order}' class='clearfix'>
             <div id="posts_#{@order}" class='posts'>
-              #{@children.map(&:to_s).join("\n      ")}
+              #{apages}
             </div>
           </div>
       END_SECTION
