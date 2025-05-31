@@ -1,3 +1,4 @@
+require 'jekyll_plugin_support'
 require 'rspec/match_ignoring_whitespace'
 require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
