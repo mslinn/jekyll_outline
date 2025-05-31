@@ -2,7 +2,7 @@
 module AllCollectionsHooks
   class APage
     def field(name)
-      default_value = case sort_by
+      default_value = case name
                       when :date || :last_modified || :last_modified_at
                         Date.new
                       else

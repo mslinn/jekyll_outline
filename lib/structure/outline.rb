@@ -81,9 +81,9 @@ module JekyllSupport
       docs.map do |doc|
         draft = Jekyll::Draft.draft_html doc
         JekyllSupport.apage_from(
-          date:          doc.date.to_s,
+          date:          doc.date,
           draft:         draft,
-          last_modified: doc.last_modified.to_s,
+          last_modified: doc.last_modified,
           order:         doc.order,
           title:         doc.title,
           url:           doc.url
