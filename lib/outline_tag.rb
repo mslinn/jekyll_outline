@@ -4,8 +4,8 @@ require 'jekyll_draft'
 require 'jekyll_plugin_logger'
 require 'jekyll_plugin_support'
 require_relative 'jekyll_outline/version'
-require_relative 'outline'
-require_relative 'yaml_parser'
+require_relative 'structure/outline'
+require_relative 'structure/yaml_parser'
 
 # See spec/outline_spec for an example of HTML output.
 module JekyllSupport
