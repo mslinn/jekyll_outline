@@ -20,7 +20,7 @@ module JekyllSupport
     def parse_sections(content)
       content = remove_leading_zeros remove_leading_spaces content
       yaml = YAML.safe_load content
-      yaml.map(&:Section.new)
+      yaml.map { |entry| Section.new entry }
     rescue NoMethodError => e
       raise OutlineError, <<~END_MSG
         Invalid YAML within {% outline %} tag. The offending content was:

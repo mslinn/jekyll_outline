@@ -62,6 +62,12 @@ RSpec.describe(JekyllSupport) do
     </div>
   END_ATT
 
+  it 'checks html shape' do
+    expect(outline.sections.count).to eq(2)
+    expect(outline.sections[0].children.count).to eq(2)
+    expect(outline.sections[1].children.count).to eq(4)
+  end
+
   it 'verifies generated html' do
     actual = outline.to_s
 
