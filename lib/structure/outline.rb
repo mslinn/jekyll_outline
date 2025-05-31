@@ -145,8 +145,17 @@ module JekyllSupport
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
     def obtain_field
       sort_by = @options.sort_by.to_s
-      default_value = 'zzz'
-      apage.data.key?(sort_by) ? apage.data[sort_by] || default_value : default_value
+      default_value = case sort_by
+                      when :date || :last_modified || :last_modified_at
+                        Date.new
+                      else
+                        'zzz'
+                      end
+      if apage.data.key?(sort_by)
+        apage.data[sort_by] || default_value
+      else
+        default_value
+      end
     end
 
     # Only called when entries are organized into multiple sections
