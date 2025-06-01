@@ -30,21 +30,19 @@ module JekyllSupport
       raise OutlineError, 'collection_name was not specified' unless collection_name
 
       outline = Outline.new(
-        collections = @site.collections,
-        attribution:        @attribution,
-        collection_name:    collection_name,
-        enable_attribution: @attribution,
-        fields:             fields,
-        sort_by:            sort_by
+        options: { attribution:        @attribution,
+                   collection_name:    collection_name,
+                   enable_attribution: @attribution,
+                   fields:             fields,
+                   sort_by:            sort_by }
       )
       outline.add_sections yaml_parser.sections
 
-      abort "#{@collection_name} is not a valid collection." unless @site.collections&.key?(@collection_name)
+      abort "#{collection_name} is not a valid collection." unless @site.collections&.key?(collection_name)
       docs = @site
-             .collections[@collection_name]
+             .collections[collection_name]
              .docs
-      apages = collection_apages docs
-      outline.add_entries collection_apages apages
+      outline.add_entries collection_apages docs
       outline.to_s
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }
@@ -52,6 +50,18 @@ module JekyllSupport
       exit! 1 if @die_on_outline_error
 
       e.html_message
+    end
+
+    private
+
+    # Returns an APage for each document in the collection with the given named.
+    # Ignores files whose name starts with `index`,
+    # and those with the following in their front matter:
+    #   exclude_from_outline: true
+    def collection_apages(pages)
+      pages
+        .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
+        .map { |x| AllCollectionsHooks::APage.new x, 'collection' }
     end
 
     JekyllPluginHelper.register(self, PLUGIN_NAME)

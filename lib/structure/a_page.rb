@@ -3,7 +3,7 @@ module AllCollectionsHooks
   class APage
     def field(name)
       default_value = case name
-                      when :date || :last_modified || :last_modified_at
+                      when :date, :last_modified, :last_modified_at
                         Date.new
                       else
                         'zzz'

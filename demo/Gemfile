@@ -11,6 +11,7 @@ group :jekyll_plugins do
   gem 'jekyll_img', '>= 0.2.7'
   gem 'jekyll_outline', path: '../'
   gem 'jekyll_plugin_logger'
+  gem 'jekyll_plugin_support', path: '/mnt/f/work/jekyll/my_plugins/jekyll_plugin_support/'
   gem 'jekyll-sort'
   gem 'jekyll-tagging'
   gem 'kramdown'

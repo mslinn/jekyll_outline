@@ -33,7 +33,7 @@ module JekyllSupport
     def initialize(options: Options.new)
       @add_sections_called = false
       @options = options
-      @sections = @options.sort_by == :order ? [] : [Section.new([0, ''])]
+      @sections = @options[:sort_by] == :order ? [] : [Section.new([0, ''])]
     end
 
     def add_entries(apages)
@@ -42,7 +42,7 @@ module JekyllSupport
     end
 
     def add_section(section)
-      return unless @options.sort_by == :order
+      return unless @options[:sort_by] == :order
 
       @sections << section
     end
@@ -95,10 +95,10 @@ module JekyllSupport
     # @param collection Array of Jekyll::Document and JekyllSupport::Header
     # @return muliline String
     def sort(docs)
-      if @options.sort_by == :order
+      if @options[:sort_by] == :order
         docs.sort_by(&:order)
       else
-        docs.sort_by(&:obtain_field)
+        docs.sort_by { |doc| obtain_field doc }
       end
     end
 
@@ -109,7 +109,7 @@ module JekyllSupport
       result << "<div class='outer_posts'>"
       result << (@sections.map { |section| "  #{section}" })
       result << '</div>'
-      result << @options.attribution if @options.enable_attribution
+      result << @options[:attribution] if @options[:enable_attribution]
       result.join "\n"
     end
 
@@ -120,16 +120,6 @@ module JekyllSupport
 
       section = section_for apage
       section.add_child apage
-    end
-
-    # Returns an APage for each document in the collection with the given named.
-    # Ignores files whose name starts with `index`,
-    # and those with the following in their front matter:
-    #   exclude_from_outline: true
-    def collection_apages(pages)
-      pages
-        .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
-        .map(&:AllCollectionsHooks.APage.new)
     end
 
     # Find the given document
@@ -143,10 +133,10 @@ module JekyllSupport
     # end
 
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
-    def obtain_field
-      sort_by = @options.sort_by.to_s
+    def obtain_field(apage)
+      sort_by = @options[:sort_by].to_s
       default_value = case sort_by
-                      when :date || :last_modified || :last_modified_at
+                      when :date, :last_modified, :last_modified_at
                         Date.new
                       else
                         'zzz'
