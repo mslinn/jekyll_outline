@@ -51,7 +51,7 @@ module JekyllSupport
       expect(sections.count).to equal(1)
     end
 
-    it 'finds section headings' do
+    it 'finds matching sections' do
       sections = yaml_parser_big.sections
       expect(sections.count).to equal(14)
 
@@ -65,17 +65,17 @@ module JekyllSupport
       actual_section = outline.send :section_for, apage0
       expect(actual_section.order).to eq(0)
 
-      apage1000 = JekyllSupport.apage_from({ order: 1000 })
+      apage1000 = JekyllSupport.apage_from(date: Date.today, order: 1000)
       actual_section = outline.send :section_for, apage1000
-      expect(actual_section).to eq(0)
+      expect(actual_section.order).to eq(0)
 
-      apage16000 = JekyllSupport.apage_from({ order: 16_000 })
-      actual = outline.send :section_for, apage16000
-      expect(actual).to eq(1)
+      apage16000 = JekyllSupport.apage_from(date: Date.today, order: 16_000)
+      actual_section = outline.send :section_for, apage16000
+      expect(actual_section.order).to eq(15_000)
 
-      apage25000 = JekyllSupport.apage_from({ order: 25_000 })
+      apage25000 = JekyllSupport.apage_from(date: Date.today, order: 25_000)
       actual_section = outline.send :section_for, apage25000
-      expect(actual_section).to eq(2)
+      expect(actual_section.order).to eq(20_000)
     end
   end
 end
