@@ -115,7 +115,7 @@ module JekyllSupport
       result << "<div class='outer_posts'>"
       result << (@sections.map { |section| "  #{section}" })
       result << '</div>'
-      result << @options.attribution if @options.enable_attribution
+      result << @options[:attribution] if @options[:enable_attribution]
       result.join "\n"
     end
 
