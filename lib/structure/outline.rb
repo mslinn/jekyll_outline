@@ -28,8 +28,11 @@ module JekyllSupport
     # Sort all entries first so they are iteratable according to the desired order.
     # This presorts the entries for each section.
     #
-    # If @sort_by == 'order' then place them into the appropriate section.
+    # If options[:sort_by] == :order then place each APage into it's appropriate section.
     # Otherwise place all entries into one section.
+    #
+    # options[:fields] defaults to ['title'], but might be something like
+    # ["<b>", "title", "</b>", "&ndash;", "<i>", "description", "</i>"]
     def initialize(options: Options.new)
       @add_sections_called = false
       @options = options
