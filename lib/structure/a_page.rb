@@ -7,7 +7,7 @@ module AllCollectionsHooks
                       when :date, :last_modified, :last_modified_at
                         AllCollectionsHooks::END_OF_TIME
                       else
-                        'zzz'
+                        ''
                       end
       if data.key?(name.to_sym) || data.key?(name.to_s)
         data[name.to_sym] || data[name.to_s] || default_value
