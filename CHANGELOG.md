@@ -1,11 +1,13 @@
 # Change Log
 
-## 1.3.0 / 2025-04-24
+## 1.3.0 / 2025-06-01
 
 * Reimplemented to build a directed graph using classes, concluding with a call `to_s`
   instead of implementing crazy nesting tracking.
-* Fixed missing </div>.
+* Fixed missing </div>s.
 * Now relies on `jekyll_plugin_support` v3.1.0.
+* The `fields` parameter was renamed to `pattern`, however for compatibility, both parameter names are accepted.
+  If both are provided, `pattern` has priority.
 
 
 ## 1.2.6 / 2025-01-03

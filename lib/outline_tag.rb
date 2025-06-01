@@ -24,7 +24,9 @@ module JekyllSupport
       @die_on_outline_error = @tag_config['die_on_outline_error'] == true if @tag_config
       @pry_on_outline_error = @tag_config['pry_on_outline_error'] == true if @tag_config
 
-      fields  = @helper.parameter_specified?('fields')&.split || ['title']
+      pattern = @helper.parameter_specified?('pattern')&.split ||
+                @helper.parameter_specified?('fields')&.split ||
+                ['title']
       sort_by = @helper.parameter_specified?('sort_by_title') ? :title : :order
       collection_name = @helper.remaining_markup
       raise OutlineError, 'collection_name was not specified' unless collection_name
@@ -33,7 +35,7 @@ module JekyllSupport
         options: { attribution:        @attribution,
                    collection_name:    collection_name,
                    enable_attribution: @attribution,
-                   fields:             fields,
+                   pattern:            pattern,
                    sort_by:            sort_by }
       )
       outline.add_sections yaml_parser.sections

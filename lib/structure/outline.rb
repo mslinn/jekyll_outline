@@ -5,25 +5,25 @@ module JekyllSupport
   KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
   class Options
-    attr_accessor :attribution, :enable_attribution, :collection_name, :fields, :sort_by
+    attr_accessor :attribution, :enable_attribution, :collection_name, :pattern, :sort_by
 
     def initialize(
       collection_name: '_posts',
       attribution: '',
       enable_attribution: false,
-      fields: '<b> title </b> &ndash; <i> description </i>',
+      pattern: '<b> title </b> &ndash; <i> description </i>',
       sort_by: :order
     )
       @attribution = attribution
       @enable_attribution = enable_attribution
       @collection_name = collection_name
-      @fields = fields
+      @pattern = pattern
       @sort_by = sort_by
     end
   end
 
   class Outline
-    attr_reader :fields, :sections
+    attr_reader :pattern, :sections
 
     # Sort all entries first so they are iteratable according to the desired order.
     # This presorts the entries for each section.
@@ -31,7 +31,7 @@ module JekyllSupport
     # If options[:sort_by] == :order then place each APage into it's appropriate section.
     # Otherwise place all entries into one section.
     #
-    # options[:fields] defaults to ['title'], but might be something like
+    # options[:pattern] defaults to ['title'], but might be something like
     # ["<b>", "title", "</b>", "&ndash;", "<i>", "description", "</i>"]
     def initialize(options: Options.new)
       @add_sections_called = false
@@ -69,7 +69,7 @@ module JekyllSupport
     # TODO: figure out how to use this
     def handle_entry(apage)
       result = ''
-      @fields.each do |field|
+      @pattern.each do |field|
         if KNOWN_FIELDS.include? field
           if apage.data.key? field
             result += "#{apage.data[field]} "

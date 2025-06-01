@@ -189,7 +189,7 @@ The following examples are taken from [`demo/index.html`](demo/index.html).
 Sort by the `order` field:
 
 ```html
-{% outline attribution fields="<b> title </b> &ndash; <i> description </i>" stuff %}
+{% outline attribution pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
 000: A Topic 0..19
 020: A Topic 20..39
 040: A Topic 40..
@@ -199,7 +199,7 @@ Sort by the `order` field:
 Sort by `title` field:
 
 ```html
-{% outline attribution sort_by_title fields="<b> title </b> &ndash; <i> description </i>" stuff %}
+{% outline attribution sort_by_title pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
 000: B Topic 0..19
 020: B Topic 20..39
 040: B Topic 40..
@@ -230,21 +230,21 @@ By default, each displayed entry consists of a document title,
 wrapped within an &lt;a href&gt; HTML tag that links to the page for that entry,
 followed by an indication of whether the document is visible (a draft) or not.
 
-Entry can also include following fields:
+Entry can also include following pattern:
 `draft`, `categories`, `description`, `date`, `last_modified` or `last_modified_at`, `layout`, `order`, `title`, `slug`,
 `ext`, and `tags`.
 
-Specify the fields like this:
+Specify the pattern like this:
 
 ```html
-{% outline fields="title &ndash; <i> description </i>" %}
+{% outline pattern="title &ndash; <i> description </i>" %}
 000: Topic 0..19
 020: Topic 20..39
 040: Topic 40..
 {% endoutline %}
 ```
 
-Words in the `fields` argument that are not recognized as a field are transcribed into the output.
+Words in the `pattern` argument that are not recognized as a field are transcribed into the output.
 
 In the above example, notice that the HTML is space delimited from the field names.
 The parser is simple and stupid: each token is matched against the known keywords.
