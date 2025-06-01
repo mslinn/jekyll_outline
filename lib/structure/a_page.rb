@@ -1,5 +1,6 @@
 # Enriches AllCollectionsHooks.APage
 module AllCollectionsHooks
+  # Overrides definition from `jekyll_plugin_support`
   class APage
     # @param name can be either a String or a Symbol
     def field(name)
@@ -16,7 +17,6 @@ module AllCollectionsHooks
       end
     end
 
-    # Overrides `to_s` defined in `jekyll_plugin_support`
     def outline_entry
       <<~END_ENTRY
         <span>#{@date.strftime('%Y-%m-%d')}</span>
