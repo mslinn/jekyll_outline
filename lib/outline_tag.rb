@@ -31,12 +31,15 @@ module JekyllSupport
       collection_name = @helper.remaining_markup
       raise OutlineError, 'collection_name was not specified' unless collection_name
 
+      options = Options.new(
+        attribution:        @attribution,
+        collection_name:    collection_name,
+        enable_attribution: @attribution,
+        pattern:            pattern,
+        sort_by:            sort_by
+      )
       outline = Outline.new(
-        options: { attribution:        @attribution,
-                   collection_name:    collection_name,
-                   enable_attribution: @attribution,
-                   pattern:            pattern,
-                   sort_by:            sort_by }
+        options: options
       )
       outline.add_sections yaml_parser.sections
 
