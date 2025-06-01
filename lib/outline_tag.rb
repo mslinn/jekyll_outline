@@ -38,9 +38,7 @@ module JekyllSupport
         pattern:            pattern,
         sort_by:            sort_by
       )
-      outline = Outline.new(
-        options: options
-      )
+      outline = Outline.new(options: options)
       outline.add_sections yaml_parser.sections
 
       abort "#{collection_name} is not a valid collection." unless @site.collections&.key?(collection_name)
