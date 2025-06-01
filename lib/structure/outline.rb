@@ -63,31 +63,6 @@ module JekyllSupport
       self
     end
 
-    # TODO: figure out how to use this
-    def handle(apage)
-      visible_line = handle_entry apage
-      result = "    <span>#{date}</span> <span><a href='#{apage.url}'>#{visible_line.strip}</a>#{draft}</span>"
-      result = section_start + result if section_start
-      result
-    end
-
-    # TODO: figure out how to use this
-    def handle_entry(apage)
-      result = ''
-      @pattern.each do |field|
-        if KNOWN_FIELDS.include? field
-          if apage.data.key? field
-            result += "#{apage.data[field]} "
-          else
-            @logger.warn { "#{field} is a known field, but it was not present in apage #{apage}" }
-          end
-        else
-          result += "#{field} "
-        end
-      end
-      result
-    end
-
     def make_entries(docs)
       docs.map do |doc|
         draft = Jekyll::Draft.draft_html doc
@@ -133,7 +108,7 @@ module JekyllSupport
       section.add_child apage
     end
 
-    # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
+    # Obtain sort property value from APage instance, or return a default value
     def obtain_field(apage)
       sort_by = @options.sort_by.to_s
       default_value = case sort_by

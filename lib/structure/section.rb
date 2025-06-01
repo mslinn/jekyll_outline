@@ -20,7 +20,7 @@ module JekyllSupport
       raise 'Section children must be APage instances' unless @children.first.instance_of?(AllCollectionsHooks::APage)
 
       apages = @children
-               .map(&:outline_entry)
+               .map(&:render_outline_apage)
                .join("\n      ")
 
       <<~END_SECTION
