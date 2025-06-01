@@ -61,21 +61,21 @@ module JekyllSupport
 
       outline = Outline.new.add_sections sections
 
-      apage0 = JekyllSupport.apage_from(order: 0)
-      actual = outline.send :section_for, apage0
-      expect(actual).to eq(0)
+      apage0 = JekyllSupport.apage_from(date: Date.today, order: 0)
+      actual_section = outline.send :section_for, apage0
+      expect(actual_section.order).to eq(0)
 
       apage1000 = JekyllSupport.apage_from({ order: 1000 })
-      actual = outline.send :section_for, apage1000
-      expect(actual).to eq(0)
+      actual_section = outline.send :section_for, apage1000
+      expect(actual_section).to eq(0)
 
       apage16000 = JekyllSupport.apage_from({ order: 16_000 })
       actual = outline.send :section_for, apage16000
       expect(actual).to eq(1)
 
       apage25000 = JekyllSupport.apage_from({ order: 25_000 })
-      actual = outline.send :section_for, apage25000
-      expect(actual).to eq(2)
+      actual_section = outline.send :section_for, apage25000
+      expect(actual_section).to eq(2)
     end
   end
 end

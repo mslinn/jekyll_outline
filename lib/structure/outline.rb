@@ -42,17 +42,20 @@ module JekyllSupport
     def add_entries(apages)
       apages = make_entries sort apages
       apages.each { |x| add_apage x }
+      self
     end
 
     def add_section(section)
       return unless @options.sort_by == :order
 
       @sections << section
+      self
     end
 
     def add_sections(sections)
       sections.each { |x| add_section x }
       @add_sections_called = true
+      self
     end
 
     # TODO: figure out how to use this
