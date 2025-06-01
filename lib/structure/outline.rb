@@ -128,16 +128,6 @@ module JekyllSupport
       section.add_child apage
     end
 
-    # Find the given document
-    # def obtain_doc(doc_name)
-    #   abort "#{@collection_name} is not a valid collection." unless @site.collections.key? @collection_name
-    #   @site
-    #     .collections[@collection_name]
-    #     .docs
-    #     .reject { |doc| doc.data['exclude_from_outline'] }
-    #     .find { |doc| doc.url.match(/#{doc_name}(.\w*)?$/) }
-    # end
-
     # Sort entries within the outline tag which do not have the property specified by @sort_by at the end
     def obtain_field(apage)
       sort_by = @options.sort_by.to_s
