@@ -4,6 +4,11 @@ require_relative 'section'
 module JekyllSupport
   KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
+  # @param attribution sets the attribution message
+  # @param enable_attribution causes the attribution message to be displayed if truthy
+  # @param collection_name Name of the Jekyll collection the outline is organizing
+  # @param pattern String containing keyswords and literals; interpreted and displayed when an APage is rendered as a topic entry
+  # @param sort_by Either has value :order or :title
   class Options
     attr_accessor :attribution, :enable_attribution, :collection_name, :pattern, :sort_by
 
