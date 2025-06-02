@@ -6,7 +6,7 @@ module AllCollectionsHooks
     def field(name)
       default_value = case name
                       when :date, :last_modified, :last_modified_at
-                        AllCollectionsHooks::END_OF_TIME
+                        AllCollectionsHooks::END_OF_DAYS
                       else
                         ''
                       end
