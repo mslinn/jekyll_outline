@@ -2,8 +2,6 @@ require 'jekyll_plugin_support'
 require_relative 'section'
 
 module JekyllSupport
-  KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
-
   # @param attribution sets the attribution message
   # @param enable_attribution causes the attribution message to be displayed if truthy
   # @param collection_name Name of the Jekyll collection the outline is organizing
@@ -28,7 +26,7 @@ module JekyllSupport
   end
 
   class Outline
-    attr_reader :pattern, :sections
+    attr_reader :options, :sections
 
     # Sort all entries first so they are iteratable according to the desired order.
     # This presorts the entries for each section.
@@ -77,14 +75,13 @@ module JekyllSupport
       end
     end
 
-    # @section_state can have values: :head, :in_body
-    # @param collection Array of Jekyll::Document and JekyllSupport::Header
+    # @param apages [APage]
     # @return muliline String
-    def sort(docs)
+    def sort(apages)
       if @options.sort_by == :order
-        docs.sort_by(&:order)
+        apages.sort_by(&:order)
       else
-        docs.sort_by { |doc| obtain_field doc }
+        apages.sort_by { |apage| sort_property_value apage }
       end
     end
 
@@ -108,44 +105,22 @@ module JekyllSupport
       section.add_child apage
     end
 
-    # TODO: figure out how to use this
-    def handle(apage)
-      visible_line = handle_entry apage
-      result = "    <span>#{date}</span> <span><a href='#{apage.url}'>#{visible_line.strip}</a>#{draft}</span>"
-      result = section_start + result if section_start
-      result
-    end
-
-    # TODO: figure out how to use this
-    def handle_entry(apage)
-      result = ''
-      @pattern.each do |field|
-        if KNOWN_FIELDS.include? field
-          if apage.data.key? field
-            result += "#{apage.data[field]} "
-          else
-            @logger.warn { "#{field} is a known field, but it was not present in apage #{apage}" }
-          end
-        else
-          result += "#{field} "
-        end
+    def default_sort_value(sort_by)
+      case sort_by
+      when :date, :last_modified, :last_modified_at
+        Date.today
+      else
+        ''
       end
-      result
     end
 
     # Obtain sort property value from APage instance, or return a default value
-    def obtain_field(apage)
+    def sort_property_value(apage)
       sort_by = @options.sort_by.to_s
-      default_value = case sort_by
-                      when :date, :last_modified, :last_modified_at
-                        Date.today
-                      else
-                        ''
-                      end
       if apage.data.key?(sort_by)
-        apage.data[sort_by] || default_value
+        apage.data[sort_by] || default_sort_value(sort_by)
       else
-        default_value
+        default_sort_value(sort_by)
       end
     end
 

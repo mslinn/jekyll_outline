@@ -1,5 +1,7 @@
 # Enriches AllCollectionsHooks.APage
 module AllCollectionsHooks
+  KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
+
   # Overrides definition from `jekyll_plugin_support`
   class APage
     # @param name can be either a String or a Symbol
@@ -17,11 +19,31 @@ module AllCollectionsHooks
       end
     end
 
-    def render_outline_apage
+    def render_outline_apage(pattern)
       <<~END_ENTRY
-        <span>#{@date.strftime('%Y-%m-%d')}</span>
-              <span><a href='#{@url}'>#{@title}</a>#{@draft}</span>
+        <span>#{@last_modified.strftime('%Y-%m-%d')}</span>
+              <span><a href='#{@url}'>#{render_entry_details pattern}</a>#{@draft}</span>
       END_ENTRY
+    end
+
+    # Renders a section entry as a string
+    # Recognized tokens are looked up, otherwise they are incorporated into the output
+    # Currently spaces are the only valid delimiters; HTML tags should be tokenized even when not delimited by spaces
+    def render_entry_details(pattern)
+      result = ''
+      pattern.each do |field|
+        if KNOWN_FIELDS.include? field
+          if data.key?(field.to_sym) || data.key?(field.to_s)
+            value = data[field.to_sym] || data[field.to_s]
+            result += "#{value} "
+          else
+            @logger.warn { "#{field} is a known field, but it was not present in apage #{apage.url}" }
+          end
+        else
+          result += "#{field} "
+        end
+      end
+      result
     end
   end
 end

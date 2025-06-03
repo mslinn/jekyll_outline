@@ -4,9 +4,10 @@ module JekyllSupport
   class Section
     attr_accessor :children, :title, :order
 
-    def initialize(entry)
-      @order = entry.first.to_i
-      @title = entry[1]
+    def initialize(outline_options, parameter_array)
+      @outline_options = outline_options
+      @order = parameter_array.to_i
+      @title = parameter_array[1]
       @children = []
     end
 
@@ -20,7 +21,7 @@ module JekyllSupport
       raise 'Section children must be APage instances' unless @children.first.instance_of?(AllCollectionsHooks::APage)
 
       apages = @children
-               .map(&:render_outline_apage)
+               .map { |x| x.render_outline_apage @outline_options.pattern }
                .join("\n      ")
 
       <<~END_SECTION
