@@ -1,5 +1,3 @@
-# @author Copyright 2022 {https://www.mslinn.com Michael Slinn}
-
 require 'jekyll_draft'
 require 'jekyll_plugin_logger'
 require 'jekyll_plugin_support'
