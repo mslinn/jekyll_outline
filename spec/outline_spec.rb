@@ -10,42 +10,48 @@ RSpec.describe(JekyllSupport) do
 
   apages = [
     described_class.apage_from(
-      date:  '2023-10-01',
-      draft: true,
-      order: 1,
-      title: 'Entry 1',
-      url:   'https://example.com/entry1'
+      date:        '2023-10-01',
+      description: 'This is the entry1 description.',
+      draft:       true,
+      order:       1,
+      title:       'Entry 1',
+      url:         'https://example.com/entry1'
     ),
     described_class.apage_from(
-      date:  '2023-10-02',
-      order: 2,
-      title: 'Entry 2',
-      url:   'https://example.com/entry2'
+      date:        '2023-10-02',
+      description: 'This is the entry2 description.',
+      order:       2,
+      title:       'Entry 2',
+      url:         'https://example.com/entry2'
     ),
     described_class.apage_from(
-      date:  '2023-10-03',
-      order: 3,
-      title: 'Entry 3',
-      url:   'https://example.com/entry3'
+      date:        '2023-10-03',
+      description: 'This is the entry3 description.',
+      order:       3,
+      title:       'Entry 3',
+      url:         'https://example.com/entry3'
     ),
     described_class.apage_from(
-      date:  '2023-10-04',
-      draft: true,
-      order: 4,
-      title: 'Entry 4',
-      url:   'https://example.com/entry4'
+      date:        '2023-10-04',
+      description: 'This is the entry4 description.',
+      draft:       true,
+      order:       4,
+      title:       'Entry 4',
+      url:         'https://example.com/entry4'
     ),
     described_class.apage_from(
-      date:  '2023-10-05',
-      order: 5,
-      title: 'Entry 5',
-      url:   'https://example.com/entry5'
+      date:        '2023-10-05',
+      description: 'This is the entry5 description.',
+      order:       5,
+      title:       'Entry 5',
+      url:         'https://example.com/entry5'
     ),
     described_class.apage_from(
-      date:  '2023-10-06',
-      order: 6,
-      title: 'Entry 6',
-      url:   'https://example.com/entry6'
+      date:        '2023-10-06',
+      description: 'This is the entry6 description.',
+      order:       6,
+      title:       'Entry 6',
+      url:         'https://example.com/entry6'
     )
   ]
 

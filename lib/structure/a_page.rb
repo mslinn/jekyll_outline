@@ -31,13 +31,13 @@ module AllCollectionsHooks
     # Currently spaces are the only valid delimiters; HTML tags should be tokenized even when not delimited by spaces
     def render_entry_details(pattern)
       result = ''
-      pattern.each do |field|
+      pattern.split.each do |field|
         if KNOWN_FIELDS.include? field
           if data.key?(field.to_sym) || data.key?(field.to_s)
             value = data[field.to_sym] || data[field.to_s]
             result += "#{value} "
           else
-            @logger.warn { "#{field} is a known field, but it was not present in apage #{apage.url}" }
+            @logger.warn { "#{field} is a known field, but it was not present in apage #{@url}" }
           end
         else
           result += "#{field} "
