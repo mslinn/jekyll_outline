@@ -5,7 +5,7 @@ require_relative '../lib/structure/yaml_parser'
 
 module JekyllSupport
   # includes leading zeros and leading spaces, which are invalid in YAML
-  yaml_parser_big = YamlParser.new <<~END_DATA
+  yaml_parser_big = YamlParser.new OutlineOptions.new, <<~END_DATA
       0: Production Infrastructure
     0015000: Audio
       20000: Video

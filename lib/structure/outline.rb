@@ -8,25 +8,27 @@ module JekyllSupport
   # @param pattern String containing keyswords and literals; interpreted and displayed when an APage is rendered as a topic entry
   # @param sort_by Either has value :order or :title
   class OutlineOptions
-    attr_accessor :attribution, :enable_attribution, :collection_name, :pattern, :sort_by
+    attr_accessor :attribution, :enable_attribution, :collection_name, :logger, :pattern, :sort_by
 
     def initialize(
       collection_name: '_posts',
       attribution: '',
       enable_attribution: false,
+      logger: PluginMetaLogger.instance.new_logger(self, PluginMetaLogger.instance.config),
       pattern: '<b> title </b> &ndash; <i> description </i>',
       sort_by: :order
     )
       @attribution = attribution
       @enable_attribution = enable_attribution
       @collection_name = collection_name
+      @logger = logger
       @pattern = pattern
       @sort_by = sort_by
     end
   end
 
   class Outline
-    attr_reader :options, :sections
+    attr_reader :logger, :options, :sections
 
     # Sort all entries first so they are iteratable according to the desired order.
     # This presorts the entries for each section.
@@ -39,7 +41,11 @@ module JekyllSupport
     def initialize(outline_options: OutlineOptions.new)
       @add_sections_called = false
       @options = outline_options
+
+      @logger = @options.logger
       @sections = @options.sort_by == :order ? [] : [Section.new(@options, [0, ''])]
+    rescue StandardError => e
+      error_short_trace @logger, e
     end
 
     def add_entries(apages)

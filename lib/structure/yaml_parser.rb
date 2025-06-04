@@ -9,6 +9,7 @@ module JekyllSupport
 
     # @return array of empty Sections
     def initialize(outline_options, content = '')
+      @logger = outline_options.logger
       @sections = if content && !content.strip.empty?
                     parse_sections outline_options, content
                   else

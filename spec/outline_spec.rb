@@ -4,7 +4,7 @@ require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 RSpec.describe(JekyllSupport) do
-  outline_options = OutlineOptions.new
+  outline_options = JekyllSupport::OutlineOptions.new
   section1 = described_class::Section.new(outline_options, [0, 'Section 1'])
   section2 = described_class::Section.new(outline_options, [3, 'Section 2'])
 
@@ -96,7 +96,11 @@ RSpec.describe(JekyllSupport) do
   END_EXPECTED
 
   it 'verifies initial values' do
-    expect(outline.sort_by).to eq(:order)
+    expect(outline.options.sort_by).to eq(:order)
+  end
+
+  it 'sorts by :order' do
+    expect(outline.sort(apages)).to eq(apages)
   end
 
   it 'checks html shape' do

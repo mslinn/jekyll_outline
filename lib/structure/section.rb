@@ -6,7 +6,7 @@ module JekyllSupport
 
     def initialize(outline_options, parameter_array)
       @outline_options = outline_options
-      @order = parameter_array.to_i
+      @order = parameter_array[0].to_i
       @title = parameter_array[1]
       @children = []
     end
