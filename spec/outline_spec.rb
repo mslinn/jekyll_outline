@@ -4,8 +4,9 @@ require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 RSpec.describe(JekyllSupport) do
-  section1 = described_class::Section.new([0, 'Section 1'])
-  section2 = described_class::Section.new([3, 'Section 2'])
+  outline_options = OutlineOptions.new
+  section1 = described_class::Section.new(outline_options, [0, 'Section 1'])
+  section2 = described_class::Section.new(outline_options, [3, 'Section 2'])
 
   apages = [
     described_class.apage_from(
@@ -93,6 +94,10 @@ RSpec.describe(JekyllSupport) do
       </div>
     </div>
   END_EXPECTED
+
+  it 'verifies initial values' do
+    expect(outline.sort_by).to eq(:order)
+  end
 
   it 'checks html shape' do
     expect(outline.sections.count).to eq(2)

@@ -8,19 +8,19 @@ module JekyllSupport
     attr_reader :sections
 
     # @return array of empty Sections
-    def initialize(content = '')
+    def initialize(outline_options, content = '')
       @sections = if content && !content.strip.empty?
-                    parse_sections content
+                    parse_sections outline_options, content
                   else
                     []
                   end
     end
 
     # @return Array of Sections that do not contain children
-    def parse_sections(content)
+    def parse_sections(outline_options, content)
       content = remove_leading_zeros remove_leading_spaces content
       yaml = YAML.safe_load content
-      yaml.map { |entry| Section.new entry }
+      yaml.map { |entry| Section.new outline_options, entry }
     rescue NoMethodError => e
       raise OutlineError, <<~END_MSG
         Invalid YAML within {% outline %} tag. The offending content was:

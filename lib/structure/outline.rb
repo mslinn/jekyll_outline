@@ -7,7 +7,7 @@ module JekyllSupport
   # @param collection_name Name of the Jekyll collection the outline is organizing
   # @param pattern String containing keyswords and literals; interpreted and displayed when an APage is rendered as a topic entry
   # @param sort_by Either has value :order or :title
-  class Options
+  class OutlineOptions
     attr_accessor :attribution, :enable_attribution, :collection_name, :pattern, :sort_by
 
     def initialize(
@@ -36,10 +36,10 @@ module JekyllSupport
     #
     # options[:pattern] defaults to ['title'], but might be something like
     # ["<b>", "title", "</b>", "&ndash;", "<i>", "description", "</i>"]
-    def initialize(options: Options.new)
+    def initialize(outline_options: OutlineOptions.new)
       @add_sections_called = false
-      @options = options
-      @sections = @options.sort_by == :order ? [] : [Section.new([0, ''])]
+      @options = outline_options
+      @sections = @options.sort_by == :order ? [] : [Section.new(@options, [0, ''])]
     end
 
     def add_entries(apages)

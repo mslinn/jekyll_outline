@@ -15,9 +15,9 @@ module JekyllSupport
     include JekyllOutlineVersion
 
     def render_impl(text)
-      yaml_parser = YamlParser.new super # Process the block content.
+      block_content = super # Process the block content.
 
-      @helper.gem_file __FILE__
+      @helper.gem_file __FILE__ # For attribution
 
       @die_on_outline_error = @tag_config['die_on_outline_error'] == true if @tag_config
       @pry_on_outline_error = @tag_config['pry_on_outline_error'] == true if @tag_config
@@ -29,14 +29,15 @@ module JekyllSupport
       collection_name = @helper.remaining_markup
       raise OutlineError, 'collection_name was not specified' unless collection_name
 
-      options = Options.new(
+      outline_options = OutlineOptions.new(
         attribution:        @attribution,
         collection_name:    collection_name,
         enable_attribution: @attribution,
         pattern:            pattern,
         sort_by:            sort_by
       )
-      outline = Outline.new(options: options)
+      yaml_parser = YamlParser.new outline_options, block_content
+      outline = Outline.new(options: outline_options)
       outline.add_sections yaml_parser.sections
 
       abort "#{collection_name} is not a valid collection." unless @site.collections&.key?(collection_name)
