@@ -33,11 +33,14 @@ module AllCollectionsHooks
       result = ''
       pattern.split.each do |field|
         if KNOWN_FIELDS.include? field
-          if data.key?(field.to_sym) || data.key?(field.to_s)
+          if respond_to? field
+            value = send field
+            result += "#{value} "
+          elsif data.key?(field.to_sym) || data.key?(field.to_s)
             value = data[field.to_sym] || data[field.to_s]
             result += "#{value} "
           else
-            @logger.warn { "#{field} is a known field, but it was not present in apage #{@url}" }
+            @logger.warn { "'#{field}' is a known field, but it was not present in apage with url '#{@url}'." }
           end
         else
           result += "#{field} "

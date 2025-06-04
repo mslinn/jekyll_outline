@@ -50,7 +50,7 @@ module JekyllSupport
 
     def add_entries(apages)
       apages = make_entries sort apages
-      apages.each { |x| add_apage x }
+      apages.each { |apage| add_apage apage }
       self
     end
 
@@ -72,6 +72,7 @@ module JekyllSupport
         draft = Jekyll::Draft.draft_html doc
         JekyllSupport.apage_from(
           date:          doc.date,
+          description:   doc.description,
           draft:         draft,
           last_modified: doc.last_modified,
           order:         doc.order,
