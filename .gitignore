@@ -9,7 +9,6 @@
 *~
 .DS_Store
 .bsp/
-.bundle/
 .idea
 .idea*
 .jekyll-cache/
