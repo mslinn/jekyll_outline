@@ -86,10 +86,10 @@ RSpec.describe(JekyllSupport) do
     <div id='posts_wrapper_0' class='clearfix'>
       <div id="posts_0" class='posts'>
         <span>2023-10-01</span>
-        <span><a href='https://example.com/entry1'>Entry 1</a> <i class='jekyll_draft'>Draft</i></span>
+        <span><a href='https://example.com/entry1'><b> Entry 1 </b> &ndash; <i> This is the entry1 description. </i> </a> <i class='jekyll_draft'>Draft</i></span>
 
         <span>2023-10-02</span>
-        <span><a href='https://example.com/entry2'>Entry 2</a></span>
+        <span><a href='https://example.com/entry2'><b> Entry 2 </b> &ndash; <i> This is the entry2 description. </i> </a></span>
       </div>
     </div>
   END_EXPECTED
@@ -99,16 +99,16 @@ RSpec.describe(JekyllSupport) do
     <div id='posts_wrapper_3' class='clearfix'>
       <div id="posts_3" class='posts'>
         <span>2023-10-03</span>
-        <span><a href='https://example.com/entry3'>Entry 3</a></span>
+        <span><a href='https://example.com/entry3'><b> Entry 3 </b> &ndash; <i> This is the entry3 description. </i> </a></span>
 
         <span>2023-10-04</span>
-        <span><a href='https://example.com/entry4'>Entry 4</a> <i class='jekyll_draft'>Draft</i></span>
+        <span><a href='https://example.com/entry4'><b> Entry 4 </b> &ndash; <i> This is the entry4 description. </i> </a> <i class='jekyll_draft'>Draft</i></span>
 
         <span>2023-10-05</span>
-        <span><a href='https://example.com/entry5'>Entry 5</a></span>
+        <span><a href='https://example.com/entry5'><b> Entry 5 </b> &ndash; <i> This is the entry5 description. </i> </a></span>
 
         <span>2023-10-06</span>
-        <span><a href='https://example.com/entry6'>Entry 6</a></span>
+        <span><a href='https://example.com/entry6'><b> Entry 6 </b> &ndash; <i> This is the entry6 description. </i> </a></span>
       </div>
     </div>
   END_EXPECTED
