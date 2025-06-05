@@ -4,8 +4,10 @@ require_relative '../lib/structure/outline'
 require_relative '../lib/structure/yaml_parser'
 
 module JekyllSupport
+  outline_options = OutlineOptions.new
+
   # includes leading zeros and leading spaces, which are invalid in YAML
-  yaml_parser_big = YamlParser.new OutlineOptions.new, <<~END_DATA
+  yaml_parser_big = YamlParser.new outline_options, <<~END_DATA
       0: Production Infrastructure
     0015000: Audio
       20000: Video
@@ -24,29 +26,29 @@ module JekyllSupport
 
   RSpec.describe(YamlParser) do
     it 'handles no section headings' do
-      yaml_parser = described_class.new
+      yaml_parser = described_class.new outline_options
       sections = yaml_parser.sections
       expect(sections.count).to equal(0)
 
-      yaml_parser = described_class.new ''
+      yaml_parser = described_class.new outline_options, ''
       sections = yaml_parser.sections
       expect(sections.count).to equal(0)
     end
 
     it 'finds only 1 section heading' do
-      yaml_parser = described_class.new '0: General'
+      yaml_parser = described_class.new outline_options, '0: General'
       sections = yaml_parser.sections
       expect(sections.count).to equal(1)
       # expect(sections.first)
 
-      yaml_parser = described_class.new <<~END_DATA
+      yaml_parser = described_class.new outline_options, <<~END_DATA
         0: General
       END_DATA
       sections = yaml_parser.sections
       expect(sections.count).to equal(1)
 
       # Handle leading space (this is invalid YAML) and the lack of an end of line character
-      yaml_parser = described_class.new ' 0: General'
+      yaml_parser = described_class.new outline_options, ' 0: General'
       sections = yaml_parser.sections
       expect(sections.count).to equal(1)
     end
