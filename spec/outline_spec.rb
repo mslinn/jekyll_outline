@@ -4,7 +4,7 @@ require_relative 'spec_helper'
 require_relative '../lib/structure/outline'
 
 RSpec.describe(JekyllSupport) do
-  outline_options = JekyllSupport::OutlineOptions.new
+  outline_options = JekyllSupport::OutlineOptions.new(pattern: '<b> title </b> &ndash; <i> description </i>')
   section1 = described_class::Section.new(outline_options, [0, 'Section 1'])
   section2 = described_class::Section.new(outline_options, [3, 'Section 2'])
 
