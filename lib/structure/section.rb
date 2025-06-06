@@ -1,4 +1,4 @@
-require_relative 'a_page'
+require_relative 'a_page_enrichment'
 
 module JekyllSupport
   class Section

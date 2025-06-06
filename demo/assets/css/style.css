@@ -18,8 +18,8 @@ body {
   margin: 0;
 }
 
-code, pre, tt, .codeLabel {
-  font-family: Monaco,"Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+code, pre, tt, .code, .codeLabel {
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   font-stretch: semi-condensed;
 }
 
@@ -92,6 +92,13 @@ pre {
 #main-content {
   float: left;
   width: 690px;
+}
+
+#stuff {
+  background-color: #095e2e;
+  font-family: "Helvetica Neue", Helvetica, Arial, serif;
+  color: white;
+  padding-left: 1em;
 }
 
 .codeLabel {

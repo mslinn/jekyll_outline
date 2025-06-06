@@ -1,0 +1,65 @@
+---
+description: A collection called <span class="code">stuff</span>.
+layout: default
+title: "A Collection Called <span class='code'>stuff</span>"
+---
+<!-- #region Stuff: title & description Sorted By Order -->
+<h2 id="stuff1">Stuff: title &amp; description Sorted By Order</h2>
+{% outline attribution pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
+  0: Topic A 0..19
+020: Topic A 20..39
+040: Topic A 40..
+{% endoutline %}
+<!-- endregion -->
+
+
+<!-- #region Stuff: title & description Sorted By Title -->
+<h2 id="stuff2">Stuff: title &amp; description Sorted By Title</h2>
+{% outline attribution sort_by_title pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
+000: Topic B 0..19
+020: Topic B 20..39
+040: Topic B 40..
+{% endoutline %}
+
+<div style="display: none">
+  {% img align="right" id="outline_0"
+    src="/assets/images/porcelain_washbasin.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img align="right" id="outline_20"
+    src="/assets/images/pipes.webp"
+    size="eighthsize"
+    style="margin-top: 0"
+    wrapper_class="clear"
+  %}
+  {% img
+    align="right"
+    class=''
+    id="outline_40"
+    src="/assets/images/libgit2.webp"
+    size="20%"
+    style="margin-top: 0; padding: 1em;"
+    wrapper_class="clear"
+  %}
+</div>
+<!-- endregion -->
+
+
+<!-- #region Invalid YAML Error Expected -->
+<h2 id="yaml_error">Invalid YAML Error Expected</h2>
+<p>
+  The following should generate a <code>JekyllSupport::OutlineError</code> because there are missing colons.
+</p>
+<!-- #region pre -->
+<pre>{% outline attribution pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
+   0 A Topic 0..19
+ 020 A Topic 20..39
+ 040 A Topic 40..
+{% endoutline %}</pre>
+<!-- endregion -->
+<!-- endregion -->
+
+
+{% outline_js wrap_in_script_tag %}

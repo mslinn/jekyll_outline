@@ -37,7 +37,7 @@ module JekyllSupport
         sort_by:            sort_by
       )
       yaml_parser = YamlParser.new outline_options, block_content
-      outline = Outline.new(options: outline_options)
+      outline = Outline.new(outline_options: outline_options)
       outline.add_sections yaml_parser.sections
 
       abort "#{collection_name} is not a valid collection." unless @site.collections&.key?(collection_name)

@@ -26,12 +26,21 @@ module AllCollectionsHooks
       END_ENTRY
     end
 
+    # @param pattern can either be a String or [String]
     # Renders a section entry as a string
     # Recognized tokens are looked up, otherwise they are incorporated into the output
     # Currently spaces are the only valid delimiters; HTML tags should be tokenized even when not delimited by spaces
     def render_entry_details(pattern)
       result = ''
-      pattern.split.each do |field|
+      fields = case pattern
+               when String
+                 pattern.split
+               when Array
+                 pattern
+               else
+                 @logger.error { "Pattern is neither a String nor an Array (#{pattern})" }
+               end
+      fields.each do |field|
         if KNOWN_FIELDS.include? field
           if respond_to? field
             value = send field
