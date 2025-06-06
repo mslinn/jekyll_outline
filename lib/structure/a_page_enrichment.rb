@@ -4,21 +4,6 @@ module AllCollectionsHooks
 
   # Overrides definition from `jekyll_plugin_support`
   class APage
-    # @param name can be either a String or a Symbol
-    def field(name)
-      default_value = case name
-                      when :date, :last_modified, :last_modified_at
-                        AllCollectionsHooks::END_OF_DAYS
-                      else
-                        ''
-                      end
-      if data.key?(name.to_sym) || data.key?(name.to_s)
-        data[name.to_sym] || data[name.to_s] || default_value
-      else
-        default_value
-      end
-    end
-
     def render_outline_apage(pattern)
       <<~END_ENTRY
         <span>#{@last_modified.strftime('%Y-%m-%d')}</span>
