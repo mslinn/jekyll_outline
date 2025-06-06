@@ -6,3 +6,22 @@ title: Front Page
 <p>
   Use the right-hand menu to view detail pages.
 </p>
+
+
+<!-- #region Invalid YAML Error Expected -->
+<h2 id="yaml_error">Invalid YAML Error Expected</h2>
+<p>
+  The following should generate a <code>JekyllSupport::OutlineError</code> because
+  there are missing colons after each number in the first column.
+</p>
+<!-- #region pre -->
+<pre>{% outline attribution pattern="<b> title </b> &ndash; <i> description </i>" stuff %}
+   0 A Topic 0..19
+ 020 A Topic 20..39
+ 040 A Topic 40..
+{% endoutline %}</pre>
+<!-- endregion -->
+<!-- endregion -->
+
+
+{% outline_js wrap_in_script_tag %}
