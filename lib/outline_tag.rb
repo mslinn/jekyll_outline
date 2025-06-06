@@ -44,7 +44,7 @@ module JekyllSupport
       docs = @site
              .collections[collection_name]
              .docs
-      outline.add_entries collection_apages docs
+      outline.add_entries(collection_apages(docs))
       outline.to_s
     rescue OutlineError => e # jekyll_plugin_support handles StandardError
       @logger.error { JekyllPluginHelper.remove_html_tags e.logger_message }
@@ -63,7 +63,7 @@ module JekyllSupport
     def collection_apages(pages)
       pages
         .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
-        .map { |x| AllCollectionsHooks::APage.new x, 'collection' }
+        .map { |x| AllCollectionsHooks::APage.new(x, 'collection') if x }
     end
 
     JekyllPluginHelper.register(self, PLUGIN_NAME)

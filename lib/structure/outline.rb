@@ -49,8 +49,8 @@ module JekyllSupport
     end
 
     def add_entries(apages)
-      apages = make_entries sort apages
-      apages.each { |apage| add_apage apage }
+      sorted_apages = make_entries sort apages
+      sorted_apages.each { |apage| add_apage apage }
       self
     end
 
@@ -106,6 +106,10 @@ module JekyllSupport
     private
 
     def add_apage(apage)
+      unless apage
+        raise ::OutlineError, 'add_apage called with nil apage'
+        puts
+      end
       raise ::OutlineError, 'add_apage called without first calling add_sections' unless @add_sections_called
 
       section = section_for apage
@@ -145,7 +149,8 @@ module JekyllSupport
         next_section = @sections[i + 1]
         return this_section if (page_order >= this_section.order) && (page_order < next_section.order)
       end
-      raise OutlineError, "No Section found for APage #{apage}"
+      @sections.last
+      # raise OutlineError, "No Section found for APage #{apage}"
     end
   end
 end
