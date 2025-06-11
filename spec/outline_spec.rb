@@ -98,16 +98,16 @@ RSpec.describe(JekyllSupport) do
     <h3 class='post_title clear' id="title_3">Section 2</h3>
     <div id='posts_wrapper_3' class='clearfix'>
       <div id="posts_3" class='posts'>
-        <span>2023-10-03</span>
+        <span>2024-10-03</span>
         <span><a href='https://example.com/entry3'><b> Entry 3 </b> &ndash; <i> This is the entry3 description. </i> </a></span>
 
-        <span>2023-10-04</span>
+        <span>2024-10-04</span>
         <span><a href='https://example.com/entry4'><b> Entry 4 </b> &ndash; <i> This is the entry4 description. </i> </a> <i class='jekyll_draft'>Draft</i></span>
 
-        <span>2023-10-05</span>
+        <span>2024-10-05</span>
         <span><a href='https://example.com/entry5'><b> Entry 5 </b> &ndash; <i> This is the entry5 description. </i> </a></span>
 
-        <span>2023-10-06</span>
+        <span>2024-10-06</span>
         <span><a href='https://example.com/entry6'><b> Entry 6 </b> &ndash; <i> This is the entry6 description. </i> </a></span>
       </div>
     </div>
