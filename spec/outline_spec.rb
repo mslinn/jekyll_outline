@@ -11,7 +11,7 @@ RSpec.describe(JekyllSupport) do
   apages = [
     described_class.apage_from(
       collection_name: '_posts',
-      date:            '2023-10-01',
+      date:            '2023-01-01',
       description:     'This is the entry1 description.',
       draft:           true,
       last_modified:   '2023-01-01',
@@ -21,7 +21,7 @@ RSpec.describe(JekyllSupport) do
     ),
     described_class.apage_from(
       collection_name: '_posts',
-      date:            '2023-10-02',
+      date:            '2023-01-02',
       description:     'This is the entry2 description.',
       last_modified:   '2023-01-02',
       order:           2,
@@ -85,10 +85,10 @@ RSpec.describe(JekyllSupport) do
     <h3 class='post_title clear' id="title_0">Section 1</h3>
     <div id='posts_wrapper_0' class='clearfix'>
       <div id="posts_0" class='posts'>
-        <span>2023-10-01</span>
+        <span>2023-01-01</span>
         <span><a href='https://example.com/entry1'><b> Entry 1 </b> &ndash; <i> This is the entry1 description. </i> </a> <i class='jekyll_draft'>Draft</i></span>
 
-        <span>2023-10-02</span>
+        <span>2023-01-02</span>
         <span><a href='https://example.com/entry2'><b> Entry 2 </b> &ndash; <i> This is the entry2 description. </i> </a></span>
       </div>
     </div>

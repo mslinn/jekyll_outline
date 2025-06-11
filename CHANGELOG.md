@@ -2,10 +2,10 @@
 
 ## 1.3.0 / 2025-06-04
 
+* Now relies on `jekyll_plugin_support` v3.1.0.
+* Fixed missing </div>s.
 * Reimplemented using nested classes, concluding with a call `to_s`
   instead of implementing crazy nesting tracking.
-* Fixed missing </div>s.
-* Now relies on `jekyll_plugin_support` v3.1.0.
 * The `fields` parameter was renamed to `pattern`, however for compatibility, both parameter names are accepted.
   If both are provided, `pattern` has priority.
 
