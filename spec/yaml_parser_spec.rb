@@ -4,6 +4,7 @@ require_relative '../lib/structure/outline'
 require_relative '../lib/structure/yaml_parser'
 
 module JekyllSupport
+  logger = PluginMetaLogger.instance.new_logger(self, PluginMetaLogger.instance.config)
   outline_options = OutlineOptions.new
 
   # includes leading zeros and leading spaces, which are invalid in YAML
@@ -63,19 +64,19 @@ module JekyllSupport
 
       outline = Outline.new.add_sections sections
 
-      apage0 = JekyllSupport.apage_from(date: Date.today, order: 0)
+      apage0 = JekyllSupport.apage_from(date: Time.now, logger: logger, order: 0)
       actual_section = outline.send :section_for, apage0
       expect(actual_section.order).to eq(0)
 
-      apage1000 = JekyllSupport.apage_from(date: Date.today, order: 1000)
+      apage1000 = JekyllSupport.apage_from(date: Time.now, logger: logger, order: 1000)
       actual_section = outline.send :section_for, apage1000
       expect(actual_section.order).to eq(0)
 
-      apage16000 = JekyllSupport.apage_from(date: Date.today, order: 16_000)
+      apage16000 = JekyllSupport.apage_from(date: Time.now, logger: logger, order: 16_000)
       actual_section = outline.send :section_for, apage16000
       expect(actual_section.order).to eq(15_000)
 
-      apage25000 = JekyllSupport.apage_from(date: Date.today, order: 25_000)
+      apage25000 = JekyllSupport.apage_from(date: Time.now, logger: logger, order: 25_000)
       actual_section = outline.send :section_for, apage25000
       expect(actual_section.order).to eq(20_000)
     end
