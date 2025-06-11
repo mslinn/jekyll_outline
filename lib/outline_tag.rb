@@ -63,7 +63,7 @@ module JekyllSupport
     def collection_apages(pages)
       pages
         .reject { |doc| doc.url.match(/index(.\w*)?$/) || doc.data['exclude_from_outline'] }
-        .map { |x| AllCollectionsHooks::APage.new(x, 'collection') if x }
+        .map { |x| ::JekyllSupport::APage.new(x, 'collection') if x }
     end
 
     JekyllPluginHelper.register(self, PLUGIN_NAME)

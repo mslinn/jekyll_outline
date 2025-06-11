@@ -1,5 +1,5 @@
-# Enriches AllCollectionsHooks.APage
-module AllCollectionsHooks
+# Enriches JekyllSupport.APage
+module JekyllSupport
   KNOWN_FIELDS = %w[draft categories description date last_modified_at layout order title slug ext tags excerpt].freeze
 
   # Overrides definition from `jekyll_plugin_support`

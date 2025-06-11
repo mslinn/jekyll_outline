@@ -18,9 +18,8 @@ module JekyllSupport
     def to_s
       return '' if @children.count.zero?
 
-      unless @children.first.instance_of?(AllCollectionsHooks::APage)
+      unless @children.first.instance_of?(JekyllSupport::APage)
         raise "First child of Section was a #{@children.first.class}, not an APage"
-        puts ''
       end
       apages = @children
                .map { |x| x.render_outline_apage @outline_options.pattern }
