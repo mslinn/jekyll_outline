@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.3.1 / 2025-07-14
+
+* Now warns of pages that do not have `order` defined in front matter.
+
+
 ## 1.3.0 / 2025-06-04
 
 * Now relies on `jekyll_plugin_support` v3.1.0.
