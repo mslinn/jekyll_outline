@@ -25,7 +25,7 @@ module JekyllSupport
       @pattern = pattern
       @sort_by = sort_by
 
-      @die_if_order_field_missing = true # TODO parse this from a new option
+      @die_if_order_field_missing = true # TODO: parse this from a new option
     end
   end
 
@@ -91,17 +91,7 @@ module JekyllSupport
         apages_missing_order = apages.select { |x| x.order.nil? }
         apages_missing_order.each do |x|
           puts "Error: No value for order found in front matter for '#{x.title}' at #{x.url}; value temporarily set to 0".red
-          # TODO move this into a new method in jekyll_plugin_support
-          # Define a new read/write attribute :order
-          x.instance_variable_set(:@order, 0)
-
-          x.define_singleton_method(:order) do
-            instance_variable_get(:@order)
-          end
-
-          x.define_singleton_method(:order=) do |value|
-            instance_variable_set(:@order, value)
-          end
+          JekyllSupport.new_attribute x, 'order', 0
           # puts "x.order=#{x.order} for #{x.url}".yellow
         end
         if apages_missing_order.empty? && @die_if_order_field_missing
