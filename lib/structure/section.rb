@@ -16,11 +16,13 @@ module JekyllSupport
     end
 
     def to_s
-      return '' if @children.count.zero?
+      return '' if @children.none?
 
       unless @children.first.instance_of?(JekyllSupport::APage)
+        # defeat formatter
         raise "First child of Section was a #{@children.first.class}, not an APage"
       end
+
       apages = @children
                .map { |x| x.render_outline_apage @outline_options.pattern }
                .join("\n      ")

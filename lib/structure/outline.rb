@@ -109,7 +109,7 @@ module JekyllSupport
 
       result = []
       result << "<div class='outer_posts'>"
-      result << (@sections.map { |section| "  #{section}" })
+      result << @sections.map { |section| "  #{section}" }
       result << '</div>'
       result << @options.attribution if @options.enable_attribution
       result.join "\n"
@@ -119,8 +119,8 @@ module JekyllSupport
 
     def add_apage(apage)
       unless apage
+        # Defeat formatter
         raise ::OutlineError, 'add_apage called with nil apage'
-        puts
       end
       raise ::OutlineError, 'add_apage called without first calling add_sections' unless @add_sections_called
 
@@ -150,7 +150,7 @@ module JekyllSupport
     # Only called when entries are organized into multiple sections
     # @param apage must have a property called `order`
     def section_for(apage)
-      return @sections.first if @sections.count == 1
+      return @sections.first if @sections.one?
 
       last = @sections.length - 1
       (0..last).each do |i|
