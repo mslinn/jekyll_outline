@@ -16,7 +16,7 @@ module JekyllSupport
     end
 
     def to_s
-      return '' if @children.none?
+      return '' if @children.empty?
 
       unless @children.first.instance_of?(JekyllSupport::APage)
         # defeat formatter
