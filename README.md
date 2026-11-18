@@ -224,12 +224,14 @@ And then execute:
 $ bundle install
 ```
 
-Linux users could also add this to `~/.bashrc`:
+If you run Ruby under `rbenv` (and you should), type:
 
 ```script
-jekyll_outline="/path/to/this/project"
-PATH="$jekyll_outline/bin:$PATH"
+$ rbenv rehash
 ```
+
+That should make the `msls` command provided with the gem available.
+
 
 ## Fields
 
