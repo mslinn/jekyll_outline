@@ -10,9 +10,11 @@
 # labelled with its boundary.
 #
 # Usage:
-#   _bin/ls                # every collection, in name order
-#   _bin/ls _llm           # one collection
-#   _bin/ls _llm _ruby     # several collections
+#  msls                # every collection, in name order
+#  msls llm            # one collection
+#  msls _llm           # same collection
+#  msls _llm _ruby     # several collections
+#  msls llm ruby     # several collections
 #
 # Options:
 #   --order                sort each section by order parameter (the default)
@@ -265,7 +267,7 @@ end
 
 options = { color: nil, sort: 'order' }
 parser = OptionParser.new do |opts|
-  opts.banner = 'Usage: _bin/ls [options] [COLLECTION_NAME]...'
+  opts.banner = 'Usage:msls [options] [COLLECTION_NAME]...'
   opts.on('--order',    'sort each section by order parameter (the default)') { options[:sort] = 'order' }
   opts.on('--filename', 'sort each section by file name')                     { options[:sort] = 'filename' }
   opts.on('--title',    'sort each section by title')                         { options[:sort] = 'title' }
