@@ -59,9 +59,7 @@ using StringPrefix
 
 def collection_dir(name)
   dir = File.join(@collections_dir, name.ensure_prefix('_'))
-  unless File.directory?(dir)
-    abort "Error in collection_dir: #{dir} is not a directory; name='#{name}' name.ensure_prefix('_')=#{name.ensure_prefix('_')}"
-  end
+  abort "Error in collection_dir: #{dir} is not a directory" unless File.directory?(dir)
   dir
 end
 
