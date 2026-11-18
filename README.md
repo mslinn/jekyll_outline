@@ -221,9 +221,15 @@ end
 And then execute:
 
 ```shell
-$ bundle
+$ bundle install
 ```
 
+Linux users could also add this to `~/.bashrc`:
+
+```script
+jekyll_outline="/path/to/this/project"
+PATH="$jekyll_outline/bin:$PATH"
+```
 
 ## Fields
 

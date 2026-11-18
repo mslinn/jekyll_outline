@@ -6,22 +6,12 @@
   "configurations": [
     {
       "args": [
-        "serve",
-        "--livereload_port", "35731",
-        "--force_polling",
-        "--host", "0.0.0.0",
-        "--port", "4010",
-        "--future",
-        "--incremental",
-        "--livereload",
-        "--drafts",
-        "--unpublished"
+        "_stuff",
       ],
-      "cwd": "${workspaceRoot}/demo",
-      "debugPort": "0",
-      "name": "Debug Demo",
+      "cwd": "${workspaceFolder}/demo",
+      "name": "Debug ms-ls",
       "request": "launch",
-      "script": "${workspaceRoot}/binstub/jekyll",
+      "script": "${workspaceFolder}/bin/ms-ls",
       "type": "rdbg",
       "useBundler": true,
     },
@@ -38,29 +28,28 @@
     },
     {
       "args": [
-        "-I", "${workspaceRoot}/lib",
-        "-I", "${workspaceRoot}/spec",
-        "-P", "${workspaceRoot}/spec/**/*_spec.rb"
+        "-I", "${workspaceFolder}/lib",
+        "-I", "${workspaceFolder}/spec",
+        "-P", "${workspaceFolder}/spec/**/*_spec.rb"
       ],
-      "cwd": "${workspaceRoot}/demo",
+      "cwd": "${workspaceFolder}/demo",
       "debugPort": "0",
       "name": "RSpec - all",
       "request": "launch",
-      "script": "${workspaceRoot}/binstub/rspec",
+      "script": "${workspaceFolder}/binstub/rspec",
       "type": "rdbg",
-      "useBundler": true,
     },
     {
       "args": [
-        "-I", "${workspaceRoot}/lib",
-        "-I", "${workspaceRoot}/spec",
+        "-I", "${workspaceFolder}/lib",
+        "-I", "${workspaceFolder}/spec",
         "${file}"
       ],
-      "cwd": "${workspaceRoot}/demo",
+      "cwd": "${workspaceFolder}/demo",
       "debugPort": "0",
       "name": "RSpec - active spec only",
       "request": "launch",
-      "script": "${workspaceRoot}/binstub/rspec",
+      "script": "${workspaceFolder}/binstub/rspec",
       "type": "rdbg",
       "useBundler": true,
     }

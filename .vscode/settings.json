@@ -2,5 +2,35 @@
 {
   "ruby.rubocop.configFilePath": ".rubocop.yml",
   "ruby.rubocop.useBundler": true,
-  "ruby.rubocop.executePath": "binstub/"
+  "ruby.rubocop.executePath": "binstub/",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#fff6e6",
+    "activityBar.activeBorder": "#15202b",
+    "activityBar.background": "#fff6e6",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#00bf7a",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "activityBarTop.activeBackground": "#fff6e6",
+    "activityBarTop.activeBorder": "#15202b",
+    "activityBarTop.background": "#fff6e6",
+    "activityBarTop.foreground": "#15202b",
+    "activityBarTop.inactiveForeground": "#15202b99",
+    "commandCenter.border": "#15202b99",
+    "commandCenter.foreground": "#15202b",
+    "sash.hoverBorder": "#fff6e6",
+    "statusBar.background": "#ffe4b3",
+    "statusBar.debuggingBackground": "#ffe4b3",
+    "statusBar.debuggingForeground": "#15202b",
+    "statusBar.foreground": "#15202b",
+    "statusBar.inactiveBackground": "#ffe4b3",
+    "statusBarItem.hoverBackground": "#ffd280",
+    "statusBarItem.remoteBackground": "#009f67",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#ffe4b3",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#ffe4b399",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.remoteColor": "#ffe4b3"
 }

@@ -1,0 +1,284 @@
+#!/usr/bin/env ruby
+
+# List the articles of a Jekyll collection: filename, order parameter, title
+# and date last modified.
+#
+# The order: parameter in an article's front matter positions the article
+# within its collection's index page. collections/<collection>/index.html
+# defines the boundary numbers for those parameters, so the articles are
+# grouped by the section their order number falls into, and each section is
+# labelled with its boundary.
+#
+# Usage:
+#   _bin/ls                # every collection, in name order
+#   _bin/ls _llm           # one collection
+#   _bin/ls _llm _ruby     # several collections
+#
+# Options:
+#   --order                sort each section by order parameter (the default)
+#   --filename             sort each section by file name
+#   --title                sort each section by title
+#   --modified             sort each section by date last modified
+#   --no-color             omit the color that dims the drafts
+
+require 'date'
+require 'optparse'
+require 'yaml'
+
+RESET = "\e[0m".freeze
+BOLD = "\e[1m".freeze
+GREY = "\e[90m".freeze
+
+root = Dir.pwd
+@collections_dir = File.join(root, 'collections')
+@config_file = File.join(root, '_config.yml')
+
+# An article of a collection.
+Article = Struct.new(:file, :order, :title, :draft, :modified, :mtime)
+
+# @return [Boolean] whether the output should be colorized
+def colorize?
+  return @colorize unless @colorize.nil?
+
+  @colorize = $stdout.tty? && ENV['NO_COLOR'].nil?
+end
+
+module StringPrefix
+  refine String do
+    # @param name [String] a collection name, with or without its leading underscore
+    # @return [String, nil] the path of the collection directory, nil if there is none
+    def ensure_prefix(prefix)
+      start_with?(prefix) ? self : "#{prefix}#{self}"
+    end
+  end
+end
+
+using StringPrefix
+
+def collection_dir(name)
+  dir = File.join(@collections_dir, name.ensure_prefix('_'))
+  unless File.directory?(dir)
+    abort "Error in collection_dir: #{dir} is not a directory; name='#{name}' name.ensure_prefix('_')=#{name.ensure_prefix('_')}"
+  end
+  dir
+end
+
+# @return [Array<String>] the names of the collections, in name order
+def configured_collections
+  config = YAML.safe_load(File.read(@config_file), permitted_classes: [Date, Time], aliases: true)
+  config.fetch('collections', {}).keys.sort
+rescue StandardError => e
+  warn "cannot read #{@config_file}: #{e.message}"
+  []
+end
+
+# @param path [String] the path of an article
+# @return [Hash] the front matter of the article, empty if it cannot be read
+def front_matter(path)
+  text = File.read(path, encoding: 'UTF-8')
+  match = text.match(/\A---[ \t]*\r?\n(.*?)\r?\n---[ \t]*\r?\n/m)
+  return {} unless match
+
+  data = YAML.safe_load(match[1], permitted_classes: [Date, Time], aliases: true)
+  data.is_a?(Hash) ? data : {}
+rescue StandardError
+  {}
+end
+
+# @param data [Hash] the front matter of an article
+# @return [Boolean] whether the article is a draft
+def draft?(data)
+  return !data['published'] if data.key?('published')
+  return data['draft'] if data.key?('draft')
+
+  false
+end
+
+# The date an article was last modified, resolved as the site resolves it:
+# the last_modified field, else last_modified_at, else the date of publication.
+#
+# @param data [Hash] the front matter of an article
+# @return [Date, nil] the date of the last modification
+def modified_date(data)
+  value = data['last_modified'] || data['last_modified_at'] || data['date']
+  case value
+  when Date then value
+  when Time then value.to_date
+  when String then Date.parse(value)
+  end
+rescue ArgumentError
+  nil
+end
+
+# The outline of a collection lists every article of it, except those whose
+# name starts with index and those that opt out with exclude_from_outline.
+#
+# @param dir [String] the path of a collection directory
+# @return [Array<Article>] the articles of the collection, in file name order
+def articles(dir)
+  Dir[File.join(dir, '*.html')].sort.filter_map do |path|
+    next if File.basename(path).start_with?('index')
+
+    data = front_matter(path)
+    next if data['exclude_from_outline']
+
+    Article.new(File.basename(path), data['order'], data['title'].to_s, draft?(data),
+                modified_date(data), File.mtime(path))
+  end
+end
+
+# The boundary numbers of a collection are defined by the {% outline %} block of
+# its index.html, as YAML mapping a boundary number to the name of a section.
+#
+# @param dir [String] the path of a collection directory
+# @return [Array<Array>] the sections, as [boundary, name] pairs in boundary order
+def sections(dir)
+  path = File.join(dir, 'index.html')
+  return [] unless File.exist?(path)
+
+  text = File.read(path, encoding: 'UTF-8')
+  match = text.match(/\{%-?\s*outline\b.*?%}(.*?)\{%-?\s*endoutline\s*%}/m)
+  return [] unless match
+
+  body = match[1].strip.split("\n").map { |line| line.sub(/\A\s+/, '') }.join("\n")
+  body = body.gsub(/(?<= |\A)0+(?=\d)/, '')
+  parsed = YAML.safe_load(body)
+  return [] unless parsed.is_a?(Hash)
+
+  parsed.map { |boundary, name| [boundary.to_i, name.to_s] }.sort
+rescue StandardError
+  []
+end
+
+# @param order [Integer, nil] the order parameter of an article
+# @param sections [Array<Array>] the sections of a collection
+# @return [Array, nil] the section the article falls into, as a [boundary, name] pair
+def section_for(order, sections)
+  return nil if order.nil? || sections.empty?
+
+  sections.reverse.find { |boundary, _| boundary <= order } || sections.first
+end
+
+# The sort key of an article. The time of the last modification breaks ties
+# between articles modified on the same day, but is not displayed.
+#
+# @param article [Article] the article to sort
+# @return [Array] the key to sort by
+def sort_key(article)
+  case @sort
+  when 'filename' then [article.file]
+  when 'title' then [article.title.downcase]
+  when 'modified' then [article.modified || Date.new(0), article.mtime]
+  else [article.order.nil? ? 1 : 0, article.order || 0]
+  end
+end
+
+# @param articles [Array<Article>] the articles to sort
+# @return [Array<Article>] the articles by the sort key, then by file name
+def sorted(articles)
+  articles.sort_by { |a| sort_key(a) + [a.file] }
+end
+
+# The sections of a collection are the groups its articles fall into. Sections
+# are keyed by their boundary, not their name, because a collection may reuse
+# a name for more than one section.
+#
+# @param articles [Array<Article>] the articles of a collection
+# @param sections [Array<Array>] the sections of a collection
+# @return [Array<Array>] the groups of articles, as [section, articles] pairs
+def groups_for(articles, sections)
+  return [[nil, sorted(articles)]] if sections.empty?
+
+  by_section = Hash.new { |hash, key| hash[key] = [] }
+  unsectioned = []
+  articles.each do |article|
+    section = section_for(article.order, sections)
+    section ? by_section[section] << article : unsectioned << article
+  end
+
+  groups = sections.map { |section| [section, sorted(by_section[section])] }
+  groups << [:unsectioned, sorted(unsectioned)] unless unsectioned.empty?
+  groups
+end
+
+# A collection with no outline in its index.html has no sections to group by,
+# so its articles are listed without a heading.
+#
+# @param section [Array, nil] the section, nil for an ungrouped list
+# @return [String, nil] the heading of the group, nil if it needs none
+def group_heading(section)
+  return nil if section.nil?
+  return '(no order)' if section == :unsectioned
+
+  "[#{section.first}] #{section.last}"
+end
+
+# @param text [String] the text to print
+# @param draft [Boolean] whether the text belongs to a draft
+# @return [String] the text, dimmed if it belongs to a draft
+def styled(text, draft)
+  return text unless draft && colorize?
+
+  "#{GREY}#{text}#{RESET}"
+end
+
+# @param text [String] the text of a heading
+# @return [String] the text, bold
+def heading(text)
+  return text unless colorize?
+
+  "#{BOLD}#{text}#{RESET}"
+end
+
+# @param articles [Array<Article>] the articles of a collection
+# @return [String] the heading of the collection
+def collection_heading(name, articles)
+  drafts = articles.count(&:draft)
+  summary = "#{articles.length} article#{'s' unless articles.length == 1}"
+  summary += ", #{drafts} draft#{'s' unless drafts == 1}" if drafts.positive?
+  "#{name}  (#{summary})"
+end
+
+# @param articles [Array<Article>] the articles of a collection
+# @param sections [Array<Array>] the sections of a collection
+# @return [String] the listing of the collection
+def render(name, articles, sections)
+  out = [heading(collection_heading(name, articles)), '']
+  width = [articles.map { |a| a.order.to_s.length }.max || 0, 4].max
+  name_width = articles.map { |a| a.file.length }.max || 0
+
+  groups_for(articles, sections).each do |section, group|
+    label = group_heading(section)
+    out << "  #{heading(label)}" if label
+    sorted(group).each do |article|
+      order = article.order.to_s.rjust(width)
+      modified = article.modified&.strftime('%Y-%m-%d').to_s
+      out << "    #{styled(order, article.draft)}  " \
+             "#{styled(article.file.ljust(name_width), article.draft)}  " \
+             "#{styled(article.title, article.draft)}  " \
+             "#{styled(modified, article.draft)}"
+    end
+    out << ''
+  end
+  out.join("\n")
+end
+
+options = { color: nil, sort: 'order' }
+parser = OptionParser.new do |opts|
+  opts.banner = 'Usage: _bin/ls [options] [COLLECTION_NAME]...'
+  opts.on('--order',    'sort each section by order parameter (the default)') { options[:sort] = 'order' }
+  opts.on('--filename', 'sort each section by file name')                     { options[:sort] = 'filename' }
+  opts.on('--title',    'sort each section by title')                         { options[:sort] = 'title' }
+  opts.on('--modified', 'sort each section by date last modified')            { options[:sort] = 'modified' }
+  opts.on('--no-color', 'omit the color that dims the drafts')                { options[:color] = false }
+end
+
+parser.parse!
+names = ARGV.empty? ? configured_collections : ARGV
+renderings = names.map do |name|
+  dir = collection_dir(name)
+  collection = articles(dir)
+  render("_#{name.delete_prefix('_')}", collection, sections(dir))
+end
+
+puts renderings.join("\n")
