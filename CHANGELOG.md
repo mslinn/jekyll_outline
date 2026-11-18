@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.3.2 / 2026-11-18
+
+* Added `msls` command.
+
+
 ## 1.3.1 / 2025-07-14
 
 * Now warns of pages that do not have `order` defined in front matter.
