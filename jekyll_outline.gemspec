@@ -9,6 +9,9 @@ Gem::Specification.new do |spec|
     Jekyll tag plugin that creates a clickable table of contents.
   END_OF_DESC
   spec.email = ['mslinn@mslinn.com']
+  spec.executables = %w[
+    msls
+  ]
   spec.files = Dir[
     '.rubocop.yml', 'LICENSE.*', 'Rakefile', '{lib,spec}/**/*', '*.gemspec', '*.md',
     'demo/assets/js/jekyll_outline.js'

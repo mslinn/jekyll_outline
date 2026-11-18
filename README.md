@@ -380,6 +380,49 @@ More information is available on
 [Mike Slinn&rsquo;s website](https://www.mslinn.com/jekyll/3000-jekyll-plugins.html#outline).
 
 
+## Listing The Outline
+
+The first task one must face when starting a new article in a collection is
+provide front matter. This plugin requires the `order` key to have a value, or
+the articles cannot be sorted. Deciding on the best `order` value for a new
+article can be frustrating when you have a lot of articles with many sections in
+the collection.
+
+The `msls` command was designed to solve that problem. It is installed when you
+install this gem as described above.
+
+Here is a portion of the `msls` output when run on the Jekyll repository for
+mslinn.com (color for draft articles is not shown here):
+
+```shell
+$ msls llm
+_llm  (68 articles, 18 drafts)
+
+  [0] End User Experience
+      500  whisper.html                   OpenAI Whisper  2024-04-21
+      750  chat-transcripts.html          Recording Chat Transcripts  2025-12-14
+      755  session_resume.html            Resuming a Claude Code Session on Another Computer  2026-10-31
+
+  [1000] Math Background
+     1000  latex.html                     LaTeX Notes  2026-02-02
+     1100  html-math.html                 Writing Math For Web Pages  2026-02-02
+     1200  probablility-theory.html       Quick Review of Probability Theory  2024-01-27
+
+  [1500] LLM Theory
+     1500  llm-notes.html                 Large Language Model Notes  2025-09-12
+     1550  diffusion-implementation.html  Diffusion Model Implementation From Scratch.  2024-02-11
+     1553  edit_format.html               LLM Edit Formats  2026-04-21
+     1555  system-prompts.html            LLM System Prompts  2025-11-25
+     1560  rag.html                       Retrieval Augmented Generation (RAG)  2025-12-12
+     1565  planning-vs-waterfall.html     AI Planning vs. Waterfall Project Management  2025-10-12
+     1566  social-llms.html               LLM Societies  2025-12-13
+     1570  deterministic_plan.html        Deterministic Plans for LLMs  2026-08-10
+<i>... snip ...</i>
+```
+
+When invoked with no arguments, `msls` lists all articles in all collections.
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install development dependencies.
